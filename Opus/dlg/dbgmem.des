@@ -1,0 +1,37 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE dbgmem 
+	{
+	DIALOG dltDbgMemory AT (20, 20, 160, 70) 
+	CAB_NAME CABDBGMEMORY
+	HELP_ID IDDDbgMemory 
+	DIALOG_PROC FDlgDbgMemory
+	TMC_INIT tmcDbgMemHBF
+		{
+		OK_BUTTON AT (4, 50, 32, 14) 
+		PUSH_BUTTON "Reset" AT (46, 50, 32, 14)
+			TMC tmcDbgMemReset DISMISS 
+		CANCEL_BUTTON AT (88, 50, 32, 14) 
+
+		DUMMY_TEXT "Current heap bytes eaten:" AT (4, 4, 105, 9) 
+		TEXT "\0" AT (110, 4, 140, 9) TMC tmcDbgMemCurrFree 
+		DUMMY_TEXT "Set heap bytes free to:" AT (4, 18, 105, 9) 
+		EDIT AT (110, 17, 28, 12) ARG uSetTo TMC tmcDbgMemHBF
+			PARSE_PROC WParseOpt WPARAM `optPosInt`
+			EL_NAME HEAPBYTESFREE
+		DUMMY_TEXT "Set command bytes free to:" AT (4, 33, 105, 9) 
+		EDIT AT (110, 32, 28, 12) ARG uCmd 
+			PARSE_PROC WParseOpt WPARAM `optPosInt`
+			EL_NAME COMMANDBYTESFREE
+		}
+
+	}
+
+
+END_DESCRIPTION 

@@ -1,0 +1,92 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE asgn2mnu 
+        {
+        DIALOG dltAssignToMenu AT (8, 8, 233, 169) 
+        CAB_NAME CABASSIGNTOMENU 
+        HELP_ID IDDAssignToMenu 
+        DIALOG_PROC FDlgAssignToMenu 
+        TMC_INIT tmcNull 
+        
+                {
+                LIST_BOX AT (5, 13, 85, 112) 
+			RETURN_STRING
+                        LIST_BOX_PROC WListMacros
+			WPARAM `IDDAssignToMenu`
+                        TMC tmcMnuMacroList 
+                        ACTION 
+                        ARG hszMacroList 
+                        SORTED 
+                        EL_NAME `Name`
+                DUMMY_TEXT "Assign Macro &Name:" AT (5, 2, 80, 9) 
+
+                LIST_BOX AT (95, 13, 80, 48) 
+			RETURN_STRING
+                        TMC tmcMenuList 
+                        ACTION
+                        ARG hszMenuList 
+                        LIST_BOX_PROC WListMenus 
+                        EL_NAME `Menu`
+                DUMMY_TEXT "&Menu:" AT (95, 2, 28, 9) 
+
+
+                EDIT AT (95, 74, 68, 12) TMC tmcTitle ARG hszTitle 
+                        EL_NAME `MenuText`
+                        CHAR_VALIDATED
+                        ACTION
+                DUMMY_TEXT "Menu &Text:" AT (95, 64, 52, 9) 
+                LIST_BOX AT (99, 86, 76, 40) 
+                        ACTION 
+                        COMBO_ATOMIC 
+                        LIST_BOX_PROC WListBoxNull 
+			TMC tmcTitleList
+
+                OK_BUTTON AT (180, 10, 48, 14) 
+
+                CANCEL_BUTTON AT (180, 26, 48, 14) 
+
+                GROUP_BOX "Context" AT (180, 72, 47, 36) 
+
+                RADIO_GROUP 
+                        EL_NAME `Context`
+                        ARG iContext 
+			TMC tmcMnuContext
+                        {
+                        RADIO_BUTTON "&Global" AT (182, 82, 36, 12) 
+                                TMC tmcGlobalMenu 
+                                ACTION 
+
+                        RADIO_BUTTON "T&emplate" AT (182, 94, 42, 12) 
+                                TMC tmcTemplateMenu 
+                                ACTION 
+                        }
+
+                PUSH_BUTTON "&Assign" AT (180, 42, 48, 14) 
+                        TMC tmcAssignMenu ACTION 
+                        EL_NAME `Assign`
+
+                PUSH_BUTTON "&Unassign" AT (180, 58, 48, 14) 
+                        TMC tmcUnassignMenu 
+                        ACTION 
+                        EL_NAME `UnAssign`
+
+                PUSH_BUTTON "&Reset All" AT (180, 111, 48, 14) 
+                        TMC tmcResetMenu 
+                        ACTION 
+                        EL_NAME `ResetAll`
+
+                GROUP_BOX "Description" AT (5, 128, 223, 34) 
+
+                TEXT "" AT (7, 139, 220, 16) TMC tmcDescMenu MULTI_LINE 
+                }
+
+        }
+
+
+END_DESCRIPTION 

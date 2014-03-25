@@ -1,0 +1,121 @@
+#include <windows.h>
+#include "dddlg.h"
+
+Mustang		ICON    Mustang.ico
+MustangCUR	CURSOR	Mustang.cur
+
+About DIALOG 22, 15, 180, 90
+STYLE WS_POPUP | WS_DLGFRAME
+BEGIN
+    CTEXT 	"Microsoft Windows"             -1,   0,   5, 180,   8
+    CTEXT 	"Mustang Application"	        -1,   0,  15, 180,   8
+    ICON  	"Mustang"                       -1,   5,   5,   0,   0
+    ICON  	"Mustang"		        -1, 160,   5,   0,   0
+    CTEXT 	"Version 0.8 --- 14 SEP 88"     -1,   0,  30, 180,   8
+    CTEXT 	"By drp"		        -1,   0,  40, 180,   8
+    DEFPUSHBUTTON "OK" 			      IDOK,  72,  75,  32,  14, WS_GROUP
+END
+
+
+PrintDlgBox DIALOG 50, 50, 120, 50
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_VISIBLE
+BEGIN
+    LTEXT 	    "Enumerating Fonts.", idd_pdt1,  24,   8,  74,  10
+    LTEXT 	    "TypeFace #: ",	  idd_pdt2,  24,  20,  48,  10
+    LTEXT 	    "",			  idd_pdt3,  72,  20,  16,  10	
+    DEFPUSHBUTTON   "Cancel",	          IDCANCEL,  44,  32,  32,  14, WS_GROUP 
+END
+
+
+OptionsDlg DIALOG 20, 20, 150, 100
+STYLE WS_POPUP | WS_DLGFRAME
+BEGIN
+    LTEXT 	    "Print Options:"	     	-1,   5,   4,  60,   8
+    CHECKBOX	    "&One Face/Page"      idd_Page,   5,  14,  70,  14, WS_GROUP
+    CHECKBOX        "Use &Half Points"    idd_Half,   5,  28,  80,  14, WS_GROUP
+    CHECKBOX	    "Print &LogFonts"	  idd_LogF,   5,  42,  80,  14, WS_GROUP
+    CHECKBOX	    "Print &TextMetric"	  idd_TexM,   5,  56,  80,  14, WS_GROUP
+    LTEXT           "Top &Margin (pts):"        -1,   5,  72,  70,  12
+    EDITTEXT    			  idd_yOff,  75,  72,  25,  12
+    DEFPUSHBUTTON   "OK"		      IDOK, 105,   5,  40,  14, WS_GROUP
+    PUSHBUTTON 	    "Cancel"		  IDCANCEL, 105,  25,  40,  14, WS_GROUP
+    PUSHBUTTON      "FONTS..."            idd_FONT, 105,  45,  40,  14, WS_GROUP
+END
+
+
+EscapeDlg DIALOG 40, 20, 180, 170
+STYLE WS_POPUP | WS_DLGFRAME
+BEGIN
+    LTEXT	    "Escape Codes:"		-1,  10,   5,  60,   8
+    LTEXT	    "No Printer"	  idd_EscP1, 14,  16,  76,   8
+    LTEXT	    "No Driver"		  idd_EscP2, 14,  25,  76,   8
+    LTEXT	    "No Port"		  idd_EscP3, 14,  34,  76,   8
+    CHECKBOX	    "BANDINFO"		  idd_Esc1,  10,  46,  80,  12, WS_GROUP
+    CHECKBOX	    "GETPHYSPAGESIZE"	  idd_Esc2,  10,  58,  80,  12, WS_GROUP
+    CHECKBOX	    "GETPRINTINGOFFSET"	  idd_Esc3,  10,  70,  80,  12, WS_GROUP
+    CHECKBOX	    "GETSCALINGFACTOR"	  idd_Esc4,  10,  82,  80,  12, WS_GROUP
+    CHECKBOX	    "DRAFTMODE"		  idd_Esc5,  10,  94,  80,  12, WS_GROUP
+    CHECKBOX	    "GETEXTENDEDTEXT..."  idd_Esc6,  10, 106,  80,  12, WS_GROUP
+    CHECKBOX	    "GETEXTENTTABLE"   	  idd_Esc7,  10, 118,  80,  12, WS_GROUP
+    CHECKBOX	    "GETSETPAPERBINS"	  idd_Esc8,  10, 130,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &9"		  idd_Esc9,  10, 142,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &0"		  idd_Esc0,  10, 154,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &a"		  idd_Esca,  95,  46,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &b"		  idd_Escb,  95,  58,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &c"		  idd_Escc,  95,  70,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &d"		  idd_Escd,  95,  82,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &e"		  idd_Esce,  95,  94,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &f"		  idd_Escf,  95, 106,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &g"		  idd_Escg,  95, 118,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &h"		  idd_Esch,  95, 130,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &i"		  idd_Esci,  95, 142,  80,  12, WS_GROUP
+    CHECKBOX	    "Test &j"		  idd_Escj,  95, 154,  80,  12, WS_GROUP
+    DEFPUSHBUTTON   "OK"		      IDOK,  92,   5,  40,  14, WS_GROUP
+    PUSHBUTTON 	    "Cancel"		  IDCANCEL,  92,  22,  40,  14, WS_GROUP
+    PUSHBUTTON 	    "A&LL"		   idd_ALL,  36,   5,  40,  14, WS_GROUP
+END
+
+/*
+MyMessageDlg DIALOG 40, 40, 160, 40
+STYLE WS_POPUP | WS_DLGFRAME | WS_VISIBLE
+BEGIN
+    CTEXT 	    "Dummy Text 1",      idd_Text1,   5,   8, 156,  10
+    CTEXT	    "Dummy Text 2",	 idd_Text2,   5,  24, 110,  10
+END
+*/
+
+
+FontDlg DIALOG 40, 40, 150, 176
+STYLE WS_POPUP | WS_DLGFRAME
+BEGIN
+    LTEXT 	    "LogFont Options:"	     	-1,   5,   4,  60,   8
+    CHECKBOX	    "Use as &Default"	  idd_DEFF,  10,  22,  70,  12, WS_GROUP
+    LTEXT	    "&Font: "		  	-1,  10,  45,  25,  12
+    EDITTEXT				    idd_FN,  36,  45, 100,  12
+    LTEXT	    "&Height "		        -1,  10,  60,  28,  12, WS_GROUP
+    LTEXT	    "Pts:"		  idd_FHPT,  38,  60,  20,  12, WS_GROUP
+    EDITTEXT		     	   	   idd_FHP,  60,  60,  40,  12
+    LTEXT           "000 du"		  idd_FHPu, 106,  62,  25,  12
+    LTEXT	    "&Width  "		        -1,  10,  75,  25,  12, WS_GROUP
+    LTEXT	    "Pts:"		  idd_FWPT,  38,  75,  20,  12, WS_GROUP
+    EDITTEXT				   idd_FWP,  60,  75,  40,  12
+    LTEXT           "000 du"		  idd_FWPu, 106,  78,  25,  12, WS_GROUP 
+    CHECKBOX	    "&Bold"		  idd_Bold,  12,  90,  32,  12, WS_GROUP
+    CHECKBOX	    "&Italic"		  idd_Ital,  12, 105,  32,  12
+    CHECKBOX        "&Underline"	  idd_Unde,  64,  90,  46,  12
+    CHECKBOX        "&StrikeOut"	  idd_Stri,  64, 105,  46,  12
+    GROUPBOX	    "&CharSet"		  	-1,   3, 120,  40,  50, WS_GROUP
+    RADIOBUTTON     "Ansi"		  idd_Ansi,   5, 132,  32,  12, WS_GROUP
+    RADIOBUTTON     "Kanji"		  idd_Kanj,   5, 144,  32,  12
+    RADIOBUTTON     "Oem"		   idd_OEM,   5, 156,  32,  12
+    GROUPBOX	    "&Quality"		  	-1,  50, 120,  47,  50, WS_GROUP
+    RADIOBUTTON     "Draft"		   idd_Dra,  52, 132,  36,  12, WS_GROUP
+    RADIOBUTTON     "Default"		   idd_DeQ,  52, 144,  36,  12
+    RADIOBUTTON     "Proof"		   idd_Pro,  52, 156,  36,  12
+    GROUPBOX	    "&Pitch"		  	-1, 100, 120,  47,  50, WS_GROUP
+    RADIOBUTTON     "Default"		   idd_DeP, 102, 132,  40,  12, WS_GROUP
+    RADIOBUTTON     "Fixed"		   idd_Fix, 102, 144,  40,  12
+    RADIOBUTTON     "Variable"		   idd_Var, 102, 156,  40,  12
+    DEFPUSHBUTTON   "OK"		      IDOK, 105,   5,  40,  14, WS_GROUP
+    PUSHBUTTON 	    "Cancel"		  IDCANCEL, 105,  25,  40,  14, WS_GROUP
+END

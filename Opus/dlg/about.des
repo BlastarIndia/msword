@@ -1,0 +1,42 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE about 
+        {
+        DIALOG dltAbout AT (85, 55, 205, 115) 
+        CAB_NAME CABABOUT 
+        HELP_ID IDDAbout 
+        DIALOG_PROC FDlgAbout 
+        TMC_INIT tmcOK 
+                {
+                TEXT SZ_FROM_CAB hszAboutApp AT (4, 5, 192, 9) CENTER
+			EL_NAME `APPNAME`
+                TEXT SZ_FROM_CAB hszAboutVersion AT (4, 22, 192, 9) CENTER
+			EL_NAME `APPVERSION`
+                TEXT SZ_FROM_CAB hszAboutCopyright AT (4, 34, 192, 9) CENTER
+			EL_NAME `APPCOPYRIGHT`
+
+                OK_BUTTON AT (84, 48, 34, 14) 
+                GROUP_BOX "" AT (0, 64, 205, 4) 
+
+                TEXT "Conventional Memory:" AT (5, 74, 110, 9) RIGHT
+                TEXT "Expanded Memory:" AT (5, 83, 110, 9) RIGHT
+                TEXT "Math Co-processor:" AT (5, 92, 110, 9) RIGHT
+                TEXT "Disk Space:" AT (5, 101, 110, 9) RIGHT
+                TEXT SZ_FROM_CAB hszAboutMem AT (120, 74, 60, 9)
+			EL_NAME `CONVENTIONALMEMORY`
+                TEXT SZ_FROM_CAB hszAboutEmem AT (120, 83, 60, 9)
+			EL_NAME `EXPANDEDMEMORY`
+                TEXT SZ_FROM_CAB hszAboutMath AT (120, 92, 60, 9)
+			EL_NAME `MATHCOPROCESSOR`
+                TEXT SZ_FROM_CAB hszAboutDisk AT (120, 101, 60, 9)
+			EL_NAME `DISKSPACE`
+                }
+        }
+
+END_DESCRIPTION 

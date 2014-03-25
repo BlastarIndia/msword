@@ -1,0 +1,68 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE cust 
+        {
+        DIALOG dltCustomize AT (4, 16, 158, 150) 
+        CAB_NAME CABCUSTOMIZE 
+        HELP_ID IDDCustomize 
+        DIALOG_PROC FDlgCustomize 
+        TMC_INIT tmcOK 
+	SUB_DIALOG sabElOnly = fElOnly
+                {
+                GROUP_BOX "Autosave Frequency" AT (5, 15, 82, 38) 
+                DUMMY_TEXT "Customize" AT (5, 5, 56, 9) 
+                RADIO_GROUP 
+                        TMC tmcCustAS ARG iAS 
+                        EL_NAME AutoSave
+                        {
+                        RADIO_BUTTON "&High" AT (10, 25, 34, 12) TMC tmcCustASHigh 
+                        RADIO_BUTTON "&Medium" AT (10, 39, 37, 12) TMC tmcCustASMedium
+                        RADIO_BUTTON "&Low" AT (48, 25, 34, 12) TMC tmcCustASLow 
+                        RADIO_BUTTON "Ne&ver" AT (48, 39, 34, 12) TMC tmcCustASNever 
+                        }
+                GROUP_BOX "Unit of Measure" AT (5, 55, 135, 24) 
+                RADIO_GROUP 
+                        TMC tmcCustUt ARG iUnit 
+                        EL_NAME Units
+                        {
+                        RADIO_BUTTON "&Inches" AT (10, 65, 34, 12) TMC tmcCustUtInch 
+                        RADIO_BUTTON "&Cm" AT (46, 65, 20, 12) TMC tmcCustUtCm
+                        RADIO_BUTTON "&Points" AT (72, 65, 34, 12) TMC tmcCustUtPoint
+                        RADIO_BUTTON "Pica&s" AT (108, 65, 30, 12) TMC tmcCustUtPicas 
+                        }
+                CHECK_BOX "&Background Pagination" AT (5, 81, 94, 12) TMC tmcCustBkPag ARG fBkgrndPag 
+                        EL_NAME Pagination
+                CHECK_BOX "Pr&ompt for Summary Info" AT (5, 93, 102, 12) TMC tmcCustSI ARG fPromptSI 
+                        EL_NAME SummaryPrompt
+                CHECK_BOX "Typing &Replaces Selection" AT (5, 105, 110, 12) TMC tmcCustAutoDel ARG fAutoDelete 
+                        EL_NAME `ReplaceSelection`
+
+                EDIT AT (63, 119, 90, 12) TMC tmcCustName ACTION ARG hszName CHAR_VALIDATED 
+                        EL_NAME Name
+                DUMMY_TEXT "Your &Name:" AT (5, 120, 40, 9) 
+                EDIT AT (63, 133, 24, 12) TMC tmcCustInitials ARG hszInitials 
+                        EL_NAME Initials
+                DUMMY_TEXT "Your Ini&tials:" AT (5, 134, 56, 9) 
+
+                OK_BUTTON AT (119, 5, 34, 14) 
+                CANCEL_BUTTON AT (119, 21, 34, 14) 
+
+		IF fElOnly
+			CHECK_BOX "" AT (0, 0, 1, 1) 
+				ARG cBtnFldClicks
+				EL_NAME `ButtonFieldClicks`
+				/* LOW 0 */
+				/* HIGH 2 */
+		ENDIF
+                }
+
+        }
+
+
+END_DESCRIPTION 

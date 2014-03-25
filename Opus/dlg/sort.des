@@ -1,0 +1,63 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE sort 
+        {
+        DIALOG dltSort AT (43, 50, 198, 86) 
+        CAB_NAME CABSORT 
+        HELP_ID IDDSort 
+        DIALOG_PROC FDlgSort 
+        TMC_INIT tmcSortAsc 
+            {
+            GROUP_BOX "Sort Order" AT (4, 4, 112, 24) 
+            RADIO_GROUP 
+                    ARG iSortOrder
+                    EL_NAME Order
+                    {
+                    RADIO_BUTTON "&Ascending" AT (8, 14, 46, 12) 
+                        TMC tmcSortAsc 
+                    RADIO_BUTTON "&Descending" AT (62, 14, 50, 12) 
+                        TMC tmcSortDes 
+                    }
+            GROUP_BOX "Key Field" AT (4, 30, 112, 52) 
+
+            LIST_BOX AT (48, 40, 64, 24) ACTION DROP_DOWN_SIBLING 
+                NO_SCROLL_BAR TMC tmcSortKeyType ARG skt
+                LIST_BOX_PROC WListEntbl WPARAM `iEntblSkt` 
+                EL_NAME Type
+            DUMMY_TEXT "&Key Type:" AT (8, 42, 36, 9) 
+
+            RADIO_GROUP
+                ARG iSortSep 
+                TMC tmcSortSep
+                EL_NAME Separator
+                {
+                RADIO_BUTTON "&Comma" AT (51, 55, 34, 12) TMC tmcSortComma
+                RADIO_BUTTON "&Tab" AT (88, 55, 22, 12) TMC tmcSortTab
+                }
+            DUMMY_TEXT "Separator:" AT (8, 56, 40, 9) 
+
+            EDIT AT (64, 68, 30, 12) TMC tmcSortFieldNum ARG uFieldNum 
+                    PARSE_PROC WParseOpt WPARAM `optPosNZInt`
+                    EL_NAME FieldNum
+            DUMMY_TEXT "&Field number:" AT (8, 70, 52, 9) 
+
+            CHECK_BOX "Sort Column &Only" AT (120, 59, 74, 12) ACTION 
+                    TMC tmcSortCol ARG fSortCol 
+                    EL_NAME SortColumn
+            CHECK_BOX "Case &Sensitive" AT (120, 71, 66, 12) 
+                    TMC tmcSortCase ARG fCase 
+                    EL_NAME CaseSensitive
+            OK_BUTTON AT (159, 6, 34, 14) 
+            CANCEL_BUTTON AT (159, 23, 34, 14) 
+            }
+
+        }
+
+
+END_DESCRIPTION 

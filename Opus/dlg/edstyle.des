@@ -1,0 +1,104 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE edstyle 
+        {
+        DIALOG dltDefineStyle AT (34, 18, 188, 101) 
+        CAB_NAME CABDEFINESTYLE 
+        HELP_ID IDDDefineStyle 
+        DIALOG_PROC FDlgDefineStyle 
+        TMC_INIT tmcDSStyle 
+	SUB_DIALOG sabDSRename = fRename
+        SUB_DIALOG sabDSOptions = fOptions AT (0, 0, 188, 162)
+                {
+                EDIT AT (4, 14, 64, 12) ACTION CHAR_VALIDATED TMC tmcDSStyle ARG hszDSStyle
+                        EL_NAME `Name`
+                DUMMY_TEXT "Define &Style Name:" AT (4, 3, 73, 10) 
+                LIST_BOX AT (8, 26, 72, 48) ACTION COMBO_ATOMIC 
+                        LIST_BOX_PROC WListStyles
+
+                PUSH_BUTTON "&Character..." AT (85, 14, 52, 14) TMC tmcDSChars ACTION
+                PUSH_BUTTON "&Paragraph..." AT (85, 30, 52, 14) TMC tmcDSParas ACTION
+                PUSH_BUTTON "&Tabs..." AT (85, 46, 52, 14) TMC tmcDSTabs ACTION
+                PUSH_BUTTON "Pos&ition..." AT (85, 62, 52, 14) TMC tmcDSPosition ACTION
+                OK_BUTTON AT (140, 14, 45, 14)
+                CANCEL_BUTTON AT (140, 30, 45, 14)
+                PUSH_BUTTON "&Options >>" AT (140, 62, 45, 14) TMC tmcDSOptions
+                        ACTION 
+
+                TEXT "" AT (4, 76, 180, 24) MULTI_LINE TMC tmcDSBanter 
+
+
+		IF fOptions
+			EDIT AT (4, 114, 87, 12) 
+				ACTION 
+				TMC tmcDSBasedOn 
+				ARG hszDSBasedOn 
+				EL_NAME `BasedOn`
+			DUMMY_TEXT "&Based On:" AT (4, 104, 38, 9) 
+			LIST_BOX AT (8, 126, 83, 32) 
+				ACTION 
+				COMBO_ATOMIC 
+				DROP_DOWN_SIBLING 
+				LIST_BOX_PROC WListStyles 
+
+			EDIT AT (95, 114, 86, 12) 
+				ACTION
+				TMC tmcDSNext
+				ARG hszDSNext 
+				EL_NAME	`NextStyle`
+			DUMMY_TEXT "&Next Style:" AT (95, 104, 45, 9) 
+			LIST_BOX AT (99, 126, 82, 32) 
+				ACTION
+				COMBO_ATOMIC
+				DROP_DOWN_SIBLING 
+				LIST_BOX_PROC WListStyles
+
+			CHECK_BOX "&Add to Template" AT (4, 145, 71, 12) 
+				TMC tmcDSTemplate 
+				ARG fTemplate 
+				EL_NAME `AddToTemplate`
+		ENDIF
+
+		IF fRename
+			EDIT AT (5, 18, 82, 12)
+				ARG hszDSNewName
+				EL_NAME `NewName`
+			EDIT AT (75, 6, 84, 12)
+				ARG hszMergeStyle
+				EL_NAME `FileName`
+			CHECK_BOX "" AT (0, 0, 1, 1)
+				ARG uSource
+				EL_NAME `Source`
+		ENDIF
+
+                PUSH_BUTTON "&Define" AT (4, 129, 43, 14) 
+			TMC tmcDSDefine 
+			ACTION
+                        EL_NAME `Define`
+                PUSH_BUTTON "De&lete" AT (49, 129, 43, 14) 
+			TMC tmcDSDelete 
+			ACTION 
+                        EL_NAME `Delete`
+                PUSH_BUTTON "&Rename..." AT (94, 129, 43, 14) 
+			TMC tmcDSRename 
+			ACTION 
+                        EL_NAME `Rename`
+
+		IF fOptions
+			PUSH_BUTTON "&Merge..." AT (139, 129, 43, 14) 
+				TMC tmcDSMerge 
+				ACTION 
+				EL_NAME `Merge`
+		ENDIF
+                }
+
+        }
+
+
+END_DESCRIPTION 

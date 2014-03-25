@@ -1,0 +1,7 @@
+-r
+"CHKERR=if errorlevel 1 goto error"
+"DFLAGS= -DCRLF -DWIN -DDEBUG"
+"PCF=-oq -nm"
+"OPUS=Q:\SRC\OPUS\TOOLS"
+"LINK_MODE=INC_LINK"
+"LINK_FLAG=/INC:16000"

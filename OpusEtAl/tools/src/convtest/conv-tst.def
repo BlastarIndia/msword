@@ -1,0 +1,19 @@
+; Converter Test Library
+LIBRARY         CONVTEST
+DESCRIPTION     'Test Converter'
+STUB            'WINSTUB.EXE'
+EXETYPE         WINDOWS
+
+CODE            MOVEABLE DISCARDABLE LOADONCALL PURE
+DATA            MOVEABLE SINGLE PRELOAD
+
+HEAPSIZE        40960
+STACKSIZE       0
+
+EXPORTS
+                InitConverter
+                IsFormatCorrect
+                ForeignToRtf
+                RtfToForeign
+                GetIniEntry
+

@@ -1,0 +1,33 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE prompt 
+        {
+        DIALOG dltPrompt AT (32, 48, 212, 79) 
+        CAPTION ""
+        CAB_NAME CABPROMPT 
+        HELP_ID IDDPrompt 
+        TMC_INIT tmcInput 
+		DIALOG_PROC FDlgPrompt
+        BDR_SYS_MENU 
+
+                {
+                TEXT SZ_FROM_CAB hszPrompt AT (6, 4, 147, 32) TMC tmcPrompt 
+                        MULTI_LINE EL_NAME `PROMPT` 
+                EDIT AT (6, 39, 200, 28) TMC tmcInput ARG hszInput 
+						ACTION CHAR_VALIDATED
+                        EL_NAME `INPUT` MULTI_LINE 
+                DUMMY_TEXT "Press Shift+Enter to start a new line" AT (6, 68, 160, 8) 
+                OK_BUTTON AT (172, 4, 34, 14) 
+                CANCEL_BUTTON AT (172, 20, 34, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

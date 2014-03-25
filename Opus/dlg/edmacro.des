@@ -1,0 +1,90 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE edmacro 
+	{
+	DIALOG dltEdMacro AT (51, 26, 149, 156) 
+	CAB_NAME CABEDMACRO 
+	HELP_ID IDDEdMacro 
+	DIALOG_PROC FDlgEdMacro 
+	TMC_INIT tmcEdMacroList
+	SUB_DIALOG sabRename = fRename
+		{
+		EDIT AT (5, 14, 73, 12) 
+			ACTION 
+			CHAR_VALIDATED 
+			TMC tmcEdMacroList 
+			ARG hszName 
+			EL_NAME Name
+		DUMMY_TEXT "Edit Macro &Name:" AT (5, 2, 64, 9) 
+
+		LIST_BOX AT (9, 26, 81, 88) 
+			ACTION 
+			COMBO_ATOMIC 
+			SORTED 
+			LIST_BOX_PROC WListMacros
+			WPARAM `IDDEdMacro`
+
+
+		GROUP_BOX "Context" AT (95, 80, 47, 36) 
+		RADIO_GROUP 
+			ARG iContext 
+			TMC tmcEMContext
+			EL_NAME Context
+			{
+			RADIO_BUTTON "&Global" AT (97, 90, 36, 12) 
+				TMC tmcEMGlobal 
+				ACTION 
+			RADIO_BUTTON "&Template" AT (97, 103, 42, 12) 
+				TMC tmcEMDocType 
+				ACTION 
+			}
+
+		CHECK_BOX "Show &All" AT (95, 66, 48, 14) 
+			ARG fShowAll 
+			ACTION
+			TMC tmcEMShowAll
+			EL_NAME `ShowAll`
+
+		TEXT "Descr&iption:" AT (5, 120, 48, 9) TMC tmcDescHdr
+		EDIT AT (5, 137, 138, 12) 
+			ACTION CHAR_VALIDATED 
+			TMC_IMPORT tmcDesc 
+			ARG hszDesc 
+			EL_NAME `Description`
+
+		PUSH_BUTTON "&Set" AT (94, 119, 48, 14) 
+			TMC_IMPORT tmcSetDesc 
+			ACTION 
+			EL_NAME `Set`
+
+		OK_BUTTON AT (94, 4, 48, 14) 
+		CANCEL_BUTTON AT (94, 20, 48, 14) 
+
+		PUSH_BUTTON "&Delete" AT (94, 36, 48, 14) 
+			TMC tmcDelete 
+			ACTION 
+			EL_NAME `Delete`
+
+		PUSH_BUTTON "&Rename..." AT (94, 52, 48, 14) 
+			TMC tmcRename 
+			ACTION 
+			EL_NAME `Rename`
+
+		IF fRename
+			EDIT AT (5, 18, 82, 12)
+				ARG hszNewName
+				EL_NAME NewName
+				TMC tmcNewName
+		ENDIF
+		}
+
+	}
+
+
+END_DESCRIPTION 

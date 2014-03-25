@@ -1,0 +1,120 @@
+%{
+    BOOL    fInUnrfnc;
+%}
+
+%start fexp
+
+%token COMSEP
+%token EQ
+%token LT
+%token LE
+%token GT
+%token GE
+%token NE
+%token NUMBER
+%token BOOKMARK
+%token RDCFNC
+%token BINFNC
+%token UNRFNC
+%token IF
+%token ROW
+%token COL
+%token INTEGER
+%token FLDESC
+%token PRE_CURRENCY
+%token POST_CURRENCY
+%token NUMINPAREN
+%token BOOL
+
+%left  COMSEP
+%left  EQ LT LE GT GE NE
+%left  '+' '-'
+%left  '*' '/'
+%right '^'
+%left  UMINUS
+%%
+fexp    :   FLDESC EQ exp
+        |   EQ exp
+
+exp     :   exp EQ exp
+        |   exp LT exp
+        |   exp LE exp
+        |   exp GT exp
+        |   exp GE exp
+        |   exp NE exp
+        |   exp '+' exp
+        |   exp '-' exp
+        |   exp '*' exp
+        |   exp '/' exp
+        |   exp '^' exp
+        |   '-' exp     %prec UMINUS
+	|   BOOL
+	|   ucnum
+        |   BOOKMARK
+        |   '(' exp ')'
+        |   RDCFNC '(' tbl_ref ')'
+        |   BINFNC '(' exp COMSEP exp ')'
+        |   UNRFNC
+		{fInUnrfnc = fTrue;}
+		'('
+		{fInUnrfnc = fFalse;}
+		exp ')'
+        |   IF '(' exp COMSEP exp COMSEP exp ')'
+        ;
+
+tbl_ref	:   bkmk_rel
+	|   BOOKMARK l_bracket r_bracket
+        |   texp COMSEP texp
+        ;
+
+l_bracket : '['
+	;
+
+r_bracket : ']'
+	;
+
+bkmk_rel:   BOOKMARK l_bracket loc r_bracket
+	|   BOOKMARK l_bracket locbk ':' locbk r_bracket
+        |   l_bracket loc r_bracket
+	|   l_bracket locbk ':' locbk r_bracket
+        ;
+
+loc     :   ROW sint COL sint
+        |   ROW sint
+        |   COL sint
+	|   ROW COL sint
+	|   ROW sint COL
+	|   ROW COL
+	|   ROW
+	|   COL
+        ;
+
+locbk	:   loc
+	|   BOOKMARK
+	;
+
+sint    :   INTEGER
+        |   '-' INTEGER
+	|   '+' INTEGER
+        ;
+
+texp    :   tbl_ref
+        |   exp
+        ;
+
+cur_num	:   PRE_CURRENCY NUMBER
+	|   NUMBER POST_CURRENCY
+	|   PRE_CURRENCY INTEGER
+	|   INTEGER POST_CURRENCY
+	;
+
+ucn	:   cur_num
+	|   NUMINPAREN
+	|   NUMBER
+	|   INTEGER
+	;
+
+ucnum	:   ucnum ucn
+	|   ucn
+	;
+%%

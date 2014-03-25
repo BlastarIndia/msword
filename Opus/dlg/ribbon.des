@@ -1,0 +1,33 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE ribbon 
+        {
+        DIALOG dltRibbon AT (0, 0, 170, 14) 
+        CAB_NAME CABRIBBON 
+        HELP_ID cxtRibbonIconBar 
+        DIALOG_PROC FDlgIb 
+        TMC_INIT tmcNull 
+        BDR_NONE 
+                {
+                EDIT AT (29, 1, 80, 12) TMC tmcFont ACTION
+                        ARG ftc  PARSE_PROC WParseFontName 
+                DUMMY_TEXT "Font:" AT (4, 3, 20, 8) 
+                LIST_BOX AT (33, 13, 76, 56) ACTION COMBO_ATOMIC SORTED DROP_DOWN_SIBLING 
+                        LIST_BOX_PROC WListFontName 
+                EDIT AT (134, 1, 32, 12) TMC tmcPoints ACTION
+                        ARG hps  PARSE_PROC WParseFontSize 
+                DUMMY_TEXT "Pts:" AT (115, 3, 16, 8) 
+                LIST_BOX AT (138, 13, 28, 56) ACTION COMBO_ATOMIC DROP_DOWN_SIBLING 
+                        LIST_BOX_PROC WListFontSize WPARAM `tmcFont`
+                }
+
+        }
+
+
+END_DESCRIPTION 

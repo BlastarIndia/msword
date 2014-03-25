@@ -1,0 +1,105 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE char 
+        {
+        DIALOG dltCharacter AT (34, 38, 180, 152) 
+        CAB_NAME CABCHARACTER 
+        HELP_ID IDDCharacter 
+        DIALOG_PROC FDlgCharacter 
+        TMC_INIT tmcCharName 
+                {
+
+                EDIT AT (4, 24, 80, 12) 
+			TMC tmcCharName 
+			ACTION
+                        CHAR_VALIDATED 
+			ARG ftc  
+			PARSE_PROC WParseFontName 
+                        EL_NAME Font
+
+                DUMMY_TEXT "&Font:" AT (4, 14, 35, 9) 
+                DUMMY_TEXT "Character" AT (4, 4, 44, 9) 
+
+                LIST_BOX AT (8, 36, 76, 56) 
+			ACTION 
+			COMBO_ATOMIC 
+			SORTED 
+			DROP_DOWN_SIBLING 
+                        LIST_BOX_PROC WListFontName 
+
+                EDIT AT (88, 24, 40, 12) 
+			TMC tmcCharSize 
+			ACTION
+                        CHAR_VALIDATED 
+			ARG hps  
+			PARSE_PROC WParseFontSize 
+                        EL_NAME Points
+			/* MULT 2 */
+
+                DUMMY_TEXT "&Points:" AT (88, 14, 35, 9) 
+
+                LIST_BOX AT (92, 36, 36, 56) 
+			ACTION 
+			COMBO_ATOMIC 
+			DROP_DOWN_SIBLING 
+                        LIST_BOX_PROC WListFontSize 
+			WPARAM `tmcCharName`
+
+                LIST_BOX AT (4, 48, 44, 72)  
+                        EL_NAME `Color` DROP_DOWN_SIBLING NO_SCROLL_BAR 
+                        ARG color
+                        LIST_BOX_PROC Look1WListEntbl WPARAM `iEntblCharColor` 
+                DUMMY_TEXT "Co&lor:" AT (4, 38, 35, 9) 
+
+                CHECK_BOX "&Bold" AT (5, 63, 26, 12) TMC tmcCharBold ARG fCharBold
+                        EL_NAME Bold
+                CHECK_BOX "&Italic" AT (5, 75, 34, 12) TMC tmcCharItalic ARG fCharItalic
+                        EL_NAME Italic
+                CHECK_BOX "Small &Kaps" AT (5, 87, 50, 12) TMC tmcCharSmCaps ARG fCharSmCaps
+                        EL_NAME SmallCaps
+                CHECK_BOX "&Hidden" AT (5, 99, 34, 12) TMC tmcCharHidden ARG fCharHidden
+                        EL_NAME Hidden
+                CHECK_BOX "&Underline" AT (5, 111, 46, 12) TMC tmcCharULine ACTION ARG fCharULine
+                        EL_NAME Underline
+                CHECK_BOX "&Word underline" AT (5, 123, 66, 12) TMC tmcCharWordUL ACTION ARG fCharWordUL
+                        EL_NAME WordUnderline
+                CHECK_BOX "&Double underline" AT (5, 135, 74, 12) TMC tmcCharDUL ACTION ARG fCharDUL
+                        EL_NAME DoubleUnderline
+                GROUP_BOX "Position" AT (84, 44, 89, 48) 
+                RADIO_GROUP 
+                        TMC tmcCharPos ARG iCharPos 
+                        {
+                        RADIO_BUTTON "&Normal" AT (87, 54, 35, 12) TMC tmcCharPosNormal ACTION 
+                        RADIO_BUTTON "&Superscript" AT (87, 65, 54, 12) TMC tmcCharPosSuper ACTION 
+                        RADIO_BUTTON "Subsc&ript" AT (87, 76, 46, 12) TMC tmcCharPosSub ACTION 
+                        }
+                EDIT AT (141, 77, 30, 12) TMC tmcCharHpsPos ACTION ARG wCharHpsPos CHAR_VALIDATED
+                        PARSE_PROC WParseHpsQps 
+                        EL_NAME Position
+                DUMMY_TEXT "B&y:" AT (141, 67, 13, 9) 
+                GROUP_BOX "Character Spacing" AT (84, 96, 89, 49) 
+                RADIO_GROUP 
+                        TMC tmcCharIS ARG iCharIS 
+                        {
+                        RADIO_BUTTON "N&ormal" AT (87, 107, 34, 12) TMC tmcCharISNormal ACTION 
+                        RADIO_BUTTON "&Expanded" AT (87, 119, 42, 12) TMC tmcCharISExpanded ACTION 
+                        RADIO_BUTTON "&Condensed" AT (87, 130, 46, 12) TMC tmcCharISCompressed ACTION 
+                        }
+                EDIT AT (141, 130, 30, 12) TMC tmcCharQpsSpacing ACTION ARG wCharQpsSpacing CHAR_VALIDATED
+                        PARSE_PROC WParseHpsQps 
+                        EL_NAME Spacing
+                DUMMY_TEXT "By&:" AT (141, 120, 12, 9)
+                OK_BUTTON AT (140, 6, 34, 14) 
+                CANCEL_BUTTON AT (140, 23, 34, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

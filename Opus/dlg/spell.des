@@ -1,0 +1,72 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE spell 
+        {
+        DIALOG dltSpeller AT (54, 14, 158, 62) 
+        CAB_NAME CABSPELLER 
+        HELP_ID IDDSpeller 
+        DIALOG_PROC FDlgSpeller 
+        TMC_INIT tmcSplWord
+        SUB_DIALOG sabSPLOptions = fOptions AT (0, 0, 158, 125)
+            {
+            PUSH_BUTTON "&Start" AT (107, 11, 44, 14) TMC tmcSplStart 
+                    ACTION DISMISS_CAB DEFAULT
+            DUMMY_TEXT "Check Spelling" AT (5, 4, 57, 10) 
+            CANCEL_BUTTON AT (107, 28, 44, 14) 
+            PUSH_BUTTON "&Options >>" AT (106, 44, 47, 14) TMC tmcSplOptions 
+                    ACTION 
+
+            GROUP_BOX "&Word" AT (5, 14, 95, 43)
+            EDIT AT (9, 27, 87, 12) TMC tmcSplWord ACTION CHAR_VALIDATED 
+                    ARG hszSplWord EL_NAME Word
+            PUSH_BUTTON "&Check" AT (8, 41, 43, 14) TMC tmcSplCheck ACTION 
+            PUSH_BUTTON "&Delete" AT (54, 41, 43, 14) TMC tmcSplRemove ACTION 
+                    EL_NAME Delete
+
+            IF fOptions
+                GROUP_BOX "Dictionaries" AT (5, 62, 146, 40) 
+                LIST_BOX AT (9, 81, 68, 24) 
+                        ACTION 
+                        DROP_DOWN_SIBLING
+			RETURN_STRING
+                        ARG hszSplMDictBox
+                        TMC tmcSplMDictBox
+                        LIST_BOX_PROC WDDLBoxSpellMDict 
+                        EL_NAME MainDic
+                DUMMY_TEXT "&Main:" AT (9, 71, 22, 9) 
+
+                EDIT AT (80, 81, 67, 12) 
+			ACTION
+                        TMC tmcSplADictBox 
+                        ARG hszSplADictBox
+                        EL_NAME SuppDic
+                DUMMY_TEXT "S&upplemental:" AT (80, 71, 53, 9) 
+                LIST_BOX AT (84, 93, 63, 24) 
+                        ACTION 
+                        COMBO_ATOMIC
+                        DROP_DOWN_SIBLING 
+                        LIST_BOX_PROC WComboSpellADict 
+
+                CHECK_BOX "&Ignore All CAPS" AT (5, 105, 71, 12) 
+                        TMC tmcSplIgnoreCaps 
+                        ACTION
+                        ARG fSplIgnoreCaps
+                        EL_NAME IgnoreCaps
+                CHECK_BOX "&Always Suggest" AT (86, 105, 67, 12) 
+                        TMC tmcSplAutoSugg
+                        ACTION
+                        ARG fSplAutoSugg
+                        EL_NAME AlwaysSuggest
+            ENDIF
+            }
+
+        }
+
+
+END_DESCRIPTION 

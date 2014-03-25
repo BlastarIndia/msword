@@ -1,0 +1,28 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE dbgfile
+        {
+	DIALOG dltCkDiskFile AT (8, 24, 210, 40)
+	CAB_NAME CABCKDISKFILE
+	HELP_ID IDDCkDiskFile
+	TMC_INIT tmcCkDiskFile
+        
+                {
+		EDIT AT (71, 6, 83, 12) TMC tmcCkDiskFile ACTION ARG hszFile
+			EL_NAME CKDISKFILE
+		DUMMY_TEXT "Check File &Name:" AT (5, 7, 70, 9)
+
+		OK_BUTTON AT (158, 5, 47, 14)
+		CANCEL_BUTTON AT (158, 22, 47, 14)
+                }
+
+        }
+
+
+END_DESCRIPTION 

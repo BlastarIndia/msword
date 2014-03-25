@@ -1,0 +1,65 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+
+MODULE SPELLMM 
+        {
+        DIALOG dltSpellerMM AT (8, 24, 174, 121) 
+        CAPTION "Spelling" 
+        CAB_NAME CABSPELLERMM 
+        HELP_ID IDDSpellerMM 
+        DIALOG_PROC FDlgSpellerMM 
+        TMC_INIT tmcSplMMIgnore
+        BDR_SYS_MENU 
+        
+            {
+            GROUP_BOX "" AT (5, 1, 125, 24) 
+            TEXT "Not in Dictionary:" AT (8, 6, 120, 9) TMC tmcSplMMErr
+            TEXT "" AT (8, 15, 120, 9) TMC tmcSplMMWord
+            EDIT AT (5, 36, 124, 12) TMC tmcSplMMChangeTo ACTION 
+                    ARG hszSplMMChangeTo CHAR_VALIDATED 
+                    EL_NAME ChangeTo
+            DUMMY_TEXT "Change &To:" AT (5, 26, 42, 9) 
+    
+            LIST_BOX AT (5, 59, 88, 40) TMC tmcSplMMSuggList ACTION 
+                    ARG uSplMMSuggList LIST_BOX_PROC WListBoxNull 
+                    EL_NAME Suggestions
+            DUMMY_TEXT "S&uggestions:" AT (5, 48, 49, 9) 
+
+
+            PUSH_BUTTON "&Ignore" AT (134, 5, 36, 14) TMC tmcSplMMIgnore 
+                    ACTION DISMISS_CAB DEFAULT
+                    EL_NAME Ignore
+            CANCEL_BUTTON AT (134, 21, 36, 14) 
+            PUSH_BUTTON "&Suggest" AT (134, 36, 36, 14) TMC tmcSplMMSugg 
+                    ACTION EL_NAME Suggest
+            PUSH_BUTTON "&Change" AT (96, 57, 34, 14) TMC tmcSplMMChange 
+                    ACTION DISMISS_CAB 
+                    EL_NAME Change
+            PUSH_BUTTON "&Add" AT (134, 57, 36, 14) TMC tmcSplMMAdd 
+                    ACTION DISMISS_CAB 
+                    EL_NAME Add
+
+            LIST_BOX AT (97, 83, 72, 24) TMC tmcSplMMAddToBox 
+                    ACTION ARG iSplMMAddToBox DROP_DOWN_SIBLING 
+                    LIST_BOX_PROC WComboSpellMM 
+                    EL_NAME AddToDictionary
+            DUMMY_TEXT "Add To &Dictionary:" AT (97, 73, 73, 9) 
+
+            CHECK_BOX "Ig&nore All CAPS" AT (6, 104, 87, 12) 
+                    TMC tmcSplMMIgnoreCaps ACTION ARG fSplMMIgnoreCaps 
+                    EL_NAME IgnoreAllCaps
+            CHECK_BOX "A&lways Suggest" AT (97, 104, 67, 12) 
+                    TMC tmcSplMMAutoSugg ACTION ARG fSplMMAutoSugg 
+                    EL_NAME AlwaysSuggest
+            }
+
+        }
+
+
+END_DESCRIPTION 

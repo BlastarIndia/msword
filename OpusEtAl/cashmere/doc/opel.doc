@@ -1,0 +1,1516 @@
+			Specification of Opel
+		     The Opus Extension Language
+				   
+			  Bradford Christian
+		   Microsoft Applications Division
+			  November 10, 1987
+
+
+
+
+1.0 INTRODUCTION
+
+This document describes the extensions to and user interface of the
+Embedded BASIC (EB) in Opus.  For information concerning data types,
+control structures, and other core-language features, please refer to
+the document "Embedded Language System, Opus Version" by Craig
+Wittenberg of the Applications Tools Group.
+
+
+2.0 STRUCTURE OF AN OPEL PROGRAM
+
+Opel programs exist in one of two seperate "contexts."  The default
+context is called "Global" and means that the program is accessable
+no matter what type of document is selected.  In fact, to run a
+global program, there need not be any documents open.  Global
+programs are stored in the OPUS.GDT file.  
+
+The other context is called "Document Template" and means that the
+program is stored in a document template file.  These programs are
+only available when a document based on the same template is the one
+currently selected.
+
+An Opel program consists of three seperate parts: a name, an optional
+"one-line" description (used for menu help), and the actual program.
+
+Program names may contain up to 16 alpha-numeric characters and must
+start with a letter.  Letter case is insignificant in a name.
+
+The optional "one-line" description may contain any text (up to 255
+characters).  This text will appear in the status area when the user
+has this program selected on a menu if menu help is activated.  It
+will also appear in several dialog boxes when the program is selected
+in a list box.
+
+The form of the actual program depends on the final form of EB, which
+has not yet been determined.
+
+
+3.0 SPECIAL NAMES
+
+Opus reserves several names for programs that the user may provide to
+alter certain aspects of Opus' behaviour.  These are the so-called
+Auto-Macros.
+
+3.1 AutoStart
+
+The AutoStart program will be run right after almost all other
+initialization tasks have been completed and right before any command
+line given programs are run (with the /M<name> switch, see 4.?).  The
+AutoStart program will not be run if the /F switch is given on Opus'
+command line.
+
+3.2 AutoOpen
+
+The AutoOpen program will be run right after opening a file through
+either the FileOpen command or the File1-File4 commands.
+
+3.3 AutoClose
+
+The AutoClose program will be run right after closing a window.  Note
+that closing a window may be different than closing a file.
+
+3.4 AutoPrint
+
+The AutoPrint program will be run right after printing a file or any
+of its parts.
+
+3.5 AutoMerge
+
+The AutoMerge program will be run right after performing a print
+merge.
+
+3.6 AutoNew
+
+The AutoNew program will be run right after creating a new document
+through the FileNew command.
+
+3.7 AutoExit
+
+The AutoExit program will be run right after the "Confirm Save"
+sequence and right before returning to Windows.
+
+3.8 AutoDelete
+
+The AutoDelete program will be run when the auto deletion code kicks
+in.  That is, when there is a selection and the user inserts
+something and the auto delete option is turned on (via Utilities-
+Customize).  If this program exists, the auto deletion code will NOT
+be called.
+
+3.9 AutoStyle
+
+The AutoStyle program will be run when a style is applied by the user
+or through the next-style mechanism.  The name of the style applied
+is available through the StyleName$() function.
+
+
+4.0 OPEL RELEATED OPUS COMMANDS
+
+All Opel releated Opus commands are initialy on the Macro menu which
+is only presant in "Full Menu" mode.  When no documents are open
+("Minimal Menu" mode), the MacroRun command may also be found on the
+Application Control menu.
+
+4.1 MacroRun
+
+This command is the normal way to run an arbitrary command or program
+by name.  The user is prompted with a list of currently available
+commands and programs based on the currently selected document and
+object, and any modes that may be in effect.  Selecting one of these
+commands or programs and clicking OK will cause the given command or
+program to run just as if it were selected from a menu.
+
+4.2 MacroStartRecording / MacroStopRecording
+
+These commands start and stop the command recorder.  Running
+MacroStartRecording will start the command recorder immediatly.
+
+While the user is in record mode, all mouse selection actions are
+disabled.  This is because there is not anything reasonable that
+could be done in this case.  The mouse cursor will therefore appear
+as a cassette tape whenever it would normally appear as an I-beam or
+back arrow over a document.
+
+Running MacroStopRecording will stop the command recorder and start a
+dialog asking for a name for the program just created.  
+
+A name is suggested that will be Macro<N> where <N> is the smallest
+number greater than zero that has not already been used in this way.
+
+At this time the user may also add a menu help string, select a
+context, and assign the new program to a key or menu.  
+
+Canceling this dialog will erase the recorded program and terminate
+record mode.
+
+
+4.3 MacroEdit
+
+This command serves several purposes: creating new programs, editing
+existing programs, deleting programs, renaming programs, changing the
+menu help string for programs, and changing the context of programs.
+
+See section 5.0 for a description of the commands available while
+editing a program.
+
+4.4 MacroAssignToKey
+
+This command allows the user to change the meanings of most of the
+keys on their keyboard.  All of the function keys and their Ctrl and
+Shift combinations (except for combinations of F1 and F10) and Ctrl
+and Ctrl+Shift combinations of all the letter and number keys (except
+keypad keys) may be modified.
+
+Keyboard changes are stored in the same contexts as programs.
+
+4.5 MacroAssignToMenu
+
+This command allows the user to change the commands that appear on
+menus.  Only the "Full Menu" may be modified.  The Application and
+Document Control menus and the Help menu may not be modified.
+
+Menu changes are stored in the same contexts as programs.
+
+4.6 Opel related Opus command line switches.
+
+Several command line options are for Opel programs.
+
+4.6.1 Run program (/M)
+
+The run program option allows the user to specify some program or
+command to be run automaticaly after initialization (and after the
+AutoStart program has been run if there is one).  The syntax of the
+option is: /M<program-name>.  Therefore, to automaticaly run the
+File1 command, the user would execute (from DOS):
+
+	Win Opus /MFile1
+
+4.6.2 Fast startup (/F)
+
+The fast startup option will cause the AutoStart program to be
+skipped.
+
+
+
+5.0 PROGRAM DEVELOPEMENT
+
+When the user runs the MacroEdit command, selects a program, and
+clicks on the Edit button, an icon bar and a program editor window
+will appear.  The icon bar, which will remain on the screen as long
+as one or more program editor windows is open, contains several push
+buttons and the name and context of the "current" program.  The
+current program will always be the program in the last active program
+editor window.  The push buttons are for the various debugging
+features provided by the Opel programming environment.  These are:
+
+	Step		Execute the next statement (skip calls) **REVIEW**
+	Trace		Execute the next statement (trace calls) **REVIEW**
+	Animate		Execute while highlighting statements
+	Go/Continue	Start a macro or continue after break
+	Vars...		Show all the variables used by the program
+
+Pressing Esc while a program is running will pause its execution.
+The user then has the option of clicking on the Continue button until
+the program document is modified.  Pressing Esc a second time will
+cause the Continue button to revert to Go so the program can be
+started from the beginning.
+
+
+6.0 PROGRAM STATEMENTS AND FUNCTIONS
+
+This section lists all of the statements and functions unique to Opel
+along with their calling sequences and return types.  All other
+statements will be documented sometime in the future, probably by the
+Applications Tools Group.
+
+
+6.1 Syntax
+
+
+Beep
+
+	Makes a beep on the computers speaker.
+
+
+BlockExtend
+
+	Starts block extend mode.  After starting this mode, the normal
+	selection statements are used to define the block.  The Cancel
+	statement will abort this mode.
+
+
+Bold [fOn]
+
+	Without an argument, toggles bold for the selection based on the
+	first character.  With an argument, if fOn is 1, makes
+	the entire selection bold, otherwise removes bold from the 
+	entire selection.
+
+
+Bold()
+
+	Returns 0 if none of the selection is bold, 1 if all of the selection
+	is bold, or 2 if part of the selection is bold.
+
+
+Cancel
+
+	Terminate a mode and do not perform its action.  This statement
+	is to be used in place of OK when appropriate.
+
+
+CenterPara
+
+	Centers the currently selected paragraphs.
+
+
+CenterPara()
+
+	Returns 0 if none of the selected paragraphs are centered, 1 if all
+	of the selected paragraphs are centered, or 2 if some of the
+	selected paragraphs are centered.
+
+
+ChangeCase
+
+	Toggles the letter case of the current selection between ALL CAPS,
+	all lower, and Capitalized Words.  This is an error if the selection
+	is an insert point.
+
+
+CmpBookmarks( bookmark1$  bookmark2$ )
+
+	Compares the extents of the two named bookmarks and returns one of
+	the following values to describe their relationship:
+
+	0-Bookmark1 and bookmark2 are equivalent
+	1-Bookmark1 is entirely above bookmark2
+	2-Bookmark1 is entirely below bookmark2
+	3-Bookmark1 is above and inside bookmark2
+	4-Bookmark1 is inside and below bookmark2
+	5-Bookmark1 encloses bookmark2
+	6-Bookmark1 is enclosed by bookmark2
+	7-Bookmark1 starts at the same point as bookmark2, but is longer
+	8-Bookmark1 starts at the same point as bookmark2, but is shorter
+	9-Bookmark1 ends at the same point as bookmark2, but is longer
+	10-Bookmark1 ends at the same point as bookmark2, but is shorter
+	11-Bookmark1 is above and adjacent to bookmark2
+	12-Bookmark1 is below and adjacent to bookmark2
+	13-Bookmark1 and/or bookmark2 is nil
+
+
+CopyBookmark bookmark1$  bookmark2$
+
+	Sets bookmark2 to bookmark1.
+
+
+CountBookmarks()
+
+	Returns the number of defined bookmarks.
+
+
+CountFiles()
+
+	Returns the number of names in the file cache.
+
+
+CountGlossaries( [context] )
+
+	Returns the number of glossaries defined in the given context.
+	Context is either 0 for global (default), or 1 for document 
+	template.
+
+
+CountMacros( [context] )
+
+	Returns the number of programs defined in the given context.
+	Context is either 0 for global (default), or 1 for document 
+	template.
+
+
+CountStyles( [context] )
+
+	Returns the number of styles defined in the given context.
+	Context is either 0 for document (default), or 1 for document
+	template.
+
+
+CountWindows()
+
+	Returns the number of names in the window cache.
+
+
+DeleteBackWord
+
+	Deletes the word backwards of the selection. **REVIEW: clipboard?**
+
+
+DeleteClear
+
+	Deletes the selection without copying to the clipboard.
+
+
+DeleteWord
+
+	Deletes the word forward of the selection. **REVIEW: clipboard?**
+
+
+DereferenceField
+
+
+DoubleULine [fOn]
+
+	Without an argument, toggles double underline for the selection based 
+	on the first character.  With an argument, if fOn is 1, makes
+	the entire selection double underlined, otherwise removes double 
+	underline from the entire selection.
+
+
+DoubleULine()
+
+	Returns 0 if none of the selection is double underlined, 1 if all of 
+	the selection is double underlined, or 2 if part of the selection is 
+	double underlined.
+
+
+EditCopy
+
+	Copies the contents of the selection to the clipboard.  If the 
+	selection is an insertion point, this statement will cause an 
+	error.
+
+
+EditCut
+
+	Copies the contents of the selection to the clipboard and deletes
+	the selection, collapsing it to an insertion point.  If the 
+	selection starts as an insertion point, this statement will cause 
+	an error.
+
+
+EditGlossaries  name$  [action]
+
+	This statement is for creating, destroying, and inserting 
+	glossaries.  If the action parameter is not specified, insert
+	is assumed, otherwise the action parameter is one of the 
+	following:
+
+		0-Insert the named glossary at the current selection.
+		1-Define a new glossary with the given name and the
+		  text from the selection.
+		2-Define a new global with the given name and the text
+		  from the selection.
+		3-Undefine the named glossary. **REVIEW: what context?**
+
+
+** EditGoto  "where"
+
+** EditHeaderFooter
+
+
+EditPaste
+
+	Copies the contents of the clipboard to the selection.  If the
+	clipboard is empty, this statement will cause an error.
+
+
+?? EditPasteLink
+
+EditReplace "string", "replace", fWholeWord, fMatchCase, fConfirm
+
+EditSearch "string", fWholeWord, fMatchCase, iDirection
+	iDirection is: 0-backwards, 1-forwards **REVIEW: reverse that!**
+
+
+EditUndo
+
+	Undoes the last undoable action.  Undoable actions are defined by
+	the user interface.  Executing this statement when there is no
+	undoable action is an error.  Executing this statement twice in
+	a row will have no effect.
+
+
+EmptyBookmark( bookmark$ )
+
+	Returns -1 if the bookmakr is empty (an insertion point), 0 otherwise.
+
+
+EndOfBookmark bookmark1$  [bookmark2$]
+
+	Set bookmark2 to the end point of bookmark1.  If bookmark2 is not 
+	given, bookmark1 is set to its own end.
+	
+
+ExpandGlossary
+
+	Expects the selection to be an insert point at the end of a 
+	glossary name.  This statement will replace the glossary name with 
+	the contents of the glossary.  An error will result if the name
+	does not refer to an available glossary.
+
+
+Extend
+
+	If extend mode is not on, this statement will turn it on.  Otherwise,
+	the selection is expanded to the next unit.
+
+
+File1
+
+	Opens the most recently opened file.  It is an error to attempt
+	to open an unfilled file cache slot.
+
+
+File2
+
+	Opens the second most recently opened file.  It is an error to 
+	attempt to open an unfilled file cache slot.
+
+
+File3
+
+	Opens the third most recently opened file.  It is an error to 
+	attempt to open an unfilled file cache slot.
+
+
+File4
+
+	Opens the forth most recently opened file.  It is an error to 
+	attempt to open an unfilled file cache slot.
+
+
+** FileCatalog
+
+FileChangePrinter iPrinter **REVIEW: parameter will change**
+
+
+FileExit [SaveAll]
+
+	Closes Opus and returns control to the MS-DOS Executive.  If any
+	open documents are dirty, and the SaveAll option is not given or
+	is 0, the user will be prompted to save each dirty document.  If 
+	SaveAll is specified as 1, all dirty documents will be saved before
+	exiting; if it is specified as 2, dirty documents are simply through
+	away.
+
+
+FileName$(n)
+
+	Returns the name of the n'th file in the file cache.  If n is 0,
+	then name of the current file is returned.  Otherwise, n should
+	correspond to the numbers in the file cache.  It is an error to
+	specify an unfilled file cache slot.  If there is no current 
+	document, FileName$(0) will return an empty string.
+
+
+FileNew name$  type$  [fNewTemplate]
+	
+	Creates a new document called name$ based on the template type$.
+	If fNewTemplate is specified as any non-zero value, the new document
+	will be a document template.
+
+
+FileOpen name$ [fReadOnly]
+
+	Opens a document called name$.  This document must exist.  If 
+	fReadOnly is specified as any non-zero value, the document will
+	be opened as read only.  Any attempt to modify a read-only document
+	will result in an error.
+
+
+FilePrint range, "from", "to", fReverse, cCopies, fDraft, fRefresh, 
+		pr, fSummary, fShowInst, fSeeHidden, fAnnotations
+	range is: 0-all, 1-selection, 2-pages
+	pr is: 0-document, 1-styles, 2-glossaries, 3-annotations
+
+FilePrintMerge iMergeRec, "from", "to"
+	iMergeRec is: 0-all, 1-range
+
+
+FileSave
+
+	Saves the current document.
+
+
+FileSaveAs name$  format  fLockAnnot  fQuicksave  fBackup
+
+	Saves the current document with a new name or format. Format may
+	be any of the following: 
+
+		0-native
+		1-plain text
+		2-plain text with line breaks
+		3-document template
+		4-RTF
+
+	fLockAnnot
+	fQuicksave
+	If fBackup is specified as any non-zero value, the old file is
+	renamed to have ".BAK" as its extension before the new file is
+	written.
+
+
+Font name$  [size]
+
+	Applies the named font to the selection.  The optional size parameter
+	may be given as an alternate to following this statement with a
+	FontSize statement.
+
+
+Font$()
+
+	Returns the name of the font of the current selection.  This will
+	be an empty string if there is more then one font is the selection.
+
+
+FontSize size
+
+	Sets the size of the current selection in points.
+
+
+FontSize()
+
+	Returns the font size of the current selection in poits.  This will 
+	return -1 if the selection contains more than one font size.
+
+
+FormatApplyStyle name$  [fCreate]
+
+	Applies the named style to the selected paragraphs.  If the style
+	does not exist and fCreate is not specified or is zero, an error
+	will occur.  If fCreate is specified as a non-zero value, then the
+	style will be created with the properties of the style "normal."
+
+
+** FormatCell
+
+FormatCharacter "font", "size", fBold, fItalic, fSmallCaps, fHidden,
+		fUnderline, fWordUL, fDblUL, iPos, hpsPosSubSuper,
+		iIS, qpsSpacing
+
+** FormatDefineStyles
+
+FormatDocument uPageWidth, uPageHeight, iPageMode, uTopMargin,
+		uBottomMargin, uLeftMargin, uRightMargin, uInMargin,
+		uOutMargin, iFN, iFNStartAt, fFNRestart, uDefTabs,
+		fWidowControl
+
+FormatParagraph iJustify, wLeftIn, wRightIn, wFirstIn, dyaBefore,
+		dyaAfter, dyaLine, "style", fKeepTogeather,
+		fKeepWithNext, brcp, brcl, fNewPage, fNoLno
+	brcp is: 0-none, 1-box, 2-bar, 3-above, 4-below
+	brcl is: 0-single, 1-thick, 2-double, 3-shadow
+
+** FormatPicture
+
+FormatSection cColumns, dxaColumn, fColLBetween, bkc, fIncFtn,
+		vjc, fLnn, lnnMin, nLnnMod, lnc
+	bkc is: 0-no break, 1-column, 2-page, 3-even, 4-odd
+	vjc is: 0-top, 1-center, 2-both, 3-bottom
+	lnc is: 0-per page, 1-restart, 2-continue
+
+** FormatTable
+
+** FormatTabs
+
+
+GetProfileString$( [app$]  key$ )
+
+	Get a value from the current WIN.INI file.  If app$ is not speciied,
+	"Opus" is used.  This returns the string after the '=' in the line
+	starting with key$ in the section called app$ of WIN.INI.
+
+
+GoBack
+
+	Opus keeps track of the last four (**REVIEW**) interesting selections.
+	This statement toggles between them.
+
+
+HideText [fOn]
+
+	Without an argument, toggles hidden text for the selection based 
+	on the first character.  With an argument, if fOn is 1, makes
+	the entire selection hidden text, otherwise removes hidden text
+	from the entire selection.
+
+
+HideText()
+
+	Returns 0 if none of the selection is hidden text, 1 if all of 
+	the selection is hidden text, or 2 if part of the selection is 
+	hidden text.
+
+
+HLine [count]
+
+	Scrolls horizontaly by count "lines" (or 1 if it is not specified).
+	Lines in this case means whatever amount the screen is scrolled
+	by clicking the mouse in an arrow of the horizontal scroll bar.
+	Negative counts scroll the window to the left.
+
+
+HPage [count]
+
+	Scrolls horizontaly by count screens (or 1 if it is not specified).
+	Negative counts scroll the window to the left.
+
+
+HScroll percentage
+
+	Scrolls horizontaly to the given percentage of the document width.
+	
+
+HScroll()
+
+	Returns the current horizontal scroll position as a percentage of
+	the document width.
+
+
+Indent
+
+	Indents the currently selected paragraphs such that the first
+	paragraph is aligned with the next tab stop.
+	
+
+Insert text$
+
+	Insert the given text at the current selection.
+
+
+InsertBookmark name$  [fDelete]
+
+	Creates or deletes the named bookmark.  If fDelete is not specified
+	or is zero, the bookmark is created at the current selection, other-
+	wise, the bookmark is deleted.  Specifying an existing bookmark
+	for insertion will simply change the old location of the bookmark.
+	Specifying a non-existant bookmark for deletion is an error.
+
+
+InsertBreak type
+
+	Insert a page, section, or column break at the current selection.  
+	Type is one of the following: 
+
+		0-page
+		1-column
+		2-next
+		3-continuous
+		4-even
+		5-odd
+
+
+InsertDateField
+
+	Inserts a current date field at the selection.
+
+
+** InsertField
+
+
+InsertFile  name$  [range$]  [fLink]
+
+	Inserts the named file at the current selection.  If range$ is
+	specified, it refers to a bookmark and only that part of the file
+	will be inserted.  If fLink is specified as any non-zero value,
+	then a link field to the file is inserted instead of the actual
+	file.
+
+
+InsertFootnote fAuto, "reference"
+
+InsertIndex type, sep, heading, "sequence", "list sep"
+
+InsertIndexEntry "entry", "range", fBold, fItalic
+
+
+InsertPageBreak
+
+	Inserts a normal page break at the current selection.
+
+
+InsertPageField
+
+	Inserts a current page field at the current selection.
+
+
+InsertPara
+
+	Inserts a paragraph mark at the current selection.
+
+
+** InsertPicture
+
+** InsertTable
+
+** InsertTableOfContents
+
+
+InsertTimeField
+
+	Inserts a current time field at the current selection.
+
+
+Italic [fOn]
+
+	Without an argument, toggles italics for the selection based on the
+	first character.  With an argument, if fOn is 1, makes the
+	entire selection italic, otherwise removes italics from the entire
+	selection.
+
+
+Italic()
+
+	Returns 0 if none of the selection is italic, 1 if all of the 
+	selection is italic, or 2 if part of the selection is italic.
+
+
+JustPara
+
+	Justifies all of the selected paragraphs.
+
+
+JustPara()
+
+	Returns 0 if none of the selected paragraphs are justified, 1 if 
+	all of the selected paragraphs are justified, or 2 if some of the 
+	selected paragraphs are justified.
+
+
+Launch app$  [mode]
+
+	Starts up another Windows application.  App$ is the command line
+	to use.  If specified, mode should be one of the following:
+
+		0-show window (default)
+		1-hide window
+		2-minimize window
+		3-maximize window
+		4-do not activate window
+
+
+LeftPara
+
+	Left justifys the selected paragraphs.
+
+
+LeftPara()
+
+   	Returns 0 if none of the selected paragraphs are left justified,
+	1 if all of the selected paragraphs are left justified, of 2 if
+	some of the selected paragraphs are left justified.
+
+
+LockFields
+
+
+** MacroAssignToKey
+
+** MacroAssignToMenu
+
+
+MacroEdit name$  [context]
+
+	Opens a macro editor window containing the named macro from the
+	specified context, or the global set if no context is given.
+	Context is either 0 for global or 1 for document template.
+
+
+MacroName$( n  [context] )
+
+	Returns the name of the n'th macro defined in the given context.
+	N must be in the range 0-CountMacros(context).  If n is 0 the
+	name of the current macro is returned, otherwise the name is
+	taken from the list in the given context.  Context is either 0
+	for global, or 1 for document template.  The "current" macro is
+	the macro that is executing MacroName$().
+
+
+MacroRun name$
+
+	Run the named macro or command.
+
+
+MacroStartRecording
+
+	Start the command recorder.  (Not all that usefull a statement!)
+
+
+MacroStopRecording  [name$]  [context]  [Cancel]
+
+	Stops the macro recorder.  If Cancel is specified, the recording
+	operation is aborted.  Otherwise, the recording made so far is
+	saved as a macro with the given name in the given context.  If
+	name is not given, the next default recording name is used.  If
+	context is not specified, global is assumed, otherwise context
+	is either 0 for global or 1 for document template.
+
+
+Message message$
+
+	Puts the given message on the prompt line.  The message will
+	disappear after a few seconds.  **REVIEW: give options**
+
+
+MsgBox message$  [title$]  [type]
+MsgBox ( message$  [title$]  [type] )
+
+	Creates a message box containing the given message.  If title$ is
+	supplied, it will appear in the title bar of the message box,
+	otherwise "Opus" will appear in the title bar.  If type is given,
+	it must be the sum of one value from each of the following groups:
+
+		0-OK button (default)
+		1-OK and Cancel buttons
+		2-Abort, Retry, and Ignore buttons
+		3-Yes, No, and Cancel buttons
+		4-Yes and No buttons
+		5-Retry and Cancel buttons
+
+		0-No icon (default)
+		16-Hand icon
+		32-Question icon
+		48-Exclamation icon
+		64-Asterisk icon
+
+		0-Make the first button the default (default)
+		256-Make second button the default
+		512-Make the third button the default
+
+		0-Application modal (default)
+		4096-System modal **REVIEW: should this be allowed?**
+
+	If MsgBox is called as a function rather than a statement, the
+	value returned will be one of the following:
+
+		1-OK
+		2-Cancel
+		3-Abort
+		4-Retry
+		5-Ignore
+		6-Yes
+		7-No
+
+
+Move
+MoveFrom
+	
+	Start a move operation.  With Move, the current selection is used
+	as the source; with MoveFrom, the current selection is used as the
+	destination.  Both of these statements simply start "Move Mode,"
+	the actual move does not take place until an OK statement is 
+	executed.  Between the Move/MoveFrom and the OK statements, the
+	programmer is expected to use the selection statements to choose
+	the destination of the Move or source of the MoveFrom.  Executing
+	certain statements while in move mode will cause the mode to be
+	terminated with no action taken.  These statements are the same
+	as the commands that terminate this mode in the user interface.
+
+
+NextField
+
+	Moves the selection to the next field.
+
+
+NextTab( pos )
+
+	Returns the position of the next tab stop to the right of pos.
+	Pos is a floating point number given in the current units.  If
+	more than one paragraph is selected and the tabs do not all match,
+	then -1 will be returned.
+
+
+NextWindow
+
+	Moves the selection to the next document window.
+
+
+NilBookmark( bookmark$ )
+
+	Returns -1 if the bookmark is nil or does not exist, 0 otherwise.
+
+
+NormalChar
+
+	Removes all character formatting from the selected text.
+
+
+NormalChar()
+
+	Returns -1 if the selected text contains no character formatting,
+	0 otherwise.
+
+
+NormalPara
+
+	Removes all pararaph formatting from the selected text.
+
+
+NormalPara()
+
+	Returns -1 if the selected text contains no paragraph formatting,
+	0 otherwise.
+
+
+OK
+
+	Terminate a mode and perform its action.  This statement is used
+	for Move the and MoveFrom statements.
+
+
+OtherPane
+
+	Moves the selection to the other pane of the current window.  If
+	the current window is not split, this will cause an error.
+
+
+Overtype [fOn]
+
+	Turns overtype mode on and off.  If the fOn argument is not
+	specified, the current state is toggled.  If fOn is non-zero,
+	overtype mode is started, otherwise overtype mode is stopped.
+
+
+Overtype()
+
+	Returns -1 if overtype mode is on, 0 otherwise.
+
+
+PrevField
+
+	Moves the selection to the previous field.
+
+
+PrevTab( pos )
+
+	Returns the position of the next tab to the left of pos.  Pos is
+	given as a floating point number in the current units.  If more
+	than one paragraph is selected and the tabs do not all match,
+	then -1 will be returned.
+
+
+PrevWindow
+
+	Moves the selection to the previous window.
+
+
+Prompt$( message$  [default$]  [fDialog] )
+
+	Prompts the user for a string with the given message.  If the
+	user simply presses return, default$ is returned; otherwise
+	whatever the user enters is returned.  If fDialog is specified
+	as any non-zero value, a dialog box is used for the prompt,
+	otherwise the prompt line is used.
+
+
+Recalculate
+
+	Recalculate the fields within the selection.
+
+
+Repeat
+
+	Repeats the last repeatable command.  Repeatable commands are
+	defined by the user interface.
+
+
+RepeatSearch **REVIEW: combined with RepeatGoto**
+
+
+RightPara
+
+	Right justifys the selected paragraphs.
+
+
+RightPara()
+
+	Returns 0 if none of the selected paragraphs are right justified,
+	1 if all of the selected paragraphs are right justified, of 2 if
+	some of the selected paragraphs are right justified.
+
+
+Sel sty  [distance]
+SelTo sty  [distance]
+
+	Moves (Sel) or drags (SelTo) the selection by distance (or 1) sty
+	unit.  The valid sty units are:
+
+		1-character
+		2-word
+		3-sentance
+		4-paragraph
+		5-line
+		6-document
+		7-outline level
+		8-word (no space)
+		9-line end
+		10-screen
+		11-section
+		**REVIEW: need a property run sty**
+
+
+SetProfileString [app$]  key$  value$
+
+	Sets a value in the current WIN.INI file.  If app$ is not specified,
+	"Opus" is used.  This writes a line of the form: key$=value$ in the
+	section named app$ in WIN.INI.
+
+
+ShrinkSelection
+
+	Shrinks the selection to the next smallest unit.  This will cause
+	an error if the selection is an insert point.
+
+
+SmallCaps [fOn]
+
+	Without an argument, toggles small caps for the selection based 
+	on the first character.  With an argument, if fOn is 1, makes
+	the entire selection small caps, otherwise removes small caps
+	from the entire selection.
+
+
+SmallCaps()
+
+	Returns 0 if none of the selection is small caps, 1 if all of 
+	the selection is small caps, or 2 if part of the selection is 
+	small caps.
+
+
+Space1
+
+	Makes all of the selected paragraphs single spaced.
+
+
+Space1()
+
+	Returns 0 if none of the selected paragraphs are single spaced, 1
+	if some of the paragraphs are single spaced, or 2 if all of the
+	paragrpahs are single spaced.
+	
+
+Space2
+
+	Makes all of the selected paragraphs double spaced.
+
+
+Space2()
+
+	Returns 0 if none of the selected paragraphs are double spaced, 1
+	if some of the paragraphs are double spaced, or 2 if all of the
+	paragrpahs are double spaced.
+
+
+Space15
+
+	Makes all of the selected paragraphs one and a half spaced.
+
+
+Space15()
+
+	Returns 0 if none of the selected paragraphs are one and a half
+	spaced, 1 if some of the paragraphs are one and a half spaced, or 2 
+	if all of the paragrpahs are one and a half spaced.
+
+
+Spike
+
+	This deletes the contents of the selection after copying it to
+	a special glossary called Spike.  *REVIEW: do they still stack?**
+
+
+Split position
+
+	Splits the current window at the given position.  **REVIEW: units**
+
+
+Split()
+
+	Returns the current window split position, or 0 if the window is
+	not split.  **REVIEW: units**
+
+
+StartOfBookmark bookmark1$  [bookmark2$]
+
+	Set bookmark2 to the start point of bookmark1.  If bookmark2 is 
+	not given, bookmark1 is set to its own start.
+
+
+StyleName$( [i] [context] )
+
+	Returns the name of the i'th style in either the document (if 
+	context is not specified, or is 0) or the document's type.  If
+	i is not specified, or is 0, the name os the style of the current 
+	paragraph is returned, otherwise i may range from 1 to 
+	CountStyles([context]).
+
+
+SubScript [fOn]
+
+	Without an argument, toggles subscript for the selection based 
+	on the first character.  With an argument, if fOn is 1, makes
+	the entire selection subscripted, otherwise removes subscript
+	from the entire selection.
+
+
+SubScript()
+
+	Returns 0 if none of the selection is subscripted, 1 if all of 
+	the selection is subscripted, or 2 if part of the selection is 
+	subscripted.
+
+
+SuperScript [fOn]
+
+	Without an argument, toggles superscript for the selection based 
+	on the first character.  With an argument, if fOn is 1, makes
+	the entire selection superscripted, otherwise removes superscript
+	from the entire selection.
+
+
+SuperScript()
+
+	Returns 0 if none of the selection is superscripted, 1 if all of 
+	the selection is superscripted, or 2 if part of the selection is 
+	superscripted.
+
+
+Symbol [chars$]
+
+	This inserts chars$ at the current selection formatted with the
+	symbol font.  If chars$ is not specified, this starts a short
+	term mode that will cause the next character inserted to appear
+	in the symbol font.  With the second form, the Cancel statement 
+	will abort the mode.
+
+
+TabLeader$( pos )
+
+	Returns the leader character of the tab at the given position
+	(+/- **REVIEW**).  If more than one paragraph is selected and
+	all the tabs do not match, an empty string will be returned, 
+	otherwise the leader will " ", ".", "-", or "_".
+
+
+TabType( pos )
+
+	Returns the type of tab at the given position (+/- **REVIEW**).
+	If more than one paragraph is selected and all the tabs do not
+	match, -1 will be returned, otherwise the type is returned as 
+	one of the following:
+
+		0-left aligned
+		1-centered
+		2-right aligned
+		3-decimal
+
+
+UnderLine [fOn]
+
+	Without an argument, toggles underline for the selection based 
+	on the first character.  With an argument, if fOn is 1, 
+	makes the entire selection underline, otherwise removes underline 
+	from the entire selection.
+
+
+UnderLine()
+
+	Returns 0 if none of the selection is underlined, 1 if all of the 
+	selection is underlined, or 2 if part of the selection is underlined.
+
+
+Unindent
+
+	Unindents the selected paragraphs such that the first paragraph is
+	aligned with the previous tab stop.
+
+
+UtilCalculate
+
+UtilCompareVersions "file-name"
+
+UtilCustomize iAS, iUnit, fAutoDelete, fBackgndPag, "initials", "name"
+
+** UtilHyphenation
+
+UtilRepaginate
+
+UtilRenumber fNumParas, "start-at", "format", rpm
+	rpm is: 0-single, 1-multi, 2-learn, 3-remove
+
+UtilRevisionMarks fRevMarking, iRMBar, iRMProps
+	iRMBar is: 0-none, 1-outside, 2-inside
+	iRMProps is: 0-none, 1-bold, 2-italic, 3-under, 4-DblUL
+
+UtilSort iOrder, skt, iSep, uFieldNum, fSortCol, fCase
+	skt is: 0-alpha numeric, 1-numeric
+	iSep is: 0-comma, 1-tab
+
+** UtilSpelling
+
+** UtilThesaurus
+
+
+UnlockFields
+
+
+Unspike
+
+	Copies the contents of the Spike glossary to the selection.
+
+
+ViewDraft fOn
+
+	Turns draft view mode on or off.
+
+
+ViewDraft()
+
+	Returns -1 if draft view mode is on, 0 otherwise.
+
+
+ViewFieldCodes fOn
+
+	Turns field code view mode on or off.
+
+
+ViewFieldCodes()
+
+	Returns -1 if field code view mode is on, 0 otherwise.
+
+
+ViewFootnotes fOn
+
+	Turns footnote view mode on or off.
+
+
+ViewFootnotes()
+
+	Returns -1 if footnote view mode is on, 0 otherwise.
+
+
+ViewFullMenus
+
+	Turns on the full menus.  If no documents are open and therefore 
+	the minimal menu is displayed, this may still return -1 if the 
+	full menus would be up if a document were open.
+
+
+ViewFullMenus()
+
+	Returns -1 if the full menus are on, 0 otherwise.
+
+
+ViewOutline fOn
+
+	Turns outline view mode on or off.
+
+
+ViewOutline()
+
+	Returns -1 if outline view mode is on, 0 otherwise.
+
+
+ViewPage fOn
+
+	Turns page view mode on or off.
+
+
+ViewPage()
+
+	Returns -1 if view page mode is on, 0 otherwise.
+
+
+ViewPreferences fTabs, fSpaces, fParas, fHyphens, fHidden, fShowAll,
+		fDisplayAsPrint, fNoShowPictures, fHScroll, fVScroll,
+		wStyleNameAreaSize
+
+
+ViewRibbon fOn
+
+	Turns the ribbon on or off.
+
+
+ViewRibbon()
+
+	Returns -1 if the ribbon is on, 0 otherwise.
+
+
+ViewRuler fOn
+
+	Turns the ruler on or off.
+
+
+ViewRuler()
+
+	Returns -1 if the ruler is on, 0 otherwise.
+
+
+ViewShortMenus
+
+	Turns on the short menus.
+
+
+ViewShortMenus()
+
+	Returns -1 if the short menus are on.
+
+
+ViewStatusArea fOn
+
+	Turns the status area on or off.
+
+
+ViewStatusArea()
+
+	Returns -1 if the status area is on, 0 otherwise.
+
+
+VLine [count]
+
+	Scrolls verticaly by count lines (or 1 if it is not specified).
+	Negative counts scroll the window up.
+
+
+VPage [count]
+
+	Scrolls verticaly by count screens (or 1 if it is not specified).
+	Negative counts scroll the window up.
+
+
+VScroll percentage
+
+	Scrolls verticaly to the given percentage of the document.
+
+
+VScroll()
+
+	Returns the current vertical scroll position as a percentage of
+	the document size.
+
+
+Window()
+
+	Returns the number of the currently selected window.  The number
+	will range from 1 to N where N is the number of open windows.
+	This number corresponds to the numbers on the window cache.
+
+
+Window1
+
+	Selects the first window on the window cache.  It is an error
+	to select a non-existant window.
+
+
+Window2
+
+	Selects the second window on the window cache.  It is an error
+	to select a non-existant window.
+
+
+Window3
+
+	Selects the third window on the window cache.  It is an error
+	to select a non-existant window.
+
+
+Window4
+
+	Selects the forth window on the window cache.  It is an error
+	to select a non-existant window.
+
+
+Window5
+
+	Selects the fifth window on the window cache.  It is an error
+	to select a non-existant window.
+
+
+Window6
+
+	Selects the sixth window on the window cache.  It is an error
+	to select a non-existant window.
+
+
+Window7
+
+	Selects the seventh window on the window cache.  It is an error
+	to select a non-existant window.
+
+
+Window8
+
+	Selects the eighth window on the window cache.  It is an error
+	to select a non-existant window.
+
+
+WindowArrangeAll
+
+	Arranges all open windows such that they do not overlap.
+
+
+WindowName$(n)
+
+	Returns the title of the n'th open window.  If n is 0, then the 
+	name of the current window is returned.  Otherwise n should 
+	correspond to the numbers in the window cache.
+
+
+WindowNewWindow
+
+	Creates a copy of the current window.
+
+
+WindowPane()
+
+	Returns 0 if the top pane of the current window is selected or
+	there is only one pane.  Returns 1 if the bottom pane is selected.
+
+
+WordULine [fOn]
+
+	Without an argument, toggles word underline for the selection based 
+	on the first character.  With an argument, if fOn is 1, makes
+	the entire selection word underlined, otherwise removes word underline
+	from the entire selection.
+
+
+WordULine()
+
+	Returns 0 if none of the selection is word underlined, 1 if all of 
+	the selection is word underlined, or 2 if part of the selection is 
+	word underlined.
+	
+
+6.2 Notes
+
+6.2.1 All statements that insert text are affected by the state of
+the AutoDelete option of UtilCustomize.
+
+6.2.2 The view mode functions may return true even if there are no
+open documents.  These values are taken from the view prefs structure
+if no window is selected.
+
+6.2.3 Statements that take measurements (tab positions, indents,
+etc.) are affected by the current units setting of UtilCustomize.
+
+6.2.4 Bookmark statements and functions may make use of several special
+bookmarks.  These are:  **REVIEW: names**
+
+	\SEL		Current selection
+	\PREVSEL1	Previous selection 1 (NIL at start)
+	\PREVSEL2	Previous selection 2 (NIL at start)
+	\PREVSEL3	Previous selection 3 (NIL at start)
+	\SCREEN		Current screen (window or tile)
+	\LINE		Current line (of start of selection if not a point)
+	\PAR		Current paragraph (first of selection)
+	\CHAR		Current character (first of selection)
+	\SECT		Current section (first of selection)
+	\DOC		All of current document
+	\PAGE		Current page if valid (NIL otherwise)
+
+
+7.0 MORE ABOUT THE COMMAND RECORDER
+
+**REVIEW: more to come**

@@ -1,0 +1,40 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE mrgstyle 
+        {
+        DIALOG dltMergeStyle AT (24, 40, 209, 103) 
+        CAB_NAME CABMERGESTYLE 
+        HELP_ID IDDMergeStyle 
+        DIALOG_PROC FDlgMergeStyle 
+        TMC_INIT tmcMSFile 
+        
+                {
+                EDIT AT (75, 6, 84, 12) TMC tmcMSFile ACTION ARG hszMergeStyle DIR CHAR_VALIDATED 
+                        EL_NAME MERGEFILENAME
+                DUMMY_TEXT "&Merge File Name:" AT (6, 8, 69, 9) 
+
+                LIST_BOX AT (6, 30, 63, 64) TMC tmcMSDot ACTION DIR COMBO SORTED 
+                DUMMY_TEXT "&Files:" AT (6, 19, 25, 9) 
+
+                LIST_BOX AT (75, 46, 65, 48) ACTION ARG iDirList DIR SORTED 
+                DUMMY_TEXT "&Directories:" AT (75, 35, 50, 9)
+
+                TEXT "" AT (75, 23, 78,  9) DIR
+                OK_BUTTON AT (164, 6, 40, 14) 
+                CANCEL_BUTTON AT (164, 25, 40, 14) 
+                PUSH_BUTTON "F&rom Template" AT (144, 64, 60, 14) TMC tmcMSFrom 
+                        DISMISS EL_NAME FROMTEMPLATE
+                PUSH_BUTTON "&To Template" AT (144, 82, 60, 14) TMC tmcMSTo 
+                        DISMISS EL_NAME TOTEMPLATE
+                }
+
+        }
+
+
+END_DESCRIPTION 

@@ -1,0 +1,37 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE INSBREAK 
+        {
+        DIALOG dltInsBreak AT (160, 24, 137, 80) 
+        CAB_NAME CABINSBREAK 
+        HELP_ID IDDInsBreak 
+        TMC_INIT tmcIPBPage 
+                {
+                OK_BUTTON AT ( 98, 4, 35, 14) 
+                CANCEL_BUTTON AT ( 98, 20, 35, 14) 
+                DUMMY_TEXT "Insert" AT (4, 4, 38, 9) 
+                GROUP_BOX "Section Break" AT (4, 38, 128, 38) 
+                RADIO_GROUP 
+                        ARG iType 
+                        EL_NAME Type
+			/* NO_NINCH */
+                        {
+                        RADIO_BUTTON "&Page Break" AT (4, 14, 58, 12) TMC tmcIPBPage 
+                        RADIO_BUTTON "&Column Break" AT (4, 26, 66, 12) TMC tmcIPBColumn 
+                        RADIO_BUTTON "&Next Page" AT (8, 49, 58, 12) TMC tmcIPBNext 
+                        RADIO_BUTTON "Con&tinuous" AT (8, 61, 58, 12) TMC tmcIPBCont 
+                        RADIO_BUTTON "&Even Page" AT (70, 49, 54, 12) TMC tmcIPBEven 
+                        RADIO_BUTTON "&Odd Page" AT (70, 61, 58, 12) TMC tmcIPBOdd 
+                        }
+                }
+
+        }
+
+
+END_DESCRIPTION 

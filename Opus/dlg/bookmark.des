@@ -1,0 +1,32 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE bookmark 
+        {
+        DIALOG dltInsBookmark AT (41, 42, 145, 82) 
+        CAB_NAME CABINSBOOKMARK 
+        HELP_ID IDDInsBookmark 
+        DIALOG_PROC FDlgInsBookmark 
+        TMC_INIT tmcBkmkName 
+                {
+                EDIT AT (5, 15, 84, 12) ACTION CHAR_VALIDATED TMC tmcBkmkName ARG hszBkmkName
+                        EL_NAME Name
+                DUMMY_TEXT "&Bookmark Name:" AT (5, 5, 65, 9) 
+                LIST_BOX AT (9, 27, 92, 48) COMBO_ATOMIC SORTED 
+                        LIST_BOX_PROC WListBkmk
+
+                OK_BUTTON AT (105, 6, 34, 14) 
+                CANCEL_BUTTON AT (105, 23, 34, 14) 
+                PUSH_BUTTON "&Delete" AT (105, 39, 34, 14) TMC tmcDeleteBkmk ACTION 
+                        EL_NAME Delete
+                }
+
+        }
+
+
+END_DESCRIPTION 

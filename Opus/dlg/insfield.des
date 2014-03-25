@@ -1,0 +1,40 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE insfield 
+        {
+        DIALOG dltInsField AT (30, 40, 238, 114) 
+        CAB_NAME CABINSFIELD 
+        HELP_ID IDDInsField 
+        DIALOG_PROC FDlgInsField 
+        TMC_INIT tmcIFldFlt 
+                {
+                LIST_BOX AT (4, 15, 75, 56) TMC tmcIFldFlt ACTION ARG uFlt 
+                        LIST_BOX_PROC  WListFld
+                DUMMY_TEXT "Insert &Field Type:" AT (4, 4, 72, 9) 
+
+                LIST_BOX AT (87, 15, 104, 56) TMC tmcIFldInst ACTION ARG uInst 
+                        SORTED LIST_BOX_PROC WListBoxNull
+                DUMMY_TEXT "&Instructions:" AT (87, 4, 52, 9)
+
+                TEXT "" AT (52, 77, 186, 9) TMC tmcIFldSyntax 
+
+                EDIT AT (4, 89, 230, 12) TMC tmcIFldTxt ACTION CHAR_VALIDATED ARG hszFld 
+                        EL_NAME Field
+                DUMMY_TEXT "Field &Code:" AT (4, 77, 44, 9) 
+
+                TEXT "" AT (4, 102, 230, 9) TMC tmcIFldHelp 
+                OK_BUTTON AT (200, 5, 34, 14) 
+                CANCEL_BUTTON AT (200, 22, 34, 14) 
+                PUSH_BUTTON "&Add" AT (200, 39, 34, 14) TMC tmcIFldAdd ACTION 
+                }
+
+        }
+
+
+END_DESCRIPTION 

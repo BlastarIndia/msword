@@ -1,0 +1,32 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE CHGPR 
+        {
+        DIALOG dltChgPr AT (16, 16, 186, 82) 
+        CAB_NAME CABCHGPR 
+        HELP_ID IDDChgPr 
+        DIALOG_PROC FDlgChgPr 
+        TMC_INIT tmcChgPrLb
+        
+                {
+                LIST_BOX AT (5, 15, 129, 56) TMC tmcChgPrLb ACTION ARG hszLb 
+                        EL_NAME `Printer` RETURN_STRING 
+                        LIST_BOX_PROC WListChgPr
+                DUMMY_TEXT "&Printer:" AT (6, 4, 32, 9) 
+
+                OK_BUTTON AT (140, 8, 40, 14) 
+                CANCEL_BUTTON AT (140, 26, 40, 14) 
+                PUSH_BUTTON "&Setup..." AT (140, 57, 40, 14) TMC tmcChgPrSetup ACTION
+                        EL_NAME `SETUP` 
+                }
+
+        }
+
+
+END_DESCRIPTION 

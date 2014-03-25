@@ -1,0 +1,29 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE catprog 
+	{
+	DIALOG dltCatSrhProgress AT (45, 45, 120, 60) 
+	CAB_NAME CABCATSRHPROG 
+	HELP_ID IDDCatSrhProgress 
+	DIALOG_PROC FDlgCatSrhProgress 
+	TMC_INIT tmcNull 
+	
+		{
+		CANCEL_BUTTON AT (38, 40, 43, 14) 
+		TEXT "" AT (5, 5, 70, 9) TMC tmcCatSrhMText 
+		DUMMY_TEXT "Files Searched : " AT (5, 15, 70, 9) 
+		TEXT "" AT (75, 5, 40, 9) TMC tmcCatSrhMatched 
+		TEXT "0" AT (75, 15, 40, 9) TMC tmcCatSrhSearched 
+		TEXT "" AT (5, 28, 110, 9) TMC tmcCatSrhFileInUse 
+		}
+
+	}
+
+
+END_DESCRIPTION 

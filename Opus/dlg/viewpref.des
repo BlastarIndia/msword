@@ -1,0 +1,57 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE viewpref 
+	{
+	DIALOG dltViewPref AT (45, 55, 220, 96) 
+	CAB_NAME CABVIEWPREF 
+	HELP_ID IDDViewPref 
+	DIALOG_PROC FDlgViewPref 
+	TMC_INIT tmcVPTabs 
+	
+		{
+		OK_BUTTON AT (175, 5, 40, 14) 
+		CANCEL_BUTTON AT (175, 22, 40, 14) 
+		DUMMY_TEXT "Preferences" AT (6, 5, 68, 9) 
+		CHECK_BOX "&Tabs" AT (6, 16, 26, 10) TMC tmcVPTabs ARG fvisiTabs 
+			EL_NAME Tabs 
+		CHECK_BOX "&Spaces" AT (6, 27, 34, 10) ARG fvisiSpaces 
+			EL_NAME Spaces 
+		CHECK_BOX "&Paragraph Marks" AT (6, 38, 70, 10) ARG fvisiParaMarks 
+			EL_NAME Paras 
+		CHECK_BOX "&Optional Hyphens" AT (6, 49, 74, 10) ARG fvisiCondHyp 
+			EL_NAME Hyphens 
+		CHECK_BOX "H&idden Text" AT (6, 60, 54, 10) ARG fSeeHidden 
+			EL_NAME Hidden
+		CHECK_BOX "Show All &*" AT (6, 82, 50, 10) ARG fvisiShowAll 
+			EL_NAME ShowAll 
+		CHECK_BOX "&Display as Printed" AT (82, 16, 82, 10) ARG fDispAsPrint 
+			EL_NAME DisplayAsPrinted 
+		CHECK_BOX "Pi&ctures" AT (82, 27, 42, 10) ARG fShowPictures 
+			EL_NAME Pictures
+ 
+		CHECK_BOX "Text &Boundaries" AT (82, 38, 86, 10) ARG fTextBound 
+			EL_NAME TextBoundaries 
+
+		CHECK_BOX "&Horizontal Scroll Bar" AT (82, 49, 94, 10) ARG fHorzScroll 
+			EL_NAME HScroll
+		CHECK_BOX "&Vertical Scroll Bar" AT (82, 60, 86, 10) ARG fVertScroll 
+			EL_NAME VScroll
+		CHECK_BOX "Table &Gridlines" AT (82, 71, 92, 10) ARG fTblGridlines 
+			EL_NAME TableGridlines 
+
+		EDIT AT (150, 82, 24, 12) TMC tmcVPNmAreaSize ARG uNmAreaSize 
+			EL_NAME StyleAreaWidth 
+			PARSE_PROC WParseStyleNameSize 
+		DUMMY_TEXT "Style Area &Width:" AT (80, 84, 68, 9) 
+		}
+
+	}
+
+
+END_DESCRIPTION 

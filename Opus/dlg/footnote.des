@@ -1,0 +1,44 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE footnote 
+        {
+        DIALOG dltInsertFtn AT (20, 50, 225, 85) 
+        CAB_NAME CABINSERTFTN
+        HELP_ID IDDInsertFtn 
+        DIALOG_PROC FDlgInsertFtn 
+        TMC_INIT tmcRefMark 
+                {
+                OK_BUTTON AT (183, 6, 34, 14) 
+                CANCEL_BUTTON AT (183, 24, 34, 14) 
+
+                CHECK_BOX "&Auto-numbered Reference" AT (37, 5, 110, 12) 
+                        TMC tmcFAuto ACTION ARG fAuto 
+                TEXT "or" AT (5, 20, 170, 9) CENTER 
+
+                EDIT AT (135, 30, 28, 12) TMC tmcRefMark ARG hstRef 
+                        ACTION CHAR_VALIDATED
+                        EL_NAME Reference
+                DUMMY_TEXT "&Footnote Reference Mark:" AT (37, 32, 96, 9) 
+
+                GROUP_BOX "Footnote Separators" AT (3, 50, 219, 30) 
+                PUSH_BUTTON "&Separator..." AT (5, 62, 56, 14) 
+                        TMC tmcSeparator DISMISS ACTION
+                        EL_NAME Separator
+                PUSH_BUTTON "&Cont. Separator..." AT (65, 62, 80, 14) 
+                        TMC tmcContSeparator DISMISS ACTION
+                        EL_NAME ContSeparator
+                PUSH_BUTTON "Cont. &Notice..." AT (150, 62, 68, 14) 
+                        TMC tmcNoticeSeparator DISMISS ACTION
+                        EL_NAME ContNotice
+                }
+
+        }
+
+
+END_DESCRIPTION 

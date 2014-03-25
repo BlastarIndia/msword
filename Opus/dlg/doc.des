@@ -1,0 +1,121 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE doc 
+        {
+        DIALOG dltDocument AT (44, 16, 210, 139) 
+        CAB_NAME CABDOCUMENT 
+        HELP_ID IDDDocument 
+        DIALOG_PROC FDlgDocument 
+        TMC_INIT tmcDocPageWidth 
+                {
+                OK_BUTTON AT (172, 4, 34, 14) 
+                CANCEL_BUTTON AT (172, 20, 34, 14) 
+
+                DUMMY_TEXT "Document" AT (4, 4, 44, 9) 
+                EDIT AT (52, 14, 32, 12)
+                        CHAR_VALIDATED ACTION
+                        TMC tmcDocPageWidth ARG uDocPageWidth 
+                        PARSE_PROC WParseOpt WPARAM `optPosUnit`
+                        EL_NAME PageWidth
+                DUMMY_TEXT "Page &Width:" AT (4, 16, 44, 9) 
+
+                EDIT AT (122, 14, 32, 12)
+                        CHAR_VALIDATED ACTION
+                        TMC tmcDocPageHeight ARG uDocPageHeight 
+                        PARSE_PROC WParseOpt WPARAM `optPosUnit`
+                        EL_NAME PageHeight
+                DUMMY_TEXT "&Height:" AT (90, 16, 28, 9) 
+
+                EDIT AT (80, 28, 30, 12)
+                        CHAR_VALIDATED ACTION
+                        TMC tmcDocDefTabs ARG uDocDefTabs 
+                        PARSE_PROC WParseOpt WPARAM `optPosUnit`
+                        EL_NAME DefTabs
+                DUMMY_TEXT "&Default Tab Stops:" AT (4, 30, 72, 9) 
+
+                GROUP_BOX "Margins" AT (4, 42, 202, 38) 
+                
+                EDIT AT (40, 52, 30, 12)
+                        CHAR_VALIDATED ACTION
+                        TMC tmcDocTMargin ARG uDocTMargin 
+                        PARSE_PROC WParseOpt WPARAM `optAnyUnit`
+                        EL_NAME TopMargin
+                DUMMY_TEXT "&Top:" AT (8, 54, 16, 9) 
+                
+                EDIT AT (40, 66, 30, 12)
+                        CHAR_VALIDATED ACTION
+                        TMC tmcDocBMargin ARG uDocBMargin 
+                        PARSE_PROC WParseOpt WPARAM `optAnyUnit`
+                        EL_NAME BottomMargin
+                DUMMY_TEXT "&Bottom:" AT (8, 68, 28, 9) 
+
+                TEXT "&Left:" AT (74, 54, 28, 9) TMC tmcDocLMText
+                EDIT AT (106, 52, 30, 12)
+                        CHAR_VALIDATED ACTION
+                        TMC tmcDocLMargin ARG uDocLMargin 
+                        PARSE_PROC WParseOpt WPARAM `optPosUnit`
+                        EL_NAME LeftMargin
+
+                TEXT "&Right:" AT (74, 68, 32, 9) TMC tmcDocRMText
+                EDIT AT (106, 66, 30, 12)
+                        CHAR_VALIDATED ACTION
+                        TMC tmcDocRMargin ARG uDocRMargin 
+                        PARSE_PROC WParseOpt WPARAM `optPosUnit`
+                        EL_NAME RightMargin
+
+                EDIT AT (170, 52, 30, 12)
+                        CHAR_VALIDATED ACTION
+                        TMC tmcDocGutter ARG uDocGutter 
+                        PARSE_PROC WParseOpt WPARAM `optPosUnit`
+                        EL_NAME Gutter
+                DUMMY_TEXT "&Gutter:" AT (140, 54, 28, 9) 
+                
+                CHECK_BOX "M&irror Margins" AT (140, 66, 65, 12)
+                        TMC tmcDocMirror ARG fMirrorMargins ACTION
+                        EL_NAME MirrorMargins
+
+                GROUP_BOX "Footnotes" AT (4, 83, 123, 51) 
+
+                LIST_BOX AT (48, 92, 75, 32)
+                        TMC tmcDocFNPrintAt ARG iFN DROP_DOWN_SIBLING 
+                        NO_SCROLL_BAR LIST_BOX_PROC WListEntbl 
+                        WPARAM `iEntblDocFNPrintAt`
+                        EL_NAME FootnotesAt
+                DUMMY_TEXT "Print &at:" AT (8, 94, 36, 9) 
+
+                EDIT AT (76, 107, 30, 12)
+                        ACTION CHAR_VALIDATED
+                        ARG iFNStartAt TMC tmcDocFNStartAt 
+                        PARSE_PROC WParseOpt WPARAM `optPosNZInt`
+                        EL_NAME StartingNum
+                DUMMY_TEXT "&Starting Number:" AT (8, 109, 64, 9) 
+
+                CHECK_BOX "Restart # &Each Section" AT (8, 120, 98, 12)
+                        TMC tmcDocFNRestartEach ACTION ARG fFNRestart 
+                        EL_NAME RestartNum
+
+                EDIT AT (133, 92, 73, 12) TMC tmcDocTemplate ARG hszTemplate
+                        EL_NAME Template
+                DUMMY_TEXT "Te&mplate:" AT (133, 82, 40, 9)
+                LIST_BOX AT (137, 104, 69, 24) TMC tmcDocTypeList SORTED 
+                        ACTION COMBO_ATOMIC DROP_DOWN_SIBLING
+                        LIST_BOX_PROC WListDot WPARAM `tmcDocTemplate` 
+
+                CHECK_BOX "Widow &Control" AT (133, 108, 62, 12)
+                        TMC tmcDocWidow ARG fWidowControl 
+                        EL_NAME WidowControl
+                PUSH_BUTTON "Set De&fault" AT (142, 120, 56, 14)
+                        TMC tmcDocSetDef ACTION 
+                        EL_NAME SetDefault
+                }
+
+        }
+
+
+END_DESCRIPTION 

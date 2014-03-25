@@ -1,0 +1,63 @@
+; Opus DEF file
+
+NAME            opus
+DESCRIPTION	'Microsoft Word'
+STUB            'APPSTUB.EXE'
+EXETYPE         WINDOWS
+
+CODE		MOVEABLE DISCARDABLE LOADONCALL PURE
+DATA            MULTIPLE PRELOAD MOVEABLE
+
+SEGMENTS
+	APPLOADER	FIXED	 PRELOAD	
+        WINTER          FIXED    NONDISCARDABLE PRELOAD    PURE
+	res_PCODE	FIXED    NONDISCARDABLE PRELOAD    PURE
+        wproc_PCODE     MOVEABLE DISCARDABLE    PRELOAD    PURE
+        _FETCH          MOVEABLE DISCARDABLE    PRELOAD    PURE
+	initwin_PCODE	MOVEABLE DISCARDABLE    PRELOAD    PURE
+
+HEAPSIZE        13880
+STACKSIZE       14452
+
+EXPORTS
+	NatWndProcEngine	@1
+	NatStatLineWndProc 	@2
+	NatPromptWndProc	@3
+	FCheckPopupRect 	@4
+	LDropFilter		@5
+	NatPgPrvwWndProc   	@6
+	NatSplitBarWndProc 	@7
+	FWHKey			@8
+	StaticEditWndProc	@9
+	BlinkCaretSEdit 	@10
+	NatIconBarWndProc	@11
+	NatStartWndProc 	@12
+	FontNameEnum		@13
+	FontSizeEnum		@14
+	FPrContinue		@15
+	NatFedtWndProc		@16
+	NatDdeChnlWndProc	@17
+	ForeignToRtfIn		@18
+	FontNameDebugEnum	@19
+	FontSizeDebugEnum	@20
+	PlaybackHook		@21
+	LSdmWP  		@22
+	LEditFilter		@23
+	LListFilter		@25
+	LWPLbw      		@26
+	FBltOutlineSplat	@27
+	NatDeskTopWndProc	@28
+	NatAppWndProc		@30
+	NatMwdWndProc		@31
+	NatWwPaneWndProc	@32
+	NatRulerMarkWndProc	@33
+	NatRSBWndProc		@34
+	FMFContinue		@35
+	IconDlgWndProc		@36
+
+IMPORTS
+        GlobalLruOldest = KERNEL.163
+        GlobalLruNewest = KERNEL.164
+	ToAscii = KEYBOARD.4
+        InquireSystem = SYSTEM.1
+	

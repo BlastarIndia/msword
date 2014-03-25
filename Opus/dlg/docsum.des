@@ -1,0 +1,98 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE DOCSUM 
+        {
+        DIALOG dltDocSummary AT (8, 16, 244, 136) 
+        CAB_NAME CABDOCSUM 
+        HELP_ID IDDDocSummary 
+        DIALOG_PROC FDlgDocSummary 
+        TMC_INIT tmcDSTitle 
+	SUB_DIALOG sabStats = fStats
+                {
+                EDIT AT (48, 27, 130, 12) TMC tmcDSTitle TMC tmcDSTitle ACTION ARG hszTitle 
+                        EL_NAME Title
+                DUMMY_TEXT "&Title:" AT (4, 28, 24, 9) 
+
+                EDIT AT (48, 42, 130, 12) ARG hszSubject 
+                        EL_NAME Subject
+                DUMMY_TEXT "&Subject:" AT (4, 43, 32, 9) 
+
+                EDIT AT (48, 56, 130, 12) ARG hszAuthor 
+                        EL_NAME Author
+                DUMMY_TEXT "&Author:" AT (4, 58, 28, 9) 
+
+                EDIT AT (48, 71, 130, 12) ARG hszKeyWords 
+                        EL_NAME Keywords
+                DUMMY_TEXT "&Keywords:" AT (4, 72, 36, 9) 
+
+                EDIT AT (48, 86, 130, 45) TMC tmcDSComments 
+						ACTION CHAR_VALIDATED
+						MULTI_LINE ARG hszComments 
+                        EL_NAME Comment 
+                DUMMY_TEXT "&Comments:" AT (4, 87, 36, 9) 
+
+                TEXT SZ_FROM_CAB hszDirSum AT (48, 14, 130, 9) TMC tmcDSDir 
+                DUMMY_TEXT "Directory:" AT (4, 14, 40, 9) 
+
+                OK_BUTTON AT (186, 7, 48, 14) 
+                CANCEL_BUTTON AT (186, 24, 48, 14) 
+                PUSH_BUTTON "Stat&istics..." AT (182, 41, 57, 14) 
+			TMC tmcDSStat ACTION 
+
+
+		IF fStats
+                TEXT SZ_FROM_CAB hszFName AT (48, 4, 130, 9) 
+                        EL_NAME FileName
+
+                TEXT SZ_FROM_CAB hszDir AT (48, 14, 130, 9) 
+                        EL_NAME Directory
+
+                TEXT SZ_FROM_CAB hszDOT AT (48, 24, 130, 9) 
+                        EL_NAME Template
+
+                TEXT SZ_FROM_CAB hszTitleStat AT (48, 34, 130, 9) 
+
+                TEXT SZ_FROM_CAB hszCDate AT (84, 44, 94, 9) 
+                        EL_NAME CreateDate
+
+                TEXT SZ_FROM_CAB hszRDate AT (84, 54, 94, 9) 
+                        EL_NAME LastSavedDate
+
+                TEXT SZ_FROM_CAB hszLRevBy AT (84, 64, 94, 9) 
+                        EL_NAME LastSavedBy
+
+                TEXT SZ_FROM_CAB hszRevNum AT (84, 74, 94, 9) 
+                        EL_NAME RevisionNumber
+
+                TEXT SZ_FROM_CAB hszEdMin AT (84, 84, 94, 9) 
+                        EL_NAME EditTime
+
+                TEXT SZ_FROM_CAB hszLPDate AT (84, 94, 94, 9) 
+                        EL_NAME LastPrintedDate
+
+                TEXT SZ_FROM_CAB hszCPg AT (72, 114, 106, 9) 
+                        EL_NAME NumPages
+
+                TEXT SZ_FROM_CAB hszCWords AT (72, 124, 106, 9) 
+                        EL_NAME NumWords
+
+                TEXT SZ_FROM_CAB hszCch AT (72, 134, 106, 9) 
+                        EL_NAME NumChars
+
+                PUSH_BUTTON "&Update" AT (194, 24, 34, 14) TMC tmcDSUpdate ACTION EL_NAME `Update`
+		ENDIF
+
+                TEXT SZ_FROM_CAB hszFNameSum AT (48, 4, 130, 9) TMC tmcDSFName
+                DUMMY_TEXT "File Name:" AT (4, 4, 40, 9) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

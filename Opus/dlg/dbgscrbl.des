@@ -1,0 +1,66 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE dbgscrbl 
+	{
+	DIALOG dltScribble AT (35, 22, 150, 190) 
+	CAB_NAME CABSCRIBBLE
+	HELP_ID IDDScribble
+	TMC_INIT tmcOK
+		{
+		OK_BUTTON AT (100, 5, 44, 14) 
+		CANCEL_BUTTON AT (100, 25, 44, 14) 
+
+		DUMMY_TEXT "Scribble" AT (5, 5, 42, 9) 
+
+		CHECK_BOX "&0: Idle Count" AT (5, 25, 120, 9)
+			ARG pos0
+			EL_NAME IdleCount
+		CHECK_BOX "&1: Idle Mode" AT (5, 35, 120, 9)
+			ARG pos1
+			EL_NAME IdleMode
+		CHECK_BOX "&2: Idle interrupt" AT (5, 45, 120, 9)
+			ARG pos2
+			EL_NAME IdleInterrupt
+		CHECK_BOX "&3: Cursor blink/Field prs" AT (5, 55, 120, 9)
+			ARG pos3
+			EL_NAME CursorBlink
+		CHECK_BOX "&4: Field format/Wire fonts" AT (5, 65, 120, 9)
+			ARG pos4
+			EL_NAME FieldFormat
+		CHECK_BOX "&5: Format/Display/Adjust" AT (5, 75, 120, 9)
+			ARG pos5
+			EL_NAME Format
+		CHECK_BOX "&6: Update/Quicksave" AT (5, 85, 120, 9) ARG pos6
+			EL_NAME Update
+		CHECK_BOX "&7: Insert Mode" AT (5, 95, 120, 9) ARG pos7
+			EL_NAME InsertMode
+		CHECK_BOX "&8: Layout 4" AT (5, 105, 120, 9) ARG pos8
+			EL_NAME Layout4
+		CHECK_BOX "&9: Layout 3" AT (5, 115, 120, 9) ARG pos9
+			EL_NAME Layout3
+		CHECK_BOX "&A: Layout 2" AT (5, 125, 120, 9) ARG posA
+			EL_NAME Layout2
+		CHECK_BOX "&B: Layout 1" AT (5, 135, 120, 9) ARG posB
+			EL_NAME Layout1
+		CHECK_BOX "&C: Disp Layout RC/DDE 2" AT (5, 145, 120, 9)
+			ARG posC
+			EL_NAME DisplayOut
+		CHECK_BOX "&D: Update Hplcpgd/DDE 1" AT (5, 155, 120, 9)
+			ARG posD
+			EL_NAME UpdateHplcpgd
+		CHECK_BOX "&E: Test/Refresh/Calc" AT (5, 165, 120, 9) ARG posE
+			EL_NAME Test
+		CHECK_BOX "&F: Calc 1" AT (5, 175, 120, 9) ARG posF
+			EL_NAME Calc1
+		}
+
+	}
+
+
+END_DESCRIPTION 

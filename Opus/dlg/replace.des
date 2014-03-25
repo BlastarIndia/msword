@@ -1,0 +1,56 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE replace 
+        {
+        DIALOG dltReplace AT (8, 16, 205, 93)
+        CAB_NAME CABREPLACE
+        HELP_ID IDDReplace 
+        DIALOG_PROC FDlgSearchRepl 
+        TMC_INIT tmcRSearch
+	SUB_DIALOG sabRFmt = fFmt
+                {
+                OK_BUTTON AT (164, 6, 34, 14) 
+                CANCEL_BUTTON AT (164, 24, 34, 14) 
+
+                EDIT AT (5, 13, 154, 12) TMC tmcRSearch
+                        ACTION CHAR_VALIDATED ARG hszSearch 
+                        EL_NAME Search
+                DUMMY_TEXT "&Search For:" AT (5, 2, 46, 9) 
+
+                TEXT "" AT (5, 26, 154, 8) TMC_IMPORT tmcSearchBanter 
+
+                EDIT AT (5, 45, 154, 12) TMC_IMPORT tmcReplace
+                        ACTION CHAR_VALIDATED ARG hszReplace 
+                        EL_NAME Replace
+                DUMMY_TEXT "&Replace With:" AT (5, 35, 54, 9) 
+
+                TEXT "" AT (5, 58, 194, 8) TMC_IMPORT tmcReplaceBanter 
+
+                CHECK_BOX "&Whole Word" AT (5, 65, 52, 12)
+                        TMC_IMPORT tmcWholeWord ARG fWholeWord 
+                        EL_NAME WholeWord
+                CHECK_BOX "&Match Upper/Lowercase" AT (5, 77, 95, 12)
+                        ARG fMatchUpLow 
+                        EL_NAME MatchCase
+                CHECK_BOX "&Confirm Changes" AT (130, 65, 71, 12)
+                        ARG fConfirm 
+                        EL_NAME Confirm
+
+		IF fFmt
+			CHECK_BOX "" AT (0, 0, 1, 1)
+				ARG fFormatted
+				TMC tmcRFmt
+				EL_NAME `Format`
+		ENDIF
+                }
+
+        }
+
+
+END_DESCRIPTION 

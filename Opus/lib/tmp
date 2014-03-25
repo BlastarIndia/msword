@@ -1,0 +1,190 @@
+__aFFaldiv........affaldiv          __aFFalmul........affalmul
+__aFFalrem........affalrem          __aFFalshl........affalshl
+__aFFalshr........affalshr          __aFFauldiv.......affauldi
+__aFFaulmul.......affalmul          __aFFaulrem.......affaulre
+__aFFaulshr.......affaulsh          __aFFbldiv........afnaldiv
+__aFFblmul........afnalmul          __aFFblrem........afnalrem
+__aFFblshl........afnalshl          __aFFblshr........afnalshr
+__aFFbuldiv.......afnauldi          __aFFbulmul.......afnalmul
+__aFFbulrem.......afnaulre          __aFFbulshr.......afnaulsh
+__aFldiv..........afldiv            __aFlmul..........aflmul
+__aFlrem..........aflrem            __aFlshl..........aflshl
+__aFlshr..........aflshr            __aFNaldiv........afnaldiv
+__aFNalmul........afnalmul          __aFNalrem........afnalrem
+__aFNalshl........afnalshl          __aFNalshr........afnalshr
+__aFNauldiv.......afnauldi          __aFNaulmul.......afnalmul
+__aFNaulrem.......afnaulre          __aFNaulshr.......afnaulsh
+__aFNbldiv........affaldiv          __aFNblmul........affalmul
+__aFNblrem........affalrem          __aFNblshl........affalshl
+__aFNblshr........affalshr          __aFNbuldiv.......affauldi
+__aFNbulmul.......affalmul          __aFNbulrem.......affaulre
+__aFNbulshr.......affaulsh          __aFuldiv.........afuldiv
+__aFulmul.........aflmul            __aFulrem.........afulrem
+__aFulshr.........afulshr           __aNFaldiv........anfaldiv
+__aNFalmul........anfalmul          __aNFalrem........anfalrem
+__aNFalshl........anfalshl          __aNFalshr........anfalshr
+__aNFauldiv.......anfauldi          __aNFaulmul.......anfalmul
+__aNFaulrem.......anfaulre          __aNFaulshr.......anfaulsh
+__aNFbldiv........annaldiv          __aNFblmul........annalmul
+__aNFblrem........annalrem          __aNFblshl........annalshl
+__aNFblshr........annalshr          __aNFbuldiv.......annauldi
+__aNFbulmul.......annalmul          __aNFbulrem.......annaulre
+__aNFbulshr.......annaulsh          __aNldiv..........anldiv
+__aNlmul..........anlmul            __aNlrem..........anlrem
+__aNlshl..........anlshl            __aNlshr..........anlshr
+__aNNaldiv........annaldiv          __aNNalmul........annalmul
+__aNNalrem........annalrem          __aNNalshl........annalshl
+__aNNalshr........annalshr          __aNNauldiv.......annauldi
+__aNNaulmul.......annalmul          __aNNaulrem.......annaulre
+__aNNaulshr.......annaulsh          __aNNbldiv........anfaldiv
+__aNNblmul........anfalmul          __aNNblrem........anfalrem
+__aNNblshl........anfalshl          __aNNblshr........anfalshr
+__aNNbuldiv.......anfauldi          __aNNbulmul.......anfalmul
+__aNNbulrem.......anfaulre          __aNNbulshr.......anfaulsh
+__aNuldiv.........anuldiv           __aNulmul.........anlmul
+__aNulrem.........anulrem           __aNulshr.........anulshr
+
+
+affaldiv          Offset: 00000010H  Code and data size: 28H
+  __aFFaldiv        __aFNbldiv      
+
+affalmul          Offset: 000000f0H  Code and data size: 28H
+  __aFFalmul        __aFFaulmul       __aFNblmul        __aFNbulmul
+
+affalrem          Offset: 000001f0H  Code and data size: 28H
+  __aFFalrem        __aFNblrem      
+
+affalshl          Offset: 000002d0H  Code and data size: 25H
+  __aFFalshl        __aFNblshl      
+
+affalshr          Offset: 000003a0H  Code and data size: 25H
+  __aFFalshr        __aFNblshr      
+
+affauldi          Offset: 00000470H  Code and data size: 28H
+  __aFFauldiv       __aFNbuldiv     
+
+affaulre          Offset: 00000550H  Code and data size: 28H
+  __aFFaulrem       __aFNbulrem     
+
+affaulsh          Offset: 00000630H  Code and data size: 25H
+  __aFFaulshr       __aFNbulshr     
+
+afldiv            Offset: 00000710H  Code and data size: a5H
+  __aFldiv        
+
+aflmul            Offset: 00000850H  Code and data size: 34H
+  __aFlmul          __aFulmul       
+
+aflrem            Offset: 00000920H  Code and data size: a8H
+  __aFlrem        
+
+aflshl            Offset: 00000a60H  Code and data size: bH
+  __aFlshl        
+
+aflshr            Offset: 00000ae0H  Code and data size: bH
+  __aFlshr        
+
+afnaldiv          Offset: 00000b60H  Code and data size: 24H
+  __aFFbldiv        __aFNaldiv      
+
+afnalmul          Offset: 00000c30H  Code and data size: 24H
+  __aFFblmul        __aFFbulmul       __aFNalmul        __aFNaulmul
+
+afnalrem          Offset: 00000d30H  Code and data size: 24H
+  __aFFblrem        __aFNalrem      
+
+afnalshl          Offset: 00000e00H  Code and data size: 21H
+  __aFFblshl        __aFNalshl      
+
+afnalshr          Offset: 00000ed0H  Code and data size: 21H
+  __aFFblshr        __aFNalshr      
+
+afnauldi          Offset: 00000fa0H  Code and data size: 24H
+  __aFFbuldiv       __aFNauldiv     
+
+afnaulre          Offset: 00001080H  Code and data size: 24H
+  __aFFbulrem       __aFNaulrem     
+
+afnaulsh          Offset: 00001160H  Code and data size: 21H
+  __aFFbulshr       __aFNaulshr     
+
+afuldiv           Offset: 00001230H  Code and data size: 67H
+  __aFuldiv       
+
+afulrem           Offset: 00001330H  Code and data size: 6fH
+  __aFulrem       
+
+afulshr           Offset: 00001440H  Code and data size: bH
+  __aFulshr       
+
+anfaldiv          Offset: 000014c0H  Code and data size: 26H
+  __aNFaldiv        __aNNbldiv      
+
+anfalmul          Offset: 00001590H  Code and data size: 26H
+  __aNFalmul        __aNFaulmul       __aNNblmul        __aNNbulmul
+
+anfalrem          Offset: 00001690H  Code and data size: 26H
+  __aNFalrem        __aNNblrem      
+
+anfalshl          Offset: 00001760H  Code and data size: 23H
+  __aNFalshl        __aNNblshl      
+
+anfalshr          Offset: 00001830H  Code and data size: 23H
+  __aNFalshr        __aNNblshr      
+
+anfauldi          Offset: 00001900H  Code and data size: 26H
+  __aNFauldiv       __aNNbuldiv     
+
+anfaulre          Offset: 000019e0H  Code and data size: 26H
+  __aNFaulrem       __aNNbulrem     
+
+anfaulsh          Offset: 00001ac0H  Code and data size: 23H
+  __aNFaulshr       __aNNbulshr     
+
+anldiv            Offset: 00001b90H  Code and data size: a3H
+  __aNldiv        
+
+anlmul            Offset: 00001cd0H  Code and data size: 34H
+  __aNlmul          __aNulmul       
+
+anlrem            Offset: 00001da0H  Code and data size: a6H
+  __aNlrem        
+
+anlshl            Offset: 00001ee0H  Code and data size: bH
+  __aNlshl        
+
+anlshr            Offset: 00001f60H  Code and data size: bH
+  __aNlshr        
+
+annaldiv          Offset: 00001fe0H  Code and data size: 22H
+  __aNFbldiv        __aNNaldiv      
+
+annalmul          Offset: 000020b0H  Code and data size: 22H
+  __aNFblmul        __aNFbulmul       __aNNalmul        __aNNaulmul
+
+annalrem          Offset: 000021b0H  Code and data size: 22H
+  __aNFblrem        __aNNalrem      
+
+annalshl          Offset: 00002280H  Code and data size: 1fH
+  __aNFblshl        __aNNalshl      
+
+annalshr          Offset: 00002350H  Code and data size: 1fH
+  __aNFblshr        __aNNalshr      
+
+annauldi          Offset: 00002420H  Code and data size: 22H
+  __aNFbuldiv       __aNNauldiv     
+
+annaulre          Offset: 000024f0H  Code and data size: 22H
+  __aNFbulrem       __aNNaulrem     
+
+annaulsh          Offset: 000025c0H  Code and data size: 1fH
+  __aNFbulshr       __aNNaulshr     
+
+anuldiv           Offset: 00002690H  Code and data size: 65H
+  __aNuldiv       
+
+anulrem           Offset: 00002790H  Code and data size: 6dH
+  __aNulrem       
+
+anulshr           Offset: 000028a0H  Code and data size: bH
+  __aNulshr       

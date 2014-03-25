@@ -1,0 +1,35 @@
+1         /* THIS IS A GENERATED FILE -- DO NOT EDIT */
+0
+1         #ifdef RSH
+1         #define szVersionDef  "Research Version 1.1a"
+1         #else
+1         #ifdef DEMO
+1         #define szVersionDef  "Demonstration Version 1.1a"
+1         #else
+1         #ifdef DEBUG
+2 rup     #define szVersionDef	"Debug Version 1.1a (%.4d)"
+1         #else
+1         #ifdef HYBRID
+2 rup     #define szVersionDef	"Hybrid Version 1.1a (%.4d)"
+1         #else
+1         #ifdef SHIP
+1         #define szVersionDef	"Version 1.1a"
+1         #else /* FAST */
+2 rup     #define szVersionDef	"Preview Version 1.1a (%.4d)"
+1         #endif /* ~SHIP */
+1         #endif /* ~HYBRID */
+1         #endif /* ~DEBUG */
+1         #endif /* ~DEMO */
+1         #endif /* ~RSH */
+0
+2 rup     #define nRevProduct (%d/100)
+2 rup     #define nIncrProduct (%d%%100)
+2 rup     #define nRelProduct (%d)
+0
+2 rup     #define szDisableWarningDef "WarnVersion%.4d"
+0
+4 \mo \da \yr #define szDateBuiltDef "%d/%d/%d"
+2 \mo         #define nMonthBuilt %d
+2 \yr         #define nYearBuilt %d
+2 \da         #define nDayBuilt %d
+0

@@ -1,0 +1,44 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE glsy 
+        {
+        DIALOG dltGlossary AT (24, 48, 155, 111) 
+        CAB_NAME CABGLOSSARY 
+        HELP_ID IDDGlossary 
+        DIALOG_PROC FDlgGlossary 
+        TMC_INIT tmcGlossary 
+                {
+                EDIT AT (3, 12, 81, 12) ACTION CHAR_VALIDATED TMC tmcGlossary ARG hszGlossary
+                        EL_NAME Name
+                DUMMY_TEXT "Glossary &Name:" AT (3, 2, 66, 9) 
+                LIST_BOX AT (7, 24, 89, 56) ACTION COMBO_ATOMIC SORTED LIST_BOX_PROC WListGlsy
+
+                GROUP_BOX "Context" AT (101, 63, 48, 33) 
+                RADIO_GROUP 
+                        ARG fLocal TMC tmcGlsyContext
+                        EL_NAME Context
+                        {
+                        RADIO_BUTTON "&Global" AT (103, 72, 44, 10) TMC tmcGlobal 
+                        RADIO_BUTTON "&Template" AT (103, 83, 44, 10) TMC tmcTemplate 
+                        }
+                PUSH_BUTTON "&Insert" AT (101, 4, 48, 14) TMC tmcInsert DISMISS_CAB DEFAULT     
+                        EL_NAME Insert
+                PUSH_BUTTON "Cancel" AT (101, 19, 48, 14) TMC_IMPORT tmcCancel DISMISS 
+                PUSH_BUTTON "&Define" AT (101, 34, 48, 14) TMC tmcDefine DISMISS_CAB 
+			EL_NAME Define
+                PUSH_BUTTON "De&lete" AT (101, 49, 48, 14) TMC tmcUndefine ACTION 
+                        EL_NAME Delete
+                TEXT "" AT (3, 87, 80, 9) TMC tmcGlsyName 
+                TEXT "" AT (3, 98, 148, 9) TMC tmcGlsyText 
+                }
+
+        }
+
+
+END_DESCRIPTION 

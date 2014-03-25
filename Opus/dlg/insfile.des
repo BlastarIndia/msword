@@ -1,0 +1,43 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE insfile 
+        {
+        DIALOG dltInsFile AT (28, 48, 204, 121) 
+        CAB_NAME CABINSFILE 
+        HELP_ID IDDInsFile 
+        DIALOG_PROC FDlgInsFile 
+        TMC_INIT tmcIFName 
+        
+                {
+                EDIT AT (75, 6, 80, 12) TMC tmcIFName ACTION ARG hszFile DIR CHAR_VALIDATED 
+                        EL_NAME Name
+                DUMMY_TEXT "Insert File &Name:" AT (5, 7, 69, 9) 
+
+                LIST_BOX AT (6, 30, 63, 64) ACTION DIR COMBO SORTED TMC tmcIFList
+                DUMMY_TEXT "&Files:" AT (6, 19, 25, 9) 
+
+                LIST_BOX AT (75, 46, 64, 48) ACTION ARG iDirectory DIR SORTED TMC tmcIFDir
+                DUMMY_TEXT "&Directories:" AT (75, 35, 50, 9) 
+
+                TEXT "" AT (75, 23, 78, 9) DIR 
+
+                EDIT AT (32, 102, 108, 12) ARG hszRange 
+                        EL_NAME Range
+                DUMMY_TEXT "&Range:" AT (5, 103, 25, 9) 
+
+                OK_BUTTON AT (159, 5, 40, 14) 
+                CANCEL_BUTTON AT (159, 23, 40, 14) 
+                CHECK_BOX "&Link" AT (160, 41, 28, 12) TMC tmcIFLink ARG fLink
+                        EL_NAME Link
+                }
+
+        }
+
+
+END_DESCRIPTION 

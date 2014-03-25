@@ -1,0 +1,145 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE print 
+        {
+        DIALOG dltPrint AT (42, 24, 161, 103) 
+        CAB_NAME CABPRINT 
+        HELP_ID IDDPrint 
+        DIALOG_PROC FDlgPrint 
+        TMC_INIT tmcOK 
+	SUB_DIALOG sabPRTOptions = fOptions AT (0, 0, 161, 186)
+	SUB_DIALOG sabPRTEl = fEl
+                {
+                OK_BUTTON AT (112, 22, 45, 14)
+                CANCEL_BUTTON AT (112, 38, 45, 14)
+
+                TEXT SZ_FROM_CAB hszPrPrinter AT (5, 3, 152, 9) 
+			TMC tmcPrPrinter
+
+                GROUP_BOX "" AT (0, 11, 161, 4)
+
+                LIST_BOX AT (32, 22, 76, 48) 
+			TMC tmcPrSrc 
+			ACTION 
+			DROP_DOWN_SIBLING 
+                        NO_SCROLL_BAR
+			LIST_BOX_PROC WListEntbl 
+			WPARAM `iEntblPrSrc` 
+			ARG istPrSrc
+                        EL_NAME Type
+			/* NO_NINCH */
+
+                DUMMY_TEXT "&Print:" AT (5, 24, 24, 8)
+
+                EDIT AT (33, 38, 31, 12) 
+			TMC tmcPrCopies 
+			ARG cCopies
+                        PARSE_PROC WParseOpt 
+			WPARAM `optPosNZInt`
+                        EL_NAME NumCopies
+
+                DUMMY_TEXT "&Copies:" AT (5, 39, 68, 10)
+
+                GROUP_BOX "Pages" AT (5, 50, 103, 48)
+                RADIO_GROUP 
+			ARG prng 
+			TMC tmcPrRange
+                        EL_NAME Range
+                        {
+                        RADIO_BUTTON "&All" AT (9, 60, 28, 12)
+                                TMC tmcPrAll ACTION 
+                        RADIO_BUTTON "&Selection" AT (9, 72, 49, 10)
+                                TMC tmcPrSel ACTION 
+                        RADIO_BUTTON "&From:" AT (9, 82, 28, 12)
+                                TMC tmcPrPages ACTION 
+                        }
+
+                EDIT AT (41, 82, 20, 12) 
+			TMC tmcPrFrom 
+			ACTION 
+			CHAR_VALIDATED 
+			ARG hszPrFrom
+                        EL_NAME From
+
+                EDIT AT (83, 82, 20, 12) 
+			TMC tmcPrTo 
+			ACTION 
+			CHAR_VALIDATED 
+			ARG hszPrTo
+                        EL_NAME To
+
+                DUMMY_TEXT "&To:" AT (70, 84, 12, 8)
+
+
+                PUSH_BUTTON "&Options >>" AT (111, 54, 47, 14)
+                        TMC tmcPrOptions ACTION 
+
+		IF fOptions
+                        CHECK_BOX "&Reverse Print Order" AT (9, 103, 88, 12)
+                                TMC tmcPrReverse 
+        			ARG fReverse
+                                EL_NAME Reverse
+
+			CHECK_BOX "&Draft" AT (9, 116, 31, 12)
+				TMC tmcPrDraft
+				ARG fDraft
+				EL_NAME Draft
+
+			CHECK_BOX "&Update Fields" AT (9, 129, 63, 12)
+				TMC tmcPrRefresh
+				ARG fRefresh
+				EL_NAME UpdateFields
+
+			TEXT "Paper F&eed:" AT (71, 116, 44, 9) 
+				TMC tmcPrFeedTxt 
+
+			LIST_BOX AT (115, 114, 41, 40) 
+				DROP_DOWN_SIBLING 
+				NO_SCROLL_BAR
+				TMC tmcPrFeed 
+				ARG istPrFeed
+				LIST_BOX_PROC WListPrFeed
+				EL_NAME PaperFeed
+
+			GROUP_BOX "Include" AT (5, 143, 151, 38)
+
+			CHECK_BOX "Summary &Info" AT (9, 152, 59, 12)
+				TMC tmcPrSummary 
+				ARG fSummary
+				EL_NAME Summary
+
+			CHECK_BOX "A&nnotations" AT (9, 165, 54, 12)
+				TMC tmcPrAnnotations 
+				ACTION 
+				ARG fAnnotations
+				EL_NAME Annotations
+
+			CHECK_BOX "&Hidden Text" AT (88, 152, 54, 12)
+				TMC tmcPrSeeHidden
+				ACTION
+				ARG fSeeHidden
+				EL_NAME ShowHidden
+
+			CHECK_BOX "Fie&ld Codes" AT (88, 165, 54, 12)
+				TMC tmcPrFields 
+				ARG fShowInst
+				EL_NAME ShowCodes
+		ENDIF
+
+		IF fEl
+			EDIT AT (0, 0, 1, 1) 
+				ARG hszFileName
+				EL_NAME FileName
+		ENDIF
+                }
+
+        }
+
+
+END_DESCRIPTION 

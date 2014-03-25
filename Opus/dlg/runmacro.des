@@ -1,0 +1,41 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE runmacro 
+	{
+	DIALOG dltRunMacro AT (68, 39, 160, 112) 
+	CAB_NAME CABRUNMACRO 
+	HELP_ID IDDRunMacro 
+	DIALOG_PROC FDlgRunMacro 
+	TMC_INIT tmcNull 
+		{
+		EDIT AT (5, 15, 84, 12) 
+			ACTION CHAR_VALIDATED 
+			TMC tmcRMCombo
+			ARG hszName
+			EL_NAME Name
+		DUMMY_TEXT "Run Macro &Name:" AT (5, 5, 77, 9) 
+		LIST_BOX AT (9, 27, 92, 50) ACTION COMBO_ATOMIC SORTED 
+			TMC tmcRMList
+			LIST_BOX_PROC WListMacros
+			WPARAM `IDDRunMacro`
+
+		OK_BUTTON AT (114, 5, 40, 14) 
+		CANCEL_BUTTON AT (114, 23, 40, 14) 
+		GROUP_BOX "Description" AT (5, 76, 150, 32) 
+		TEXT "" AT (8, 86, 144, 16) MULTI_LINE TMC_IMPORT tmcDesc 
+		CHECK_BOX "Show &All" AT (114, 40, 42, 14) ARG fShowAll
+			ACTION
+			TMC tmcRMShowAll
+			EL_NAME ShowAll
+		}
+
+	}
+
+
+END_DESCRIPTION 

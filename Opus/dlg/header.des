@@ -1,0 +1,71 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE header 
+        {
+        DIALOG dltHeader AT (4, 16, 130,  99) 
+        CAB_NAME CABHEADER 
+        HELP_ID IDDHeader 
+        DIALOG_PROC FDlgHeader 
+        TMC_INIT tmcHdrLB 
+	SUB_DIALOG sabHDROptions = fOptions AT (0, 0, 234, 99)
+                {
+                LIST_BOX AT (4, 13, 71, 56) TMC tmcHdrLB ACTION ARG uHdrLB 
+                        LIST_BOX_PROC WListHeader
+                        EL_NAME Type
+                DUMMY_TEXT "Select Header/Footer to &Edit:" AT (4, 3, 118, 9) 
+
+                OK_BUTTON AT (80, 13, 43, 14) 
+                CANCEL_BUTTON AT (80, 30, 43, 14) 
+                PUSH_BUTTON "&Options >>" AT (78, 56, 47, 14)
+                        TMC tmcHdrOption ACTION 
+			IF fOptions
+				GROUP_BOX "Page Numbers" AT (137, 1, 92, 45) 
+
+				EDIT AT (178, 13, 36, 12)
+					TMC tmcHdrPgStartAt 
+					ARG uHdrPgStartAt
+					PARSE_PROC WParseOpt WPARAM `optAutoPosInt` 
+					EL_NAME StartingNum
+				DUMMY_TEXT "&Start at:" AT (141, 15, 37, 9) 
+
+				LIST_BOX AT (178, 29, 48, 40)
+					DROP_DOWN_SIBLING NO_SCROLL_BAR
+					TMC tmcHdrPgFormat ARG iHdrPgFormat
+					LIST_BOX_PROC WListEntbl WPARAM `iEntblNfc`
+					EL_NAME NumFormat
+				DUMMY_TEXT "Forma&t:" AT (141, 31, 28, 9) 
+
+				GROUP_BOX "Distance From Edge" AT (137, 48, 92, 47) 
+
+				EDIT AT (178, 61, 36, 12) TMC tmcHdrFromTop ARG uHdrFromTop 
+					PARSE_PROC WParseOpt WPARAM `optPosUnit`
+					EL_NAME HeaderDistance
+				DUMMY_TEXT "&Header:" AT (141, 63, 32, 9) 
+
+				EDIT AT (178, 77, 36, 12) TMC tmcHdrFromBottom
+					ARG uHdrFromBottom
+					PARSE_PROC WParseOpt WPARAM `optPosUnit`
+					EL_NAME FooterDistance
+				DUMMY_TEXT "&Footer:" AT (141, 79, 32, 9) 
+			ENDIF
+
+                CHECK_BOX "Different First &Page" AT (4, 72, 91, 12)
+                        TMC tmcHdrFirstPage ACTION ARG fHdrFirstPage 
+                        EL_NAME FirstPage
+			/* NO_NINCH */
+                CHECK_BOX "&Different Odd and Even Pages" AT (4, 85, 121, 12)
+                        TMC tmcHdrFacingPage ACTION ARG fHdrFacingPage 
+                        EL_NAME OddAndEvenPages
+			/* NO_NINCH */
+                }
+
+        }
+
+
+END_DESCRIPTION 

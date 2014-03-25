@@ -1,0 +1,43 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE new 
+        {
+        DIALOG dltNewDoc AT (20, 24, 127, 114) 
+        CAB_NAME CABNEWDOC 
+        HELP_ID IDDNewDoc 
+        DIALOG_PROC FDlgNew 
+        TMC_INIT tmcNewType 
+        
+                {
+                OK_BUTTON AT (74, 6, 46, 14) 
+                CANCEL_BUTTON AT (74, 23, 46, 14) 
+                PUSH_BUTTON "&Summary..." AT (74, 39, 46, 14) 
+			TMC tmcSummary 
+			DISMISS_CAB 
+                GROUP_BOX "New" AT (5, 2, 61, 36) 
+                RADIO_GROUP 
+                        TMC tmcNewDot ARG fNewDot 
+                        EL_NAME NewTemplate
+                        {
+                        RADIO_BUTTON "&Document" AT (9, 12, 42, 10) TMC tmcRNewDoc ACTION 
+                        RADIO_BUTTON "&Template" AT (9, 24, 42, 10) TMC tmcRNewDot ACTION 
+                        }
+                EDIT AT (5, 53, 61, 12) TMC tmcNewType ACTION ARG hszNewType 
+                        EL_NAME Template
+                DUMMY_TEXT "&Use Template:" AT (5, 42, 53, 10) 
+                LIST_BOX AT (8, 65, 68, 40) TMC tmcNewTypeList 
+                        ACTION COMBO_ATOMIC 
+			SORTED
+                        LIST_BOX_PROC WListDot WPARAM `tmcNewType` 
+                }
+
+        }
+
+
+END_DESCRIPTION 

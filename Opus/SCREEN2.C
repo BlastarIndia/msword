@@ -1,0 +1,1293 @@
+/* S C R E E N 2 . C */
+/* This routine sets up the screen position used by Word relative to the
+current device. */
+
+#define NOGDICAPMASKS
+#define NOVIRTUALKEYCODES
+#define NOWINMESSAGES
+#define NOWINSTYLES
+#define NOCLIPBOARD
+#define NOCTLMGR
+#define NOMENUS
+
+#include "word.h"
+DEBUGASSERTSZ            /* WIN - bogus macro for assert string */
+#include "heap.h"
+#include "ch.h"
+#include "disp.h"
+#include "screen.h"
+#include "props.h"
+#include "doc.h"
+#include "format.h"
+#include "scc.h"
+#include "print.h"
+#include "resource.h"
+#include "file.h"
+#include "layout.h"
+#include "message.h"
+#include "prompt.h"
+#include "sel.h"
+#include "debug.h"
+#include "sdmdefs.h"
+#include "sdmver.h"
+#include "sdm.h"
+
+/* G L O B A L S */
+struct SCI      vsci;
+
+/* BMI: { hbm, dxs, dys, fDiscardable, idcbMax, dxpEach } */
+
+	struct BMI      vbmiEmpty = { 
+	NULL, 0, 0, fFalse, 0, 0 	};
+
+
+/* following array describes bitmaps */
+#ifdef WIN23
+	/* pointer to one of the arrays below */
+	struct BMI *mpidrbbmi;
+	/* win 2 bitmaps */
+	struct BMI mpidrbbmi2 [] = {
+		{ NULL, dxpChVis, dypChVis, fFalse, 
+	idcbMaxChVis, dxpChVisEach },
+	/* idrbChVis */
+
+	{ NULL, dxpOtlPat*idcbMaxOtlPat,dypOtlPat2,fFalse,
+	idcbMaxOtlPat,dxpOtlPat },
+	/*idrbOtlPat */
+
+	{ NULL, 0, 0, fFalse, idcbMaxScrptPos*2, 0 },
+	      /* idrbScrptPos */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerToggles*2, 0 },
+	  /* idrbRulerToggles */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerMarks*2, 0 },
+	    /* idrbRulerMarks */
+	{ NULL, 0, 0, fFalse, idcbMaxRibbon*2, 0 },
+	        /* idrbRibbon */
+	{ NULL, 0, 0, fFalse, idcbMaxHdrIconBar, 0 },
+	      /* idrbHdrIconBar */
+	{ NULL, 0, 0, fFalse, idcbMaxOutlineIcnBr*2, 0 },
+	   /* idrbOutlineIcnBr */
+	{ NULL, 0, 0, fFalse, idcbMaxPageview, 0 },
+	         /* idrbPageview */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerAlign*2, 0 },
+	/* idrbRulerAlign */
+};
+	/* win 3 bitmaps */
+	struct BMI mpidrbbmi3 [] = {
+		{ NULL, dxpChVis, dypChVis, fFalse, 
+	idcbMaxChVis, dxpChVisEach },
+	/* idrbChVis */
+
+	{ NULL, dxpOtlPat*idcbMaxOtlPat,dypOtlPat3,fFalse,
+	idcbMaxOtlPat,dxpOtlPat },
+	/*idrbOtlPat */
+
+	{ NULL, 0, 0, fFalse, idcbMaxScrptPos, 0 },
+	      /* idrbScrptPos */
+	{ NULL, 0, 0, fFalse, idcbMaxScrptPos, 0 },
+	      /* idrbIScrptPos */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerToggles, 0 },
+	  /* idrbRulerToggles */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerToggles, 0 },
+	  /* idrbIRulerToggles */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerMarks, 0 },
+	    /* idrbRulerMarks */
+	{ NULL, 0, 0, fFalse, idcbMaxRibbon, 0 },
+	        /* idrbRibbon */
+	{ NULL, 0, 0, fFalse, idcbMaxRibbon, 0 },
+	        /* idrbIRibbon */
+	{ NULL, 0, 0, fFalse, idcbMaxHdrIconBar, 0 },
+	      /* idrbHdrIconBar */
+	{ NULL, 0, 0, fFalse, idcbMaxOutlineIcnBr, 0 },
+	   /* idrbOutlineIcnBr */
+	{ NULL, 0, 0, fFalse, idcbMaxPageview, 0 },
+	         /* idrbPageview */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerAlign, 0 },
+	/* idrbRulerAlign */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerAlign, 0 },
+	/* idrbIRulerAlign */
+};
+
+#else
+	struct BMI mpidrbbmi [] = {
+		{ NULL, dxpChVis, dypChVis, fFalse, 
+	idcbMaxChVis, dxpChVisEach },
+	/* idrbChVis */
+
+	{ NULL, dxpOtlPat*idcbMaxOtlPat,dypOtlPat,fFalse,
+	idcbMaxOtlPat,dxpOtlPat },
+	/*idrbOtlPat */
+
+	{ NULL, 0, 0, fFalse, idcbMaxScrptPos*2, 0 },
+	      /* idrbScrptPos */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerToggles*2, 0 },
+	  /* idrbRulerToggles */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerMarks*2, 0 },
+	    /* idrbRulerMarks */
+	{ NULL, 0, 0, fFalse, idcbMaxRibbon*2, 0 },
+	        /* idrbRibbon */
+	{ NULL, 0, 0, fFalse, idcbMaxHdrIconBar, 0 },
+	      /* idrbHdrIconBar */
+	{ NULL, 0, 0, fFalse, idcbMaxOutlineIcnBr*2, 0 },
+	   /* idrbOutlineIcnBr */
+	{ NULL, 0, 0, fFalse, idcbMaxPageview, 0 },
+	         /* idrbPageview */
+	{ NULL, 0, 0, fFalse, idcbMaxRulerAlign*2, 0 },
+	/* idrbRulerAlign */
+};
+
+#endif /* WIN23 */
+
+int             vfRestartDisplay=fFalse;
+long            dtickCaret = 0;
+struct DCIB     *vpdcibDisplayFli;
+struct DRDL     vdrdlDisplayFli;  /* dl and dr info used in DisplayFli */
+int vdbmgDevice;    /* indicates which set of bitmaps to use.
+This varies depending on the target device resolution */
+
+
+/* E X T E R N A L S */
+extern struct PREF          vpref;
+extern struct SEL           selCur;
+extern struct WWD           **hwwdCur;
+extern struct SCC           vsccAbove;
+extern struct DOD           **mpdochdod[];
+extern struct SCI           vsci;
+extern struct PRI           vpri;
+extern struct FLI           vfli;
+extern struct STTB        **vhsttbFont;
+extern int		    vlm;
+extern int			vwWinVersion;
+extern HCURSOR		vhcPrvwCross;
+extern HCURSOR          vhcRecorder;
+extern HCURSOR          vhcHelp;
+extern HCURSOR		vhcOtlCross;
+extern HCURSOR		vhcOtlVert;
+extern HCURSOR		vhcOtlHorz;
+extern HCURSOR          vhcStyWnd;
+extern int                  vflm;
+extern struct FTI           vfti;
+extern struct FTI           vftiDxt;
+extern struct MERR          vmerr;
+extern struct BMI           vbmiEmpty;
+extern BOOL                 vfSccVert;
+extern int                  vfInitializing;
+extern struct FCE           rgfce[ifceMax];
+extern HANDLE               vhInstance;
+extern int                  docMac;
+extern CHAR                 szNone[];
+
+extern struct WWD           **mpwwhwwd[];
+
+
+/* C o n n e c t  t o  F T i  bits */
+
+#define cftScreen   0
+#define cftPrinter  1
+#define cftIC       2
+#define cftForce    4   /* force creation */
+
+
+/* A l l o c  H d c  P r i n t e r */
+/* attempt to validate vpri.hdc */
+/* fIC tells whether we should make a DC or an IC (an IC is an information
+	context, effectively a cheaper DC that can't draw but can supply font
+	widths and device caps. */
+
+/* %%Function:AllocHdcPrinter %%Owner:bryanl */
+AllocHdcPrinter( fIC )
+int fIC;
+{
+	if (vpri.hdc != NULL && fIC == vpri.fIC)
+		return;
+
+	Assert( vpri.hdc == NULL );	/* better be true or we'll be forgetting to free the old */
+
+/* no printer is specified in the user's WIN.INI */
+	if (vpri.hszPrDriver == NULL)
+		return;
+
+/* create the DC (or IC) */
+	ShrinkSwapArea();
+	StartUMeas( umCreatePrinterDC );   /* profile the creation of the DC */
+	if (fIC)
+		{
+		/*  HACK:  Pscript on None rips on 2nd CreateIC call in Win 2.xx */
+		if (vwWinVersion < 0x0300 && FEqNcSz(*vpri.hszPrPort, szNone) &&
+				FEqNcSz(*vpri.hszPrDriver, SzSharedKey("PSCRIPT",pscript)))
+			return;
+		vpri.hdc = CreateIC ( (LPSTR) **vpri.hszPrDriver, (LPSTR) **vpri.hszPrinter,
+				(LPSTR) **vpri.hszPrPort, (LPSTR) NULL );
+		}
+	else
+		{
+/* can't print if printer is connected to "None" */
+		if (FEqNcSz(*vpri.hszPrPort, szNone))
+			return;
+		vpri.hdc = CreateDC ( (LPSTR) **vpri.hszPrDriver, (LPSTR) **vpri.hszPrinter,
+				(LPSTR) **vpri.hszPrPort, (LPSTR) NULL );
+		}
+	StopUMeas( umCreatePrinterDC );
+	GrowSwapArea();
+
+/* Grab device pixel-per-inch constants for this printer */
+
+	if (vpri.hdc == NULL)
+		{
+#ifdef BRYANL
+		CommSzSz(SzFrame("Printer DC Allocation Failed!!"),SzFrame(""));
+#endif	/* BRYANL */
+		return;
+		}
+	LogGdiHandle(vpri.hdc, 1085);
+
+	vpri.fIC = fIC;
+
+/* Set the size of the paper and a few other values for this printer. */
+	PrinterMetrics();
+
+/* The printer may have changed in such a way that its fonts have changed
+	(i.e. portrait to landscape).  We must re-initialize our list of fonts. */
+	if (vpri.hsttbPaf == hNil)
+		FillHsttbPaf( &vpri.hsttbPaf );
+
+	GetPrintEnv();
+	if (!vpri.fHaveEnv && vpri.hprenv != hNil)
+		{
+		int doc;
+		struct DOD *pdod, **hdod;
+
+		for (doc = docMinNormal; doc < docMac; doc++)
+			{
+			hdod = mpdochdod[doc];
+			if (hdod == hNil)
+				continue;
+			pdod = *hdod;
+			if (pdod->fMother)
+				{
+				struct FIB fib;
+
+				pdod->fEnvDirty = TRUE;
+		/* new file? dirty! */
+				if (pdod->fn == fnNil || !PfcbFn(pdod->fn)->fHasFib)
+					continue;
+
+		/* get fib */
+				FetchFib(pdod->fn, &fib, pn0);
+				if (fib.cbPrEnv != 0)
+					pdod->fEnvDirty = FEnvDirty(pdod->fn, fib.fcPrEnv, fib.cbPrEnv);
+				}
+			}
+		}
+	vpri.fHaveEnv = TRUE;
+	GetPubCharInfo();
+}
+
+
+/* G e t  P u b  C h a r  I n f o */
+/* See if printer supports publishing characters */
+/* Sets vpri.fSupportPubChars depending on result of SETCHARSET Escape. */
+/* %%Function:GetPubCharInfo %%Owner:tonykr */
+GetPubCharInfo()
+{
+	int	wCharSet = 1;
+
+	Assert(vpri.hdc != NULL);
+	if (Escape(vpri.hdc, SETCHARSET, NULL, (LPINT)&wCharSet,(LPINT)NULL))
+		{	/* Driver supports special pub chars escape */
+		vpri.fSupportPubChars = fTrue;
+		wCharSet = 0;
+		Escape(vpri.hdc, SETCHARSET, NULL, (LPINT)&wCharSet, (LPINT)NULL);
+		}
+	else
+		vpri.fSupportPubChars = fFalse;
+}
+
+
+/* D i s c o n n e c t  F r o m  F t i */
+/* if any device is connected to pfti, disconnect it.  This means
+	freeing DC's, fonts, etc. */
+
+/* %%Function:DisconnectFromFti %%Owner:bryanl */
+DisconnectFromFti( pfti )
+struct FTI *pfti;
+{
+	struct FTI **ppfti;
+
+	if (vsci.pfti == pfti)
+		ppfti = &vsci.pfti;
+	else  if (vpri.pfti == pfti)
+		ppfti = &vpri.pfti;
+	else
+		return;     /* nothing is connected to FTI */
+
+	if (pfti->pfce != NULL)
+		FreeFontsPfti( pfti );
+	*ppfti = NULL;
+	if (pfti->fPrinter)
+		{
+		FreeHdcPrinter();
+		pfti->fTossedPrinterDC = fFalse;
+		}
+
+	pfti->hfont = NULL;
+}
+
+
+/* F r e e  H d c  P r i n t e r */
+
+/* %%Function:FreeHdcPrinter %%Owner:bryanl */
+FreeHdcPrinter()
+{
+	if (vpri.hdc)
+		{
+		UnlogGdiHandle(vpri.hdc, 1085);
+		DeleteDC( vpri.hdc );
+		vpri.hdc = NULL;
+		}
+}
+
+
+/* %%Function:FReviveTossedPrinterDC %%Owner:bryanl */
+EXPORT FReviveTossedPrinterDC( pfce )
+struct FCE *pfce;
+{
+	Assert( vpri.pfti );
+	Assert( vpri.pfti->fTossedPrinterDC );
+
+	Assert( vlm != lmPrint );
+#ifdef BRYANL
+	CommSzSz(SzFrame("Reviving tossed printer DC"),SzFrame(""));
+#endif
+	AllocHdcPrinter( fTrue );
+	if (vpri.hdc != NULL)
+		{
+		vpri.pfti->fTossedPrinterDC = fFalse;
+		return fTrue;
+		}
+	else
+		{
+#ifdef DFONT
+		CommSzSz(SzFrame("Could not revive tossed printer DC"),szEmpty);
+#endif	/* DFONT */
+		SetErrorMat(matMem);
+/* Printer DC is not available. We are only using it as a reference for
+	display as print anyway; just return an FCID with ibstFontNil; this will
+	tell the screen request to get the system font. Width is a problem,
+	so we just use that of the system font, mapped to the screen. */
+
+		pfce->fcidActual.ibstFont = ibstFontNil;
+/* following line is for safety and for the benefit of consistency checks */
+		pfce->hfont = GetStockObject( DEVICEDEFAULT_FONT );
+		pfce->dxpWidth = NMultDiv( vsci.dxpTmWidth, 
+				vfli.dxuInch, vfli.dxsInch );
+		pfce->fFixedPitch = fTrue;
+		vmerr.fPrintEmerg = fTrue;
+		return fFalse;
+		}
+}
+
+
+
+#ifdef DEBUG
+struct BMSI
+	{
+	int dxpSrc;
+	int dypSrc;
+	int dxpDest;
+	int dypDest;
+#ifdef WIN23
+} mpidrbbmsi [idrbMax3];
+#else
+} mpidrbbmsi [idrbMax];
+#endif /* WIN23 */
+#endif /* DEBUG */
+HANDLE HFromIbmds0(); /* in rcinit.c */
+HANDLE HFromIbmds1(); /* in rcbmp1.c */
+HANDLE HFromIbmds2(); /* in rcbmp2.c */
+HANDLE HFromIbmds3(); /* in rcbmp3.c */
+HANDLE HFromIbmds4(); /* in rcbmp4.c */
+#ifdef WIN23
+HANDLE HFromIbmds13(); /* in rcbmp1.c */
+HANDLE HFromIbmds23(); /* in rcbmp2.c */
+HANDLE HFromIbmds43(); /* in rcbmp4.c */
+#endif /* WIN23 */
+csconst struct EDBMG
+{
+	int     dIdrbIbms;
+	PFN     pfnLoad;
+}
+
+
+#ifdef WIN23
+dndbmg2[] = 
+
+{
+			{ -1,  HFromIbmds4     },
+	  /* dbmg8514 */
+		{ 8,  HFromIbmds3     },
+	  /* dbmgSigma */
+		{ -1,  HFromIbmds2     },
+	  /* dbmgVGA */
+		{ -1,  HFromIbmds1     },
+	  /* dbmgEGA */
+		{ -1,  HFromIbmds3     },
+	/* dbmgCGA */
+},
+dndbmg3[] = 
+
+{
+			{ -1,  HFromIbmds43     },
+	  /* dbmg8514 */
+		{ -1,  HFromIbmds23     },
+	  /* dbmgVGA */
+		{ -1,  HFromIbmds13     },
+	  /* dbmgEGA */
+};
+#else
+dndbmg[] = 
+
+{
+			{ -1,  HFromIbmds4     },
+	  /* dbmg8514 */
+		{ 8,  HFromIbmds3     },
+	  /* dbmgSigma */
+		{ -1,  HFromIbmds2     },
+	  /* dbmgVGA */
+		{ -1,  HFromIbmds1     },
+	  /* dbmgEGA */
+		{ -1,  HFromIbmds3     },
+	/* dbmgCGA */
+};
+#endif /* WIN23 */
+
+
+/* F  L o a d  R e s o u r c e  I d r b */
+/*  FLoadResourceIdrb
+
+	Inputs:
+			idrb                    resource id for bitmap 
+				
+			mpidrbbmi [idrb] must be filled out as follows:
+
+				bmi.dxp, bmi.dyp:       desired size of bitmap.  it will be
+										stretched to fit if necessary 
+
+			hdcCompat               an hdc to use as the basis
+									for compatible DC creation
+
+	Outputs: pbmi->hbm:             handle of bitmap created
+
+	Return Value: fTrue on success,fFalse on failure
+*/
+
+/* %%Function:FLoadResourceIdrb %%Owner:bryanl */
+FLoadResourceIdrb( idrb )
+int idrb;
+{
+	extern int vdbmgDevice;
+	struct BMI *pbmi;
+	BITMAP bm;
+	HBITMAP hbmSrc = NULL, hbmDest = NULL;
+	HDC hdcSrc = NULL, hdcDest = NULL;
+
+#ifdef WIN23
+	int sbmSrc, sbmDest;
+	HDC hdcCompat = NULL;
+	if (vsci.fWin3Visuals)
+		hdcCompat = GetDC(NULL);	/* get a screen DC for color bitmaps */
+	if (hdcCompat == NULL)			/* else a memory DC for mono bitmaps */
+		hdcCompat = vsci.mdcdScratch.hdc;
+	Assert(hdcCompat != NULL);
+	Assert(idrb >= 0 && idrb < (vsci.fWin3Visuals ? idrbMax3 : idrbMax2));
+#else
+	Assert(idrb >= 0 && idrb < idrbMax);
+#endif /* WIN23 */
+	pbmi = &mpidrbbmi [idrb];
+
+	Assert( pbmi->dxp );
+	Assert( pbmi->dyp );
+
+	if (pbmi->hbm)
+		return fTrue;
+
+	/* following Assert is necessary because visi bitmap must load
+	during initialization, so we don't try to  do it later when
+		filling the screen cache, when the scratchDC is spoken for */
+
+	Assert( vfInitializing || (idrb != idrbChVis) );
+
+/* actually it is loaded in initwin.c.... */
+	Assert(idrb != idrbChVis);
+
+/* be sure we have a source and destination DC, for stretching and graying */
+	if (!FSetPmdcdPbmi( &vsci.mdcdScratch, &vbmiEmpty ))
+		goto LFail;
+	hdcDest = vsci.mdcdScratch.hdc;
+	Assert( hdcDest );
+
+#ifdef WIN23
+	if (vsci.fWin3Visuals)
+		sbmDest = SetStretchBltMode(hdcDest, COLORONCOLOR);
+#endif /* WIN23 */
+
+/* get the bitmap */
+#ifdef WIN23
+	if (vsci.fWin3Visuals)
+		{
+		Assert(vdbmgDevice <= dbmgLast3);
+		hbmSrc = (*dndbmg3[vdbmgDevice].pfnLoad)(hdcCompat, idrb+dndbmg3[vdbmgDevice].dIdrbIbms);
+		}
+	else
+		{
+		Assert(vdbmgDevice <= dbmgLast2);
+		hbmSrc = (*dndbmg2[vdbmgDevice].pfnLoad)(idrb+dndbmg2[vdbmgDevice].dIdrbIbms);
+		}
+#else
+	Assert(vdbmgDevice <= dbmgLast);
+	hbmSrc = (*dndbmg[vdbmgDevice].pfnLoad)(idrb+dndbmg[vdbmgDevice].dIdrbIbms);
+#endif /* WIN23 */
+
+	if (hbmSrc == NULL)
+		goto LFail;
+
+/* get source bitmap size */
+	GetObject( hbmSrc, sizeof (BITMAP), (LPSTR) &bm );
+
+/* determine if we have to change its size */
+	if (pbmi->dxp != bm.bmWidth || pbmi->dyp != bm.bmHeight)
+		{
+
+		Scribble(15, 'X');
+
+#ifdef DCSRC
+		CommSz(SzShared("have to stretchblt!\r\n"));
+#endif /* DCSRC */
+
+/* get a source DC */
+		if (!FSetPmdcdPbmi( &vsci.mdcdBmp, &vbmiEmpty ))
+			goto LFail;
+		hdcSrc = vsci.mdcdBmp.hdc;
+		Assert( hdcSrc && hdcDest );
+#ifdef WIN23	/* REVIEW */
+		if (vsci.fWin3Visuals)
+			sbmSrc = SetStretchBltMode(hdcSrc, COLORONCOLOR );
+#endif /* WIN23 */
+
+/* select bitmap into source, gray brush into destination */
+		if (SelectObject( hdcDest, GetStockObject(GRAY_BRUSH)) == NULL)
+			goto LFail;
+		if (SelectObject( hdcSrc, hbmSrc ) == NULL)
+			goto LFail;
+
+/* create destination bitmap & select it into dest DC */
+#ifdef WIN23
+		/*  for memory DC's, the bitmap type is mono by default.
+			We need to create hbmDest compatible with a color
+			screenDC to get a color bitmap.
+		*/
+		if ((hbmDest = CreateCompatibleBitmap( hdcCompat, pbmi->dxp, 
+				pbmi->dyp )) == NULL)
+#else
+		if ((hbmDest = CreateCompatibleBitmap( hdcDest, pbmi->dxp, 
+				pbmi->dyp )) == NULL)
+#endif /* WIN23 */
+			goto LFail;
+		LogGdiHandle(hbmDest, 1027);
+		if (SelectObject( hdcDest, hbmDest ) == NULL)
+			goto LFail;
+
+/* note: StretchBlt (hdcDest, xpDest, ypDest, dxpDest, dypDest,
+						hdcSrc, xpSrc, ypSrc, dxpSrc, dypSrc, rop); */
+
+		StretchBlt (hdcDest, 0, 0, pbmi->dxp, pbmi->dyp,
+				hdcSrc, 0, 0, bm.bmWidth, bm.bmHeight,
+				ROP_S);
+
+		pbmi->hbm = hbmDest;
+
+/* make sure the pbmi's of the mdcd's are correct */
+		SelectObject( vsci.mdcdBmp.hdc, vbmiEmpty.hbm );
+		UnlogGdiHandle(hbmSrc, -1);
+		DeleteObject( hbmSrc );
+		Scribble(15, ' ');
+		}
+
+/* already the right size, just select into correct DC */
+	else
+		{
+		SelectObject(hdcDest, hbmSrc);
+		pbmi->hbm = hbmSrc;
+		}
+
+	vsci.mdcdScratch.pbmi = pbmi;
+	SetTextColor( vsci.mdcdScratch.hdc, RGB( 0,0,0 ) );
+#ifdef WIN23
+	if (vsci.fWin3Visuals)
+		{
+		if (hdcSrc)
+			SetStretchBltMode(hdcSrc, sbmSrc);
+		SetStretchBltMode(hdcDest, sbmDest);
+		}
+#endif /* WIN23 */
+
+#ifdef DEBUG
+	mpidrbbmsi[idrb].dxpSrc = bm.bmWidth;
+	mpidrbbmsi[idrb].dypSrc = bm.bmHeight;
+	mpidrbbmsi[idrb].dxpDest = pbmi->dxp;
+	mpidrbbmsi[idrb].dypDest = pbmi->dyp;
+#endif /* DEBUG */
+#ifdef WIN23
+	if (hdcCompat != vsci.mdcdScratch.hdc)
+		ReleaseDC(NULL, hdcCompat);
+#endif /* WIN23 */
+	return fTrue;
+
+LFail:
+
+#ifdef DCSRC
+	CommSzNum(SzShared("FLoadResourceIdrb: failing: idrb = "), idrb);
+#endif /* DCSRC */
+
+/* make sure the pbmi's of the mdcd's are correct */
+	if (hdcDest)
+		{
+		SelectObject( vsci.mdcdScratch.hdc, vbmiEmpty.hbm );
+#ifdef WIN23
+		if (vsci.fWin3Visuals)
+			{
+			SetStretchBltMode(hdcDest, sbmDest);
+			}
+#endif /* WIN23 */
+		}
+	if (hdcSrc)
+		{
+		SelectObject( vsci.mdcdBmp.hdc, vbmiEmpty.hbm );
+#ifdef WIN23
+		if (vsci.fWin3Visuals)
+			{
+			SetStretchBltMode(hdcSrc, sbmSrc);
+			}
+#endif /* WIN23 */
+		}
+	if (hbmSrc)
+		{
+		UnlogGdiHandle(hbmSrc, -1);
+		DeleteObject( hbmSrc );
+		}
+	if (hbmDest)
+		{
+		UnlogGdiHandle(hbmDest, 1027);
+		DeleteObject( hbmDest );
+		}
+#ifdef WIN23
+	if (hdcCompat != vsci.mdcdScratch.hdc)
+		ReleaseDC(NULL, hdcCompat);
+#endif /* WIN23 */
+	return fFalse;
+}
+
+
+#ifdef DEBUG
+/* %%Function:CmdDumpBitmapSizes %%Owner:bryanl */
+CMD CmdDumpBitmapSizes(pcmb)
+CMB *pcmb;
+{
+	extern int vdbmgDevice;
+	int idrb;
+#ifdef WIN23
+	int idrbMax = (vsci.fWin3Visuals ? idrbMax3 : idrbMax2);
+#endif /* WIN23 */
+	struct CA ca;
+	SetWholeDoc(docScrap, PcaSetNil(&ca));
+	ScrapSz(SzShared("---------------  Bitmap sizing data  ---------------"));
+	ScrapCRLF();
+	ScrapSzNum(SzShared("vdbmgDevice = "), vdbmgDevice);
+	ScrapCRLF();
+	for (idrb = 0; idrb < idrbMax; idrb++)
+		{
+		ScrapSzNum(SzShared("Sizing information:  idrb = "), idrb);
+		ScrapSzNum(SzShared("\tdxpSrc  = "), mpidrbbmsi[idrb].dxpSrc);
+		ScrapSzNum(SzShared("\tdypSrc  = "), mpidrbbmsi[idrb].dypSrc);
+		ScrapCRLF();
+		ScrapSzNum(SzShared("\tdxpDest = "), mpidrbbmsi[idrb].dxpDest);
+		ScrapSzNum(SzShared("\tdypDest = "), mpidrbbmsi[idrb].dypDest);
+		ScrapCRLF();
+		ScrapCRLF();
+		}
+	ScrapSz(SzShared("--------------- System Metrics -----------------"));
+	ScrapCRLF();
+	ScrapSzNum(SzShared("\tcxIcon = "), GetSystemMetrics(SM_CXICON));
+	ScrapSzNum(SzShared("\tcyIcon = "), GetSystemMetrics(SM_CYICON));
+	ScrapCRLF();
+	ScrapSzNum(SzShared("\tcxCursor = "), GetSystemMetrics(SM_CXCURSOR));
+	ScrapSzNum(SzShared("\tcyCursor = "), GetSystemMetrics(SM_CYCURSOR));
+	ScrapCRLF();
+	ChangeClipboard();
+	SetPromptMst(mstDbgBmpSize, pdcmPmt+pdcmCreate+pdcmRestOnInput);
+	return cmdOK;
+}
+
+
+#endif /* DEBUG */
+
+
+/* %%Function:FreePbmi %%Owner:bryanl */
+FreePbmi( pbmi )
+struct BMI *pbmi;
+	{   /* Free bitmap in passed BMI structure if any; set size to 0.
+		Caller is responsible for assuring that the bitmap is not selected
+	into any DC. */
+#ifdef WIN23
+	int idrbMax = (vsci.fWin3Visuals ? idrbMax3 : idrbMax2);
+#endif /* WIN23 */
+
+	if (pbmi->hbm != NULL)
+		{
+/* Avoid locked object RIPs; assure bitmap not selected into mem DC */
+		if (vsci.mdcdScratch.pbmi->hbm == pbmi->hbm)
+			FSetPmdcdPbmi( &vsci.mdcdScratch, &vbmiEmpty );
+		if (vsci.mdcdBmp.pbmi->hbm == pbmi->hbm)
+			FSetPmdcdPbmi( &vsci.mdcdBmp, &vbmiEmpty );
+
+		UnlogGdiHandle(pbmi->hbm, -1);
+#ifdef DEBUG
+		Assert( DeleteObject( pbmi->hbm ) != NULL );
+#else
+		DeleteObject( pbmi->hbm );
+#endif
+		pbmi->hbm = NULL;
+		}
+
+/* keep size for resource bitmaps; it will be used if they have to be reloaded */
+	if (!(pbmi >= mpidrbbmi && pbmi < &mpidrbbmi [idrbMax]))
+		pbmi->dxp = pbmi->dyp = 0;
+}
+
+
+/* P R I N T E R  M E T R I C S */
+/* Fetch metrics for current printer */
+/* %%Function:PrinterMetrics %%Owner:bryanl */
+PrinterMetrics()
+{
+	int wEsc = DRAWPATTERNRECT;
+	struct PT ptPage;
+
+	if (vpri.pfti == NULL || vpri.hdc == NULL)
+		return;
+
+	/* Get default text color for printer */
+	vpri.rgbText = GetTextColor(vpri.hdc);
+	vpri.fColor = GetDeviceCaps(vpri.hdc, NUMCOLORS) > 2;
+
+	/* Get the page size */
+	vpri.dxpPrintable = GetDeviceCaps( vpri.hdc, HORZRES );
+	vpri.dypPrintable = GetDeviceCaps( vpri.hdc, VERTRES );
+	if (!Escape( vpri.hdc, GETPHYSPAGESIZE, 0, (LPSTR) NULL, (LPSTR) &ptPage ))
+		{
+		/* The printer won't tell us it page size; we'll have to settle
+		for the printable area. */
+		vpri.dxpRealPage = vpri.dxpPrintable;
+		vpri.dypRealPage = vpri.dypPrintable;
+		}
+	else
+		{
+		vpri.dxpRealPage = ptPage.xp;
+		vpri.dypRealPage = ptPage.yp;
+		}
+
+	/* Determine the offset of the printable area on the page. */
+	if (!Escape( vpri.hdc, GETPRINTINGOFFSET, 0, (LPSTR) NULL, (LPSTR) &vpri.ptUL ))
+		{
+		/* The printer won't tell us what the offset is; assume the
+		printable area is centered on the page. */
+		vpri.ptUL.xp = (uns)(ptPage.xp - vpri.dxpPrintable) >> 1;
+		vpri.ptUL.yp = (uns)(ptPage.yp - vpri.dypPrintable) >> 1;
+		}
+
+	/* store printer scaling factor, if any */
+	vpri.ptScaleFactor.xp = vpri.ptScaleFactor.yp = 0; /* default */
+
+	if (GetDeviceCaps( vpri.hdc, RASTERCAPS ) & RC_SCALING)
+		Escape( vpri.hdc, GETSCALINGFACTOR, 0, (LPSTR) NULL,
+				(LPSTR) (LPPOINT) &vpri.ptScaleFactor );
+
+	vpri.dxmmRealPage = GetDeviceCaps(vpri.hdc, HORZSIZE);
+	vpri.dymmRealPage = GetDeviceCaps(vpri.hdc, VERTSIZE);
+	vfli.dxuInch = vpri.dxuInch = GetDeviceCaps(vpri.hdc, LOGPIXELSX);
+	vfli.dyuInch = vpri.dyuInch = GetDeviceCaps(vpri.hdc, LOGPIXELSY);
+
+	/* find out whether print driver supports rules */
+	vpri.fDPR = Escape(vpri.hdc, QUERYESCSUPPORT, sizeof(int),
+		(int far *)&wEsc, (LPSTR)0) > 0;
+#ifdef BRYANL
+		{
+		int rgw [2];
+
+		rgw [0] = vfli.dxuInch;
+		rgw [1] = vfli.dyuInch;
+		CommSzRgNum( SzShared("dxuInch, dyuInch: "), rgw, 2 );
+		}
+#endif
+}
+
+
+#ifdef NOTUSED
+/* F  E X P A N D  P B M I */
+/* %%Function:FExpandPbmi %%Owner:NOTUSED */
+FExpandPbmi( pbmi, dxp, dyp )
+struct BMI *pbmi;
+int dxp;
+int dyp;
+	{   /* Expand bitmap described by passed bmi structure to be at least
+		{ dxp, dyp } in size.  Return TRUE if we were able to do this,
+		FALSE if not.  The fields of *pbmi reflect, on return, the
+	size of the bitmap actually in *pbmi */
+
+	HDC hdc;
+
+	if (pbmi->dxp >= dxp && pbmi->dyp >= dyp)
+		{   /* bitmap is already big enough */
+		Assert( pbmi->hbm != NULL || (dxp == 0 && dyp == 0) );
+		return fTrue;
+		}
+
+/* Free existing bitmap if any */
+
+	if (pbmi->dxp != 0)
+		{
+		Assert( pbmi->hbm != NULL );
+
+		UnlogGdiHandle(pbmi->hbm);  /* NOTUSED routine */
+#ifdef DEBUG
+		Assert( DeleteObject( pbmi->hbm ) != NULL );
+#else
+		DeleteObject( pbmi->hbm );
+#endif
+		}
+#ifdef DEBUG
+	else
+		{
+		Assert( pbmi->dyp == 0 );
+		}
+#endif  /* DEBUG */
+
+/* Create a new bitmap of the size given */
+
+	Assert( vsci.hdcScratch );
+
+	if (FRareT( reExpandPbmi, (pbmi->hbm = pbmi->fDiscardable ?
+			CreateDiscardableBitmap( vsci.hdcScratch, dxp, dyp ) :
+			CreateCompatibleBitmap( vsci.hdcScratch, dxp, dyp ))) == NULL)
+		{
+		pbmi->dxp = pbmi->dyp = 0;
+		return fFalse;
+		}
+	LogGdiHandle(pbmi->hbm, ????); /* NOTUSED */
+
+	pbmi->dxp = dxp;
+	pbmi->dyp = dyp;
+	return fTrue;
+}
+
+
+#endif	/* NOTUSED */
+
+
+/* G E T  P R I N T  E N V */
+/*  Stores handle to current print environment in vpri */
+/* %%Function:GetPrintEnv %%Owner:bryanl */
+NATIVE GetPrintEnv()
+{
+	int cchEnv, cwEnv;
+
+	if (vpri.hszPrinter == hNil || vpri.hszPrPort == hNil || vpri.hszPrDriver == hNil)
+		goto LFreePrenv;
+
+	cchEnv = GetEnvironment((LPSTR) *vpri.hszPrPort, 0L, ichMaxProfileSz);
+	if (cchEnv == 0)
+		goto LFreePrenv;
+
+	cwEnv = (cchEnv + 1) / 2;
+
+		/* REVIEW cslbug : native bug */
+		{{	/* !NATIVE - GetPrintEnv */
+		if (vpri.hprenv == hNil)
+			{
+			if ((vpri.hprenv = HAllocateCw(cwEnv)) == hNil)
+				return;
+			}
+		else  if (!FChngSizeHCw(vpri.hprenv, cwEnv, TRUE /* fShrink */))
+			{{
+			goto LFreePrenv;
+			}}  /* !NATIVE - GetPrintEnv */
+		}}
+
+	GetEnvironment((LPSTR) *vpri.hszPrPort, (LPSTR) *vpri.hprenv, cchEnv);
+
+	/* if odd # of chars in env, ensure last byte of last word isn't random */
+	if (cchEnv % 2)
+		{
+		char *pch = *vpri.hprenv + cchEnv;
+		*pch = 0;
+		}
+	return;
+
+	LFreePrenv:
+			FreePh(&vpri.hprenv);
+}
+
+
+/* F R E E   F O N T S   P F T I */
+/* %%Function:FreeFontsPfti %%Owner:bryanl */
+FreeFontsPfti( pfti )
+struct FTI *pfti;
+{
+	struct FCE *pfce;
+
+	if (pfti == NULL)
+		return;
+	ResetFont( pfti->fPrinter );
+	for ( pfce = pfti->pfce;  pfce != NULL;  pfce = pfce->pfceNext )
+		{
+		Assert( pfce->fPrinter == pfti->fPrinter );
+		FreeHandlesOfPfce( pfce );
+		}
+
+	pfti->pfce = NULL;
+}
+
+
+/* F R E E   H A N D L E S  O F   P F C E */
+/* %%Function:FreeHandlesOfPfce %%Owner:bryanl */
+EXPORT FreeHandlesOfPfce( pfce )
+struct FCE *pfce;
+{
+	Assert(pfce);
+	Assert(pfce >= &rgfce[0] && pfce <= &rgfce[ifceMax-1]);
+
+	if (pfce->hfont == NULL)
+		return;
+
+#ifdef DFONT
+	CommSzNum(SzFrame("Deleting font: "), pfce->hfont);
+#endif /* DFONT */
+
+	if (pfce->hfont != hfontSpecNil)
+		{
+		UnlogGdiHandle(pfce->hfont, -1);
+		DeleteObject(pfce->hfont);
+		}
+	pfce->hfont = NULL;
+
+	if (!pfce->fFixedPitch)
+		{
+		FreeHq( pfce->hqrgdxp );
+		pfce->hqrgdxp = hqNil;
+		}
+}
+
+
+
+
+
+/* FtcValidateFont */
+/* ****
+*  Description: does the verification of a font name for which 
+*               we have a string, but no family                
+*     returns the ftc for the font or wNinch for gray (null string)
+*     or valNil for errors
+*     This routine assume that there is an sz at pffn->szFfn, but that the
+*     rest of the ffn may be bogus, so it sets up the rest.
+** **** */
+
+/* %%Function:FtcValidateFont %%Owner:bryanl */
+int FtcValidateFont(pffn)
+struct FFN *pffn;
+{
+	int cch;
+	CHAR *pch;
+	int fEnum;
+	int ftc;
+
+	cch = CchSz (pffn->szFfn);  /* cch includes null terminator */
+	cch = CchStripString( pffn->szFfn, cch - 1 ) + 1;
+
+	pffn -> ffid = FF_DONTCARE;
+	pffn -> cbFfnM1 = CbFfnFromCchSzFfn(cch) - 1;
+
+	/* test for all blanks or null string */
+	for (pch = pffn->szFfn; *pch == ' '; pch++, cch--)
+		;
+	if (cch <= 1)  /* just null term? */
+		ftc = wNinch;   /* gray return value */
+	else
+		{
+		/* Get ibst of font name, adding to master table if necessary. Get the
+		ftc of the font by searching in mpfctibstFont, adding a new ftc
+		if needed, then apply the desired sprm. This returns a valid ftc or
+		valNil in case of failure to add to the table.
+		*/
+
+		ftc = FtcChkDocFfn(selCur.doc, pffn);
+		}      /* if */
+
+	if (FRareT(reRibbon, (ftc == valNil)))
+		SetErrorMat(matMem);
+
+	return (ftc);
+
+}  /* FtcValidateFont */
+
+
+
+/* **** +-+utility+-+opus **** */
+/* ****
+*  Description: Get ibst of font name, adding to master table if
+*    necessary. Get the ftc of the font by searching in mpftcibstFont,
+*    adding a new ftc if needed
+** **** */
+
+/* %%Function:FtcChkDocFfn %%Owner:bryanl */
+FtcChkDocFfn(doc, pffn)
+int doc;
+struct FFN *pffn;
+{
+	int ibst;
+
+	/* 1. search vhsttbFont for the font name string, adding it if not found */
+
+	if ((ibst = IbstFindSzFfn( vhsttbFont, pffn)) == iNil)
+		{   /* Font is not already in table -- add it */
+
+		if ((ibst = IbstAddStToSttb( vhsttbFont, pffn )) == iNil || 
+				vmerr.fMemFail)
+			return ftcDefault;
+		}
+
+
+	/* 2. Find mapped ftc, if any, or add new ftc and map it to
+			ibst.
+	*/
+	return (FtcFromDocIbst(doc, ibst));
+}
+
+
+/* **** +-+utility+-+opus **** */
+/* ****
+*  Description: Given ibst of font, get the ftc of the font by
+*      searching in mpftcibstFont, adding a new ftc if needed
+** **** */
+
+/* %%Function:FtcFromDocIbst %%Owner:bryanl */
+FtcFromDocIbst(doc, ibst)
+int doc;
+int ibst;
+{
+	int ftc;
+	struct DOD *pdod;
+	int cbMac;
+	int cbMax;
+	IBSTFONT (**hmpftcibstFont)[];
+
+	if (ibst == ibstFontDefault)
+		return (ftcDefault);
+
+	/* 1. is there already an ftc mapping to ibst? */
+
+	pdod = PdodMother( doc );
+	for ( ftc = 1; ftc < pdod->ftcMac; ftc++ )
+		if (ibst == (**pdod->hmpftcibstFont) [ftc])
+			return (ftc);
+
+	/* 2. Need to add a new ftc and map it to ibst */
+
+	/* Local copies used to avoid heap movement problems */
+	hmpftcibstFont = pdod->hmpftcibstFont;
+	Assert( sizeof (IBSTFONT) == 1 );
+	cbMac = pdod->ftcMac;
+	cbMax = pdod->ftcMax;
+	if (!FAssureHcb( &hmpftcibstFont, cbMac + sizeof (IBSTFONT), &cbMac, &cbMax ))
+		{
+		return (valNil);  /* Not enough room -- bail out */
+		}
+
+	pdod = PdodMother( doc );
+	(**hmpftcibstFont) [ftc = pdod->ftcMac++] = ibst;
+	pdod->ftcMax = cbMax;
+	Assert( pdod->ftcMax >= pdod->ftcMac );
+	Assert( hmpftcibstFont == pdod->hmpftcibstFont );
+
+	return (ftc);
+}
+
+
+/* **** +-+utility+-+opus **** */
+/* ****
+*  Description: Set the document's font tables to their  default value.
+** **** */
+/* %%Function:ResetDocFonts %%Owner:bryanl */
+ResetDocFonts(doc)
+int doc;
+{
+	/* done for docScrap when filling its font table. Set the doc's
+	hmpftcibst to default values */
+
+	struct DOD *pdod;
+
+	pdod = PdodMother(doc);
+
+	if (pdod->ftcMac == ftcMinUser)
+		return;
+
+	Assert (pdod->hmpftcibstFont != hNil);
+
+	if (!FChngSizeHCw( pdod->hmpftcibstFont, CwFromCch(ftcMinUser), fTrue /*fShrink*/))
+		{
+		Assert (fFalse);   /* bryan says shrinking will never fail */
+		return;
+		}
+
+	pdod = PdodMother(doc);   /* reset after heap movement */
+
+	pdod->ftcMax = pdod->ftcMac  = ftcMinUser;
+	(**pdod->hmpftcibstFont) [0] = ibstFontDefault;     /* Tms Rmn */
+	(**pdod->hmpftcibstFont) [1] = ibstFontDefault + 1; /* Symbol */
+	(**pdod->hmpftcibstFont) [2] = ibstFontDefault + 2; /* Helv */
+}
+
+
+
+/* F   A S S U R E   H	 C B */
+
+/* %%Function:FAssureHCb %%Owner:bryanl */
+FAssureHCb( ph, cb, pcbMac, pcbMax )
+int ***ph;
+int cb;
+int *pcbMac;
+int *pcbMax;
+	{   /* Inputs:	*ph -- a handle
+		*pcbMax - amount of space currently allocated to handle
+				(0 iff *ph is NULL)
+		cb -- amount of space desired in handle
+		Outputs: *ph -- if successful, a handle with cb bytes of space
+				else hNil
+		*pcbMac -- if successful, == cb, else unchanged or 0
+		*pcbMax -- amount of space allocated to handle on return
+	
+		Return:	fTrue if we returned with at least cb bytes of space in the
+		handle; fFalse if we tried to grow/allocate it and failed.
+*/
+
+/* easy case, already have enough space */
+
+	if (cb <= *pcbMax)
+		{
+		*pcbMac = cb;
+		return fTrue;
+		}
+
+	if (*pcbMax > 0)
+		{
+		Assert( *ph != hNil );
+
+		if (!FChngSizeHCb( *ph, cb, fFalse /*fShrink*/))
+		/* leave ph, mac and max unchanged */
+			return fFalse;
+		}
+	else
+		{
+		Assert( *ph == hNil );
+
+		if (FNoHeap( *ph = HAllocateCb( cb )))
+			{
+			*pcbMac = *pcbMax = 0;
+			return fFalse;
+			}
+		}
+
+	*pcbMax = *pcbMac = cb;
+	return fTrue;
+}
+
+
+
+csconst struct RCDS rgrcds[] =
+{
+#include "styname.hc"
+#include "mic.hc"
+#include "help.hc"
+#include "cross.hc"
+#include "vertout.hc"
+#include "horzout.hc"
+#include "prvwcrs.hc"
+};
+
+
+csconst HCURSOR * mpircdsphc[] =
+{
+	&vhcStyWnd,
+			&vhcRecorder,
+			&vhcHelp,
+			&vhcOtlCross,
+			&vhcOtlVert,
+			&vhcOtlHorz,
+			&vhcPrvwCross
+};
+
+
+
+/* H  L O A D  O U R   R E S O U R C E */
+/* %%Function:HLoadRes1 %%Owner:bryanl */
+HANDLE HLoadRes1(i)
+int i;
+{
+	HANDLE h;
+	LPSTR lpch;
+
+	Assert(i >= ircdsNonCoreMin);
+
+	i -= ircdsNonCoreMin;
+
+	if ((h = OurGlobalAlloc(GMEM_MOVEABLE, (long)(uns)rgrcds[i].cb)) == NULL)
+		{
+		SetErrorMat(matMem);
+		return NULL;
+		}
+
+	lpch = GlobalLock(h);
+	bltbx((LPSTR)rgrcds[i].rgchBits, lpch, rgrcds[i].cb);
+	GlobalUnlock(h);
+	return h;
+}
+
+
+/* %%Function:FAssureIrcds %%Owner:bryanl */
+BOOL FAssureIrcds(ircds)
+int ircds;
+{
+	int i = ircds-ircdsNonCoreMin;
+	if (*mpircdsphc[i] != NULL)
+		return fTrue;
+
+	return (*mpircdsphc[i] = (vsci.fUseResCursors ? 
+			LoadCursor(vhInstance, ircds+1) : HLoadRes1(ircds))) != NULL;
+}
+
+
+/* %%Function:FreeIrcds %%Owner:bryanl */
+FreeIrcds(ircds)
+{
+	int i = ircds-ircdsNonCoreMin;
+	HANDLE h;
+	if ((h = *mpircdsphc[i]) == NULL)
+		Assert(fFalse);
+
+	else  if (!vsci.fUseResCursors)
+		{
+		GlobalFree(h);
+		*mpircdsphc[i] = NULL;
+		}
+}
+
+

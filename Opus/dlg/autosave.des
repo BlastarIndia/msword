@@ -1,0 +1,40 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE autosave 
+        {
+        DIALOG dltAutosave AT (50, 50, 151, 44) 
+        CAB_NAME CABAUTOSAVE 
+        HELP_ID IDDAutosave 
+        DIALOG_PROC FDlgAutosave 
+        TMC_INIT tmcASYes 
+                {
+                OK_BUTTON AT (113, 4, 34, 14) 
+                CANCEL_BUTTON AT (113, 22, 34, 14) 
+
+                DUMMY_TEXT "Save Now?" AT (4, 4, 36, 9) 
+                RADIO_GROUP TMC tmcASGroup ARG fPostpone
+                        EL_NAME SAVENOW
+                        {
+                        RADIO_BUTTON "&Yes" AT (4, 14, 22, 12) 
+                                TMC tmcASYes ACTION 
+                        RADIO_BUTTON "&Postpone" AT (4, 28, 42, 12) 
+                                TMC tmcASPostpone ACTION 
+                        }
+
+                EDIT AT (50, 28, 26, 12) TMC tmcASDMinute CHAR_VALIDATED
+                        ACTION ARG dMinutePostpone 
+                        PARSE_PROC WParseOpt WPARAM `optPosNZInt`
+                        EL_NAME MINUTES
+                DUMMY_TEXT "Minutes" AT (80, 30, 28, 9) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

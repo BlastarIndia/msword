@@ -1,0 +1,39 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE hyphen 
+	{
+	DIALOG dltHyphenate AT (60, 120, 225, 48) 
+	CAPTION "Hyphenate" 
+	CAB_NAME CABHYPHEN 
+	HELP_ID IDDHyphenate 
+	DIALOG_PROC FDlgHyphenate 
+	TMC_INIT tmcHypChange 
+	BDR_SYS_MENU 
+		{
+		TEXT "Hyphenate &at:" AT (4, 6, 52, 9) TMC tmcHypAt 
+		GENERAL_PICTURE AT (60, 4, 161, 12) TMC tmcHypText 
+			PICTURE_PROC WPictureStaticEdit 
+		CHECK_BOX "&Hyphenate Caps" AT (4, 17, 66, 12) TMC tmcHypCaps ACTION ARG fHypCaps 
+			EL_NAME HyphenateCaps
+		CHECK_BOX "&Confirm" AT (4, 32, 38, 12) TMC tmcHypConfirm ARG fHypConfirm 
+			EL_NAME Confirm
+		
+                EDIT AT (175, 17, 46, 12) TMC tmcHypHotZ ARG hszHypHotZ 
+			EL_NAME HotZone
+		DUMMY_TEXT "Hot &Zone:" AT (135, 19, 36, 9) 
+		
+                PUSH_BUTTON "&Yes" AT (85, 30, 40, 14) TMC tmcHypChange ACTION DEFAULT 
+		PUSH_BUTTON "&No" AT (133, 30, 40, 14) TMC tmcHypNoChange ACTION 
+		CANCEL_BUTTON AT (181, 30, 40, 14) 
+		}
+
+	}
+
+
+END_DESCRIPTION 

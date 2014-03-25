@@ -1,0 +1,51 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE toc 
+        {
+        DIALOG dltToc AT (93, 85, 155, 72) 
+        CAB_NAME CABTOC 
+        HELP_ID IDDInsToc 
+        DIALOG_PROC FDlgToc 
+        TMC_INIT tmcTocOutline 
+	SUB_DIALOG sabElOnly = fElOnly
+                {
+                OK_BUTTON AT (115, 7, 34, 14) 
+                CANCEL_BUTTON AT (115, 24, 34, 14) 
+                GROUP_BOX "Table Of Contents" AT (5, 3, 105, 62) 
+                RADIO_GROUP 
+                        ARG iTocType 
+                        EL_NAME Source
+                        {
+                        RADIO_BUTTON "Use &Heading Paragraphs" AT (8, 14, 98, 12) TMC tmcTocOutline ACTION 
+                        RADIO_BUTTON "Use Table &Entry Fields" AT (8, 50, 101, 12) TMC tmcTocFields ACTION 
+                        }
+                RADIO_GROUP 
+                        ARG iOutlineLevels TMC tmcOutlineLevels
+                        {
+                        RADIO_BUTTON "&All" AT (16, 25, 23, 12) TMC tmcTocAll ACTION 
+                        RADIO_BUTTON "&From:" AT (16, 36, 30, 12) TMC tmcTocFromTo ACTION 
+                        }
+                EDIT AT (46, 36, 16, 12) TMC tmcTocFrom ACTION CHAR_VALIDATED ARG wTocFrom 
+                        PARSE_PROC WParseToc
+                        EL_NAME From
+                EDIT AT (79, 36, 16, 12) TMC tmcTocTo ACTION CHAR_VALIDATED ARG wTocTo 
+                        PARSE_PROC WParseToc
+                        EL_NAME To
+                DUMMY_TEXT "&To:" AT (64, 38, 12, 9)
+		IF fElOnly
+			CHECK_BOX "" AT (0, 0, 1, 1) 
+				ARG fReplace
+				EL_NAME `Replace`
+		ENDIF
+                }
+
+        }
+
+
+END_DESCRIPTION 

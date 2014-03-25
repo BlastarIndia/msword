@@ -1,0 +1,27 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE renstyle 
+        {
+        DIALOG dltRenameStyle AT (120, 20, 133, 43) 
+        CAB_NAME CABRENAMESTYLE 
+        HELP_ID IDDRenameStyle 
+        DIALOG_PROC FDlgRenameStyle 
+        TMC_INIT tmcRSRenameStyle 
+                {
+                EDIT AT (5, 18, 82, 12) TMC tmcRSRenameStyle ACTION CHAR_VALIDATED ARG hszRenameStyle 
+                        EL_NAME Name
+                DUMMY_TEXT "New Style &Name:" AT (5, 6, 60, 9) 
+                OK_BUTTON AT (92, 6, 34, 14) 
+                CANCEL_BUTTON AT (92, 22, 34, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

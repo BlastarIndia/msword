@@ -1,0 +1,97 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE para 
+        {
+        DIALOG dltParaLooks AT (8, 16, 198, 165) 
+        CAB_NAME CABPARALOOKS 
+        HELP_ID IDDParaLooks 
+        DIALOG_PROC FDlgParaLooks 
+        TMC_INIT tmcParLeftIn 
+            {
+            GROUP_BOX "Alignment" AT (4, 14, 154, 25) 
+            DUMMY_TEXT "Paragraph" AT (4, 3, 38, 9) 
+            RADIO_GROUP 
+                    ARG iJustify 
+                    EL_NAME `Alignment` 
+                    {
+                    RADIO_BUTTON "&Left" AT (8, 24, 26, 12) TMC tmcParLeft 
+                    RADIO_BUTTON "&Center" AT (38, 24, 34, 12) TMC tmcParCenter 
+                    RADIO_BUTTON "&Right" AT (76, 24, 30, 12) TMC tmcParRight 
+                    RADIO_BUTTON "&Justified" AT (110, 24, 46, 12) TMC tmcParJustified 
+                    }
+            GROUP_BOX "Indents" AT (4, 41, 83, 51) 
+
+            EDIT AT (55, 49, 29, 12) TMC tmcParLeftIn ARG wParLeftIn 
+                    EL_NAME `LeftIndent` 
+                    PARSE_PROC WParseOpt WPARAM `optAnyUnit` 
+            DUMMY_TEXT "From Le&ft:" AT (8, 51, 44, 9) 
+
+            EDIT AT (55, 63, 29, 12) TMC tmcParRightIn ARG wParRightIn 
+                    EL_NAME `RightIndent` 
+                    PARSE_PROC WParseOpt WPARAM `optAnyUnit` 
+            DUMMY_TEXT "From Ri&ght:" AT (8, 65, 44, 9) 
+
+            EDIT AT (55, 77, 29, 12) TMC tmcParFirstIn ARG wParFirstIn 
+                    EL_NAME `FirstIndent` 
+                    PARSE_PROC WParseOpt WPARAM `optAnyUnit` 
+            DUMMY_TEXT "First Li&ne:" AT (8, 79, 44, 9)
+
+            GROUP_BOX "Spacing" AT (89, 41, 69, 51) 
+            EDIT AT (125, 49, 29, 12) TMC tmcParSpaceBf ARG wParDyaBefore 
+                    EL_NAME `Before` 
+                    PARSE_PROC WParseOpt WPARAM `optPosLineUnit` 
+            DUMMY_TEXT "&Before:" AT (93, 51, 28, 9) 
+
+            EDIT AT (125, 63, 29, 12) TMC tmcParSpaceAf ARG wParDyaAfter 
+                    EL_NAME `After` 
+                    PARSE_PROC WParseOpt WPARAM `optPosLineUnit` 
+            DUMMY_TEXT "&After:" AT (93, 65, 28, 9) 
+
+            EDIT AT (125, 77, 29, 12) TMC tmcParIntLSp ARG wParDyaLine 
+                    EL_NAME `LineSpacing` 
+                    PARSE_PROC WParseOpt WPARAM `optAutoLineUnit` 
+            DUMMY_TEXT "L&ine:" AT (93, 79, 28, 9) 
+
+            EDIT AT (4, 105, 83, 12) TMC tmcParStyle ARG hszStyle 
+                    EL_NAME `Style` 
+            DUMMY_TEXT "&Style:" AT (4, 95, 24, 9)
+            LIST_BOX AT (8, 117, 79, 48) ACTION COMBO_ATOMIC SORTED 
+                    DROP_DOWN_SIBLING LIST_BOX_PROC WListStyles 
+            GROUP_BOX "Keep Paragraph" AT (4, 121, 83, 39) 
+            CHECK_BOX "Toget&her" AT (8, 131, 42, 12) TMC tmcParKeepLT 
+                    ARG fParKeepLT 
+                    EL_NAME `KeepTogether` 
+            CHECK_BOX "&With Next" AT (8, 144, 46, 12) TMC tmcParKeepNP 
+                    ARG fParKeepNP 
+                    EL_NAME `KeepWithNext` 
+            GROUP_BOX "" AT (89, 90, 88, 38) 
+            LIST_BOX AT (129, 96, 44, 40) TMC tmcParBrcp ARG iBrcp 
+                    EL_NAME `Border` DROP_DOWN_SIBLING ACTION NO_SCROLL_BAR 
+                    LIST_BOX_PROC Look1WListEntbl WPARAM `iEntblBrcp` 
+            DUMMY_TEXT "B&order:" AT (93, 98, 28, 9) 
+            LIST_BOX AT (129, 111, 44, 40) TMC tmcParBrcl ARG iBrcl 
+                    EL_NAME `Pattern` DROP_DOWN_SIBLING NO_SCROLL_BAR 
+                    LIST_BOX_PROC Look1WListEntbl WPARAM `iEntblBrcl` 
+            DUMMY_TEXT "Patt&ern:" AT (93, 113, 32, 9)
+
+            CHECK_BOX "&Page Break Before" AT (90, 135, 78, 12) 
+                    TMC tmcParNewPg ARG fParNewPg 
+                    EL_NAME `PageBreak` 
+            CHECK_BOX "Line N&umbering" AT (90, 148, 66, 12) TMC tmcParNoLNum ARG fParNoLNum 
+                    EL_NAME `NoLineNum` 
+            OK_BUTTON AT (160, 6, 34, 14) 
+            CANCEL_BUTTON AT (160, 23, 34, 14) 
+            PUSH_BUTTON "&Tabs..." AT (160, 39, 34, 14) TMC tmcParTabs 
+                    DISMISS_CAB 
+            }
+
+        }
+
+
+END_DESCRIPTION 

@@ -1,0 +1,32 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE username 
+	{
+	DIALOG dltUserName AT (80, 30, 200, 47) 
+	CAB_NAME CABUSERNAME 
+	HELP_ID IDDUserName 
+	DIALOG_PROC FDlgUserName 
+	TMC_INIT tmcNull 
+		{
+		TEXT "Please enter your name and initials." AT (5, 4, 190, 9) 
+		EDIT AT (45, 15, 116, 12) TMC tmcUserName ARG hszName CHAR_VALIDATED ACTION
+			EL_NAME Name
+		DUMMY_TEXT "&Name:" AT (5, 17, 40, 9) 
+
+		EDIT AT (45, 30, 52, 12) TMC tmcUserInitial ARG hszInitials 
+			EL_NAME Initials
+		DUMMY_TEXT "&Initials:" AT (5, 32, 40, 9) 
+
+		OK_BUTTON AT (165, 14, 30, 14) 
+		}
+
+	}
+
+
+END_DESCRIPTION 

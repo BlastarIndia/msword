@@ -1,0 +1,133 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE catalog 
+        {
+        DIALOG dltCatalog AT (12, 16, 237, 126) 
+        CAB_NAME CABCATALOG 
+        HELP_ID IDDCatalog 
+        DIALOG_PROC FDlgCatalog 
+        TMC_INIT tmcCatLB 
+        SUB_DIALOG sabCatSrch = fEl
+                {
+                LIST_BOX AT (68, 3, 78, 48) 
+			TMC tmcCatSortBy 
+			ACTION 
+			ARG iCatSortBy 
+			DROP_DOWN_SIBLING 
+			NO_SCROLL_BAR 
+                        LIST_BOX_PROC WListEntbl 
+			WPARAM `iEntblCatSort` 
+                        EL_NAME SortBy
+			/* NO_NINCH */
+                DUMMY_TEXT "Sort &By:" AT (35, 5, 32, 9) 
+
+                PUSH_BUTTON "So&rt" AT (150, 2, 30, 14) 
+			TMC tmcCatSort 
+			ACTION 
+
+                LIST_BOX AT (5, 18, 174, 88) 
+			TMC tmcCatLB 
+			ACTION 
+			ARG hrgCatLBIndex 
+			MULTI_SELECTABLE 
+                        LIST_BOX_PROC WListCatalog 
+                DUMMY_TEXT "&File:" AT (5, 5, 20, 9) 
+
+                TEXT "" AT (5, 110, 200, 9) TMC tmcCatBanter 
+
+                PUSH_BUTTON "&Open" AT (184, 6, 48, 14) 
+			TMC tmcCatOpen 
+			DISMISS_CAB 
+			DEFAULT 
+
+                CANCEL_BUTTON AT (184, 23, 48, 14) 
+
+                PUSH_BUTTON "&Search..." AT (184, 39, 48, 14) 
+			TMC tmcCatSearch 
+			ACTION 
+
+                PUSH_BUTTON "&Print..." AT (184, 55, 48, 14) 
+			TMC tmcCatPrint 
+			ACTION 
+
+                PUSH_BUTTON "&Delete" AT (184, 71, 48, 14) 
+			TMC tmcCatDelete 
+			ACTION 
+
+                PUSH_BUTTON "Su&mmary..." AT (184, 87, 48, 14) 
+			TMC tmcCatSummary 
+			ACTION 
+
+		IF fEl
+			EDIT AT (5, 15, 141, 12) 
+				ARG hszCatSrhList 
+				EL_NAME SearchList
+
+			EDIT AT (42, 32, 104, 12) 
+				ARG hszCatSrhTitle 
+				EL_NAME Title
+
+			EDIT AT (42, 46, 104, 12) 
+				ARG hszCatSrhSubject 
+				EL_NAME Subject
+
+			EDIT AT (42, 60, 104, 12) 
+				ARG hszCatSrhAuthor 
+				EL_NAME Author
+
+			EDIT AT (42, 74, 104, 12) 
+				ARG hszCatSrhKeyword 
+				EL_NAME Keywords
+
+			EDIT AT (42, 88, 104, 12) 
+				ARG hszCatSrhRevisor 
+				EL_NAME SavedBy
+
+			EDIT AT (42, 102, 104, 12) 
+				ARG hszCatSrhText 
+				EL_NAME Text
+
+			EDIT AT (174, 52, 40, 12) 
+				ARG hCatSrhDttmCreateFrom 
+				PARSE_PROC WParseDttm SIZE 2 
+				EL_NAME DateCreatedFrom
+				/* DATE_TYPE */
+
+			EDIT AT (174, 66, 40, 12) 
+				ARG hCatSrhDttmCreateTo 
+				PARSE_PROC WParseDttm SIZE 2 
+				EL_NAME DateCreatedTo
+				/* DATE_TYPE */
+
+			EDIT AT (174, 94, 40, 12) 
+				ARG hCatSrhDttmReviseFrom 
+				PARSE_PROC WParseDttm SIZE 2 
+				EL_NAME DateSavedFrom
+				/* DATE_TYPE */
+
+			EDIT AT (174, 108, 40, 12) 
+				ARG hCatSrhDttmReviseTo 
+				PARSE_PROC WParseDttm SIZE 2 
+				EL_NAME DateSavedTo
+				/* DATE_TYPE */
+                
+			CHECK_BOX "" AT (5, 118, 55, 12) 
+				ARG fCatSrhMatchCase 
+				EL_NAME MatchCase
+
+			CHECK_BOX "" AT (88, 118, 58, 12) 
+				ARG fCatSrhRedo 
+				EL_NAME SearchAgain
+		ENDIF
+                }
+
+        }
+
+
+END_DESCRIPTION 

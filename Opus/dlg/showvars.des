@@ -1,0 +1,37 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE showvars 
+        {
+        DIALOG dltShowVars AT (40, 26, 220, 102) 
+        CAB_NAME CABSHOWVARS 
+        HELP_ID IDDShowVars 
+        DIALOG_PROC FDlgShowVars 
+        TMC_INIT tmcNull 
+                {
+                LIST_BOX AT (5, 14, 171, 80) 
+			TMC tmcVarList 
+			ACTION 
+			ARG iVar 
+                        LIST_BOX_PROC WListBoxNull 
+                DUMMY_TEXT "&Variables:" AT (5, 3, 41, 9) 
+
+                PUSH_BUTTON "&Set..." AT (180, 13, 34, 14) 
+			TMC tmcSet 
+			ACTION 
+
+                PUSH_BUTTON "Close" AT (180, 30, 34, 14) 
+			TMC_IMPORT tmcCancel 
+			DISMISS 
+			DEFAULT 
+                }
+
+        }
+
+
+END_DESCRIPTION 

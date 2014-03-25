@@ -1,0 +1,174 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE tablefmt 
+        {
+        DIALOG dltFormatTable AT (28, 28, 213, 163) 
+        CAB_NAME CABFORMATTABLE 
+        HELP_ID IDDFormatTable 
+        DIALOG_PROC FDlgFormatTable 
+        TMC_INIT tmcNull 
+        SUB_DIALOG sabFmtTblEl = fEl
+                {
+		IF fEl
+			EDIT AT (250, 200, 255, 205)
+				PARSE_PROC WParseOpt WPARAM `optPosInt`
+				ARG wFromCol
+				EL_NAME `FromColumn`
+				TMC tmcFTElFromCol
+
+			EDIT AT (250, 200, 255, 205)
+				PARSE_PROC WParseOpt WPARAM `optPosInt`
+				ARG wCol
+				EL_NAME `Column`
+				TMC tmcFTElCol
+		ENDIF
+
+                TEXT SZ_FROM_CAB hszColumns AT (4, 18, 92, 9) 
+                        TMC tmcWidthText 
+                DUMMY_TEXT "Format Table" AT (4, 5, 48, 9)
+
+                EDIT AT (96, 16, 32, 12) 
+                        TMC tmcColumnWidth 
+                        ARG dxaWidth 
+                        CHAR_VALIDATED 
+                        EL_NAME `ColumnWidth`
+                        PARSE_PROC WParseOpt WPARAM `optAutoPosUnit` 
+
+                EDIT AT (96, 29, 32, 12) 
+                        TMC tmcGapSpace 
+                        ARG dxaGap 
+                        CHAR_VALIDATED 
+                        EL_NAME `SpaceBetweenCols`
+                        PARSE_PROC WParseOpt WPARAM `optPosUnit`
+                DUMMY_TEXT "Sp&ace Between Cols:" AT (4, 31, 77, 9) 
+
+                EDIT AT (96, 42, 32, 12) 
+                        TMC tmcIndent 
+                        ARG dxaLeft 
+                        CHAR_VALIDATED 
+                        PARSE_PROC WParseOpt
+                        WPARAM `optAnyUnit`
+                        EL_NAME `IndentRows`
+                DUMMY_TEXT "In&dent Rows:" AT (4, 44, 50, 9) 
+
+                EDIT AT (96, 56, 32, 12) 
+                        TMC tmcRowHeight 
+                        ARG dyaRowHeight 
+                        CHAR_VALIDATED 
+                        EL_NAME `MinimumRowHeight`
+                        PARSE_PROC WParseOpt 
+                        WPARAM `optAutoAnyUnit`
+                DUMMY_TEXT "Minimum Row &Height:" AT (4, 58, 76, 9) 
+
+                GROUP_BOX "Borders" AT (5, 68, 150, 59) 
+
+                LIST_BOX AT (40, 78, 40, 40) 
+                        TMC tmcOutline 
+                        ARG ibrclOutline 
+                        EL_NAME `OutlineBorder`
+                        DROP_DOWN_SIBLING 
+                        NO_SCROLL_BAR 
+                        LIST_BOX_PROC Look1WListEntbl 
+                            WPARAM `iEntblBrcl` ACTION
+                DUMMY_TEXT "O&utline:" AT (8, 80, 32, 9)
+
+                LIST_BOX AT (40, 93, 40, 32) 
+                        TMC tmcTop 
+                        ARG ibrclTop 
+                        EL_NAME `TopBorder`
+                        DROP_DOWN_SIBLING 
+                        NO_SCROLL_BAR 
+                        LIST_BOX_PROC WListEntbl 
+                        WPARAM `iEntblBrclTable` 
+                DUMMY_TEXT "&Top:" AT (8, 94, 17, 9)
+
+                LIST_BOX AT (40, 108, 40, 32) 
+                        TMC tmcBottom 
+                        ARG ibrclBottom 
+                        EL_NAME `BottomBorder`
+                        DROP_DOWN_SIBLING 
+                        NO_SCROLL_BAR 
+                        LIST_BOX_PROC WListEntbl 
+                        WPARAM `iEntblBrclTable` 
+                DUMMY_TEXT "&Bottom:" AT (8, 110, 28, 9)
+
+                LIST_BOX AT (111, 78, 40, 32) 
+                        TMC tmcInside 
+                        ARG ibrclInside 
+                        EL_NAME `InsideBorder`
+                        DROP_DOWN_SIBLING 
+                        NO_SCROLL_BAR 
+                        LIST_BOX_PROC WListEntbl 
+                        WPARAM `iEntblBrclTable` 
+                DUMMY_TEXT "&Inside:" AT (83, 80, 28, 9)
+
+                LIST_BOX AT (111, 93, 40, 32)   
+                        TMC tmcLeft 
+                        ARG ibrclLeft 
+                        EL_NAME `LeftBorder`
+                        DROP_DOWN_SIBLING 
+                        NO_SCROLL_BAR 
+                        LIST_BOX_PROC WListEntbl 
+                        WPARAM `iEntblBrclTable` 
+                DUMMY_TEXT "&Left:" AT (83, 94, 28, 9)
+                
+                LIST_BOX AT (111, 108, 40, 32) 
+                        TMC tmcRight 
+                        ARG ibrclRight 
+                        EL_NAME `RightBorder`
+                        DROP_DOWN_SIBLING 
+                        NO_SCROLL_BAR 
+                        LIST_BOX_PROC WListEntbl 
+                        WPARAM `iEntblBrclTable` 
+                DUMMY_TEXT "&Right:" AT (83, 110, 28, 9)
+
+                GROUP_BOX "Align Rows" AT (158, 68, 49, 47) 
+
+                RADIO_GROUP 
+                        TMC tmcTFAlign 
+                        ARG jc 
+                        EL_NAME `AlignRows`
+                        {
+                        RADIO_BUTTON "L&eft" AT (161, 78, 26, 10) 
+                                TMC tmcAlignLeft 
+                        RADIO_BUTTON "&Center" AT (161, 90, 36, 10) 
+                                TMC tmcAlignCenter 
+                        RADIO_BUTTON "Ri&ght" AT (161, 102, 30, 10) 
+                                TMC tmcAlignRIght 
+                       }
+
+                GROUP_BOX "Apply To" AT (5, 131, 113, 26) 
+
+                RADIO_GROUP 
+                        TMC tmcApplyTo 
+                        ARG fWholeTable
+                        EL_NAME `ApplyTo`
+                        {
+                        RADIO_BUTTON "&Selection" AT (8, 142, 47, 10) 
+                                TMC tmcApplySel 
+                        RADIO_BUTTON "Wh&ole Table" AT (59, 142, 54, 10) 
+                                TMC tmcWholeTable 
+                        }
+
+                OK_BUTTON AT (163, 6, 40, 14) 
+                CANCEL_BUTTON AT (163, 22, 40, 14) 
+
+                PUSH_BUTTON "&Next Column" AT (157, 38, 51, 14)         
+                        TMC tmcNextColumn 
+                        ACTION 
+
+                PUSH_BUTTON "&Prev Column" AT (157, 54, 51, 14) 
+                        TMC tmcPrevColumn 
+                        ACTION 
+                }
+
+        }
+
+
+END_DESCRIPTION 

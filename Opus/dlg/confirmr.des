@@ -1,0 +1,32 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE confirmr 
+        {
+        DIALOG dltConfirmRepl AT (66, 31, 164, 40) 
+        CAPTION "Replace" 
+        CAB_NAME CABCONFIRMREPL 
+        HELP_ID IDDConfirmRepl 
+        DIALOG_PROC FDlgConfirmRepl 
+        TMC_INIT tmcNull 
+        BDR_SYS_MENU 
+                {
+                TEXT "" AT (7, 6, 152, 9) TMC tmcReplText 
+                PUSH_BUTTON "&Yes" AT (7, 19, 34, 14) TMC tmcReplYes ACTION DISMISS DEFAULT 
+                        EL_NAME Yes
+                PUSH_BUTTON "&No" AT (44, 19, 34, 14) TMC tmcReplNo ACTION DISMISS 
+                        EL_NAME No
+                CANCEL_BUTTON AT (82, 19, 34, 14) 
+                CHECK_BOX "&Confirm" AT (120, 20, 40, 12) TMC tmcReplConfirm ACTION
+                        ARG fConfirm EL_NAME Confirm
+                }
+
+        }
+
+
+END_DESCRIPTION 

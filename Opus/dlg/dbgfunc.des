@@ -1,0 +1,41 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE dbgfunc 
+	{
+	DIALOG dltTestFunction AT (15, 24, 287, 154) 
+	CAB_NAME CABTESTFUNC
+	HELP_ID IDDTestFunction 
+	DIALOG_PROC FDlgTestFunction 
+	TMC_INIT tmcNull 
+		{
+		CANCEL_BUTTON AT (10, 5, 80, 11)
+		PUSH_BUTTON "Test Scc" AT (10, 21, 80, 11)
+			TMC tmcTestScc ACTION 
+			EL_NAME TESTSCC
+		PUSH_BUTTON "Test Plc" AT (10, 37, 80, 11)
+			TMC tmcTestPlc ACTION 
+			EL_NAME TESTPLC
+		PUSH_BUTTON "Test Pl" AT (10, 53, 80, 11)
+			TMC tmcTestPl ACTION 
+			EL_NAME TESTPL
+		PUSH_BUTTON "Test Sttb" AT (10, 69, 80, 11)
+			TMC tmcTestSttb ACTION 
+			EL_NAME TESTSTTB
+		PUSH_BUTTON "Global Compact" AT (100, 21, 80, 11)
+			TMC tmcGlobCompact ACTION 
+			EL_NAME GLOBALCOMPACT
+		PUSH_BUTTON "Test ReplaceCps" AT (100, 37, 80, 11)
+			TMC tmcTestReplaceCps ACTION 
+			EL_NAME TESTREPLACECPS
+		}
+
+	}
+
+
+END_DESCRIPTION 

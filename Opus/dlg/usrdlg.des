@@ -1,0 +1,22 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE usrdlg
+	{
+	DIALOG dltUsrDlg AT (0, 0, 50, 50) 
+	CAB_NAME CABUSRDLG
+	HELP_ID IDDUsrDlg
+	TMC_INIT tmcNull 
+		{
+		EDIT AT (0, 0, 10, 10) ARG foo EL_NAME UsrDlg
+		}
+
+	}
+
+
+END_DESCRIPTION 

@@ -1,0 +1,49 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE dbgfail 
+	{
+	DIALOG dltDbgFail AT (35, 22, 200, 89) 
+	CAB_NAME CABDBGFAIL
+	HELP_ID IDDDbgFail 
+	DIALOG_PROC FDlgDbgFail
+	TMC_INIT tmcDbgLmemSucceed
+		{
+		DUMMY_TEXT "Allocation Failures" AT (3, 2, 100, 9) 
+		OK_BUTTON AT (104, 2, 44, 12) 
+		CANCEL_BUTTON AT (154, 2, 44, 12) 
+                TEXT "\0" AT (5, 10, 80, 9) TMC tmcDbgFailCmdOnly
+		DUMMY_TEXT "Succeed" AT (75, 27, 30, 9) 
+		DUMMY_TEXT "Fail" AT (135, 27, 30, 9) 
+		DUMMY_TEXT "Memory:" AT (20, 42, 30, 9) 
+		EDIT AT (75, 42, 20, 12) TMC tmcDbgLmemSucceed ARG cLmemSucceed 
+			PARSE_PROC WParseOpt WPARAM `optPosInt`
+			EL_NAME MEMORYSUCCEED
+		EDIT AT (135, 42, 20, 12) ARG cLmemFail 
+			PARSE_PROC WParseOpt WPARAM `optPosInt`
+			EL_NAME MEMORYFAIL
+		DUMMY_TEXT "Windows:" AT (20, 58, 30, 9) 
+		EDIT AT (75, 58, 20, 12) ARG cWinSucceed 
+			PARSE_PROC WParseOpt WPARAM `optPosInt`
+			EL_NAME WINDOWSSUCCEED
+		EDIT AT (135, 58, 20, 12) ARG cWinFail
+			PARSE_PROC WParseOpt WPARAM `optPosInt`
+			EL_NAME WINDOWSFAIL
+		DUMMY_TEXT "Bkgnd Pag:" AT (20, 74, 30, 9) 
+		EDIT AT (75, 74, 20, 12) ARG cBkgndSucceed 
+			PARSE_PROC WParseOpt WPARAM `optPosInt`
+			EL_NAME BKGNDSUCCEED
+		EDIT AT (135, 74, 20, 12) ARG cBkgndFail
+			PARSE_PROC WParseOpt WPARAM `optPosInt`
+			EL_NAME BKGNDFAIL
+		}
+
+	}
+
+
+END_DESCRIPTION 

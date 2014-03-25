@@ -1,0 +1,23 @@
+NAME    MUSTANG
+
+DESCRIPTION 'MUSTANG'
+
+STUB 'WINSTUB.EXE'
+EXETYPE WINDOWS
+
+CODE    MOVEABLE
+DATA    MOVEABLE MULTIPLE
+
+HEAPSIZE  4096
+STACKSIZE 4096
+
+EXPORTS
+    MainWndProc  @1
+    About        @3
+    OptionsDlg	 
+    AbortProc
+    PrintDlg
+    EnumAllFaces
+    EnumAllFonts
+    EscapeDlg
+    FontDlg

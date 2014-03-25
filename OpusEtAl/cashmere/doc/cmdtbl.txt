@@ -1,0 +1,199 @@
+				The Opus Command Table
+
+				  Bradford Christian
+			Microsoft Productivity Software Group
+			           November 12, 1986
+
+
+	0.0 INTRODUCTION
+
+	This document describes the command description language used in
+	Opus.
+
+
+	1.0 THE COMMAND FILE
+
+	There is a text file called OPUSCMD.CMD that describes all of the
+	commands Opus provides, what keys they are bound to, and what menus
+	they appear on.  This file is compiled by MKCMD into an assember file
+	containing a pre-made hash table for the command names and a pre-made
+	keymap structure for the key bindings.  A resource compiler
+	compatible file is also generated to describe the layout of any menus
+	defined in OPUSCMD.CMD as well as a C header file containing any
+	constants that might be required by the Opus code.
+
+
+	1.1 THE COMMANDS SECTION
+
+	The first section of the command file is the command definition
+	section.  It begins with the keyword COMMANDS.  The rest of the
+	section consists of command descriptions, one per line.  
+
+	Each command description consists of the name of the command followed
+	by the name of the C function performing the command separated with a
+	comma.  
+
+	If the function has any arguments, other than fCab, they must be
+	described following its name.  A list of argument types must be
+	enclosed in either parentheses, if the arguments are to passed on the
+	stack, or in curly braces, if they are to be passed in the global
+	CAB.  Supported argument types include INT, STRING, and FLOAT.
+	Arguments in a list are separated by commas.  To use a function that
+	does not have any arguments, including fCab, use ().
+
+	There is a third type of command that does not need an argument list
+	because it is special-cased by the recorder.  These commands are
+	flagged with an asterisk instead of an argument list.
+
+	If you need to know the command index of one of these commands, the
+	end of the line should contain another comma followed by the name of
+	a #define macro to put the index into; the #define will be put into
+	the generated header file.
+
+
+	# This is a sample COMMANDS section.  This line and all lines
+	# beginning with number signs are comments which are ignored by MKCMD.
+
+	# This command section defines three commands named Command1, Command2
+	# and Command3.  These commands are executed by the functions
+	# CmdCommand1(), CmdCommand2(), and OtherFunction() respectivly.
+	# CmdCommand1() has one argument, fCab, but does not use anything in
+	# the CAB.  CmdCommand2() also has only fCab as an argument, but uses
+	# the CAB to hold a handle to a string.  OtherFunction() does not even
+	# know about CABs, but expects an integer and a string handle on the
+	# stack.
+
+	COMMANDS
+		Command1, CmdCommand1
+		Command2, CmdCommand2 { STRING }
+		Command3, OtherFunction ( INT, STRING )
+
+
+	1.2 THE KEYMAP SECTION
+
+	The keymap section describes what commands are bound to what keys.
+	This section begins with the keyword KEYMAP followed by the C name to
+	use for the structure.  Lines following contain key name/command name
+	pairs separated with commas.  Appendix A lists all valid key names.
+
+
+	# This is a sample KEYMAP section.  The first line puts the Help 
+	# ocommand n the F1 key and the second line puts the HaltAndCatchFire 
+	# command (a windows call) on the F10 key.
+
+	KEYMAP vkmpInit
+		F1,	Help			# By the way, you can put 
+		F10,	HaltAndCatchFire	# comments here too!
+
+
+	1.3 THE MENUBAR SECTION
+
+	The menubar sections describe all of the standard menus used by Opus.
+	There may be any number of menubar sections.  Each menubar
+	description begins with the keyword MENUBAR followed by the name of
+	the menu resource to be generated.  The next line will always begin a
+	menu description with the keyword MENU followed by the text that is
+	to appear on the menubar for that menu.  Lines following describe
+	each item in the menu with text/command name pairs separated with
+	commas.  The keyword SEPARATOR may be used instead of a text/command
+	name pair to cause a line to appear accross the menu.  Any number of
+	menus may by defined in a menubar section.
+
+	All menu items automaticaly generate #define <name> <index> lines in
+	the generated header file.  The name will be the C function name of 
+	the command stripped of its leading 'Cmd' and prefixed with 'imi'.
+
+
+	# Here is a sample menubar.
+
+	MENUBAR SIMPLE_MENU
+		MENU File
+			New,		New
+			Open...,	Open
+			Save,		Save
+			Save As...,	SaveAs
+			SEPARATOR
+			Print...,	Print
+		MENU Edit
+			Undo,		Undo
+			Cut,		Cut
+			Copy,		Copy
+			Paste,		Paste
+
+
+	2.0 USING THE COMPILER
+
+	The command compiler is invoked with a command of the following form:
+
+		MKCMD <file>
+
+	Where <file> is the name of the command description file without the
+	extension.  The file named <file>.CMD is compiled and the files
+	<file>.ASM, <file>.RC, and <file>.H are generated.
+
+
+	APPENDIX A -- KEY NAMES
+
+
+	This table lists all of the keys recognized by MKCMD and their
+	Windows VK code equivalents.
+
+
+		Windows Key Name	MKCMD Key Name
+		----------------	--------------
+
+		VK_CANCEL		Cancel
+		VK_BACK			Back or BS
+		VK_TAB			Tab
+		VK_CLEAR		Clear
+		VK_RETURN		Return or Enter
+		VK_ESCAPE		Escape or Esc
+		VK_SPACE		Space
+		VK_PRIOR		Prior or PgUp
+		VK_NEXT			Next or PgDn
+		VK_END			End
+		VK_HOME			Home
+		VK_LEFT			Left
+		VK_UP			Up
+		VK_RIGHT		Right
+		VK_DOWN			Down
+		VK_SELECT		Select
+		VK_PRINT		Print
+		VK_EXECUTE		Execute
+		VK_INSERT		Insert or Ins
+		VK_DELETE		Delete or Del
+		VK_HELP			Help
+		VK_NUMPAD0		NP0
+		VK_NUMPAD1		NP1
+		VK_NUMPAD2		NP2
+		VK_NUMPAD3		NP3
+		VK_NUMPAD4		NP4
+		VK_NUMPAD5		NP5
+		VK_NUMPAD6		NP6
+		VK_NUMPAD7		NP7
+		VK_NUMPAD8		NP8
+		VK_NUMPAD9		NP9
+		VK_MULTIPLY		NP*
+		VK_ADD			NP+
+		VK_SUBTRACT		NP-
+		VK_DECIMAL		NP.
+		VK_DIVIDE		NP/
+		VK_F1			F1
+		VK_F2			F2
+		VK_F3			F3
+		VK_F4			F4
+		VK_F5			F5
+		VK_F6			F6
+		VK_F7			F7
+		VK_F8			F8
+		VK_F9			F9
+		VK_F10			F10
+		VK_F11			F11
+		VK_F12			F12
+		VK_F13			F13
+		VK_F14			F14
+		VK_F15			F15
+		VK_F16			F16
+		N/A			+
+		N/A			-
+

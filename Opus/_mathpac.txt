@@ -1,0 +1,19 @@
+TNUM	FAR PASCAL DAdd(NUM *); 
+TNUM	FAR PASCAL DSub(NUM *);
+TNUM	FAR PASCAL DMul(NUM *);
+TNUM	FAR PASCAL DDiv(NUM *);
+TNUM	FAR PASCAL DNeg(void);
+void	FAR PASCAL TenTo(int);
+void	FAR PASCAL DInt(void);
+void	FAR PASCAL DAbs(void);
+
+VOID	FAR PASCAL Dld(NUM *);
+VOID	FAR PASCAL Dst(NUM *);
+int	FAR PASCAL Fix(void);
+VOID	FAR PASCAL DFloat(int);
+int	FAR PASCAL DCond(void);
+VOID	FAR PASCAL DClr(void);
+VOID	FAR PASCAL Pack(char *);
+VOID	FAR PASCAL Unpack(char *);
+int	FAR PASCAL DError(int);
+

@@ -1,0 +1,32 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE apprun 
+        {
+        DIALOG dltAppRun AT (30, 20, 122, 54) 
+        CAB_NAME CABAPPRUN 
+        HELP_ID IDDAppRun 
+        TMC_INIT tmcNull 
+        
+                {
+                GROUP_BOX "Run Application" AT (6, 4, 71, 42) 
+                RADIO_GROUP 
+                        ARG iApp 
+                        EL_NAME Application 
+                        {
+                        RADIO_BUTTON "&Clipboard" AT (10, 16, 47, 12) 
+                        RADIO_BUTTON "Control &Panel" AT (10, 29, 63, 12) 
+                        }
+                OK_BUTTON AT (83, 7, 34, 14) 
+                CANCEL_BUTTON AT (83, 24, 34, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

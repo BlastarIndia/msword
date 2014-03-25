@@ -1,0 +1,55 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE search 
+        {
+        DIALOG dltSearch AT (60, 120, 203, 63) 
+        CAB_NAME CABSEARCH
+        HELP_ID IDDSearch 
+        DIALOG_PROC FDlgSearchRepl 
+        TMC_INIT tmcSearch 
+        SUB_DIALOG sabSFmt = fFmt
+                {
+                OK_BUTTON AT (163, 6, 34, 14) 
+                CANCEL_BUTTON AT (163, 24, 34, 14) 
+
+                EDIT AT (5, 13, 154, 12) TMC tmcSearch
+                        ACTION CHAR_VALIDATED ARG hszSearch 
+                        EL_NAME Search
+                DUMMY_TEXT "&Search For:" AT (5, 2, 46, 9) 
+
+                TEXT "" AT (5, 26, 153, 8) TMC_IMPORT tmcSearchBanter 
+
+                CHECK_BOX "&Whole Word" AT (5, 36, 52, 12)
+                        TMC_IMPORT tmcWholeWord ARG fWholeWord 
+                        EL_NAME WholeWord
+                CHECK_BOX "&Match Upper/Lowercase" AT (5, 48, 95, 12)
+                        ARG fMatchUpLow 
+                        EL_NAME MatchCase
+                GROUP_BOX "Direction" AT (103, 35, 56, 24)
+                RADIO_GROUP 
+			/* HIGH 2 */
+                        ARG iDirection 
+                        EL_NAME Direction
+                        {
+                        RADIO_BUTTON "&Up" AT (107, 44, 20, 12)
+                        RADIO_BUTTON "&Down" AT (128, 44, 28, 12)
+                        }
+
+                IF fFmt
+                        CHECK_BOX "" AT (0, 0, 1, 1)
+                                ARG fFormatted
+                                TMC tmcSFmt
+                                EL_NAME `Format`
+                ENDIF
+                }
+
+        }
+
+
+END_DESCRIPTION 

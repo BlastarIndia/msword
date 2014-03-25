@@ -1,0 +1,63 @@
+Adding an Icon Bar to Opus
+------------------------------------
+
+We now have a simplistic, but general purpose, icon bar handler in Opus.  It
+assumes an icon bar consists only of buttons, each of which causes a command
+function to be invoked.  Icon bars may be created in the application window,
+or in a document window.  Only one icon bar may exist in a window at a time.
+
+1. Define a dialog description in one of the dgddef*.h files.
+
+	dlgModal(dgdIconBarFoo, 0, 0, 0, 0, NULL, NULL)
+		tmActionPushButton(5, 1, 40, dyButton, "One", 0)
+		tmActionPushButton(50, 1, 40, dyButton, "Two, 1)
+		tmActionPushButton(95, 1, 40, dyButton, "Three", 2)
+	dlgEnd
+
+	#define cbDLGIconBarFoo (sizeof (dgdIconBarFoo))
+
+2. Create an rgbcmIconBarFoo and copying function (HrgbcmIconBarFoo()) in 
+cmd.c:  (The bcms should be in the same order as the dialog items in the dgd.)
+
+	CS BCM rgbcmIconBarFoo [] =
+		{
+		bcmOne,
+		bcmTwo,
+		bcmThree
+		};
+
+	#define ibcmMaxIconBarFoo (sizeof (rgbcmIconBarFoo) / sizeof (BCM))
+	#define cwRgbcmIconBarFoo (sizeof (rgbcmIconBarFoo) / cchINT)
+
+	BCM ** HrgbcmIconBarFoo()
+		{
+		BCM ** hrgbcm;
+
+		if ((hrgbcm = (BCM **) HAllocate(cwRgbcmIconBarFoo)) != hNil)
+			{
+			bltx((int FAR *) rgbcmIconBarFoo, 
+				(int FAR *) *hrgbcm,
+				cwRgbcmIconBarFoo);
+			}
+
+		return hrgbcm;
+		}
+
+3. Create the icon bar with:  (For app window icon bars use hNil for hmwd.)
+
+	{
+	CHAR dlg [cbDLGIconBarFoo];
+
+	bltbx((CHAR FAR *) &dgdIconBarFoo, (CHAR FAR *) dlg, cbDLGIconBarFoo);
+	if (!FCreateIconBar(hmwd, dlg, HrgbcmIconBarFoo(), ibcmMaxIconBarFoo))
+		{
+		/* Error! */
+		}
+	}
+
+4. Destroy the icon bar with:  (For app window icon bars use hNil for hmwd.)
+
+	DestroyIconBar(hmwd);
+
+5. Everything else is automatic!
+

@@ -1,0 +1,36 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE cmpfile 
+        {
+        DIALOG dltCmpFile AT (30, 40, 207, 101) 
+        CAB_NAME CABCMPFILE 
+        HELP_ID IDDCmpFile 
+        DIALOG_PROC FDlgCmpFile 
+        TMC_INIT tmcCmpFile 
+        
+                {
+                EDIT AT (78, 6, 80, 12) TMC tmcCmpFile ACTION ARG hszFile DIR CHAR_VALIDATED 
+                        EL_NAME Name
+                DUMMY_TEXT "Compare File &Name:" AT (5, 7, 73, 9) 
+
+                LIST_BOX AT (5, 29, 67, 64) ACTION DIR COMBO SORTED TMC tmcCmpList
+                DUMMY_TEXT "&Files:" AT (5, 18, 25, 10) 
+
+                LIST_BOX AT (78, 45, 65, 50) ACTION ARG iDirectory DIR SORTED TMC tmcCmpDir
+                DUMMY_TEXT "&Directories:" AT (78, 35, 50, 9) 
+
+                TEXT "" AT (78, 22, 78, 9) DIR 
+                OK_BUTTON AT (162, 5, 40, 14) 
+                CANCEL_BUTTON AT (162, 23, 40, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

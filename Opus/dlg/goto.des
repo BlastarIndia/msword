@@ -1,0 +1,30 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE goto 
+	{
+	DIALOG dltGoto AT (41, 51, 151, 94) 
+	CAB_NAME CABGOTO 
+	HELP_ID IDDGoto 
+	TMC_INIT tmcGoto 
+		{
+		EDIT AT (5, 15, 84, 12) TMC tmcGoto ARG hszGoto 
+			EL_NAME Destination
+		DUMMY_TEXT "&Go To:" AT (5, 4, 65, 9) 
+		LIST_BOX AT (9, 27, 92, 48) COMBO_ATOMIC SORTED 
+			LIST_BOX_PROC WListBkmk
+
+		OK_BUTTON AT (107, 4, 40, 14) 
+		CANCEL_BUTTON AT (107, 20, 40, 14) 
+		DUMMY_TEXT "Type page number or select bookmark." AT (5, 82,144,9)
+		}
+
+	}
+
+
+END_DESCRIPTION 

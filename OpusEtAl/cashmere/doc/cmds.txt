@@ -1,0 +1,1801 @@
+			  ==================
+                           Opus Command Set
+                          ==================
+
+
+This document contains "manual pages" for each function, feature, and
+command in Opus.  Each "page" is in a standard format including a name
+and one line comment, how to get to the feature from the menu, how to
+get to the feture from the keyboard, and how to get to the feature with
+a macro.  Finally there is a detailed description of the feature, and
+in some cases, other places to look for related information.
+
+Someday, these pages may even be sorted!
+
+All of the information in this document is subject to change, and
+confidential to Microsoft Corporation.
+
+------------------------------------------------------------------------------
+
+NAME
+	NewFile -- Create a new document
+
+MENU
+	File:New...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	OpenFile -- Open an existing document file in a new window
+
+MENU
+	File:Open...
+
+KEYBOARD
+	none
+
+MACRO
+	Open "name"
+
+DESCRIPTION
+	Brings up the FileDialog and, if the user selects Ok, trys to open
+        the selected file.  If everything goes well, a new window is created
+        and filled with the contents of the file.
+
+SEE ALSO
+	WorkOn
+
+------------------------------------------------------------------------------
+
+NAME
+	FileDialog -- Standard dialog box for getting a file name
+
+MENU
+	File:Open...
+        Utilities:CompareVersions...
+        Insert:File...
+
+KEYBOARD
+	none
+
+MACRO
+	Input File "prompt", dest$
+
+DESCRIPTION
+	Brings up a dialog box asking for a file name.  There is a tunnel
+        button to Directory.  The user may select a name from the combo box
+        or type in a new one.  If the new name is a directory or contains
+        wild card characters, all matching names are put into the combo box.
+        Double clicking on a name is equivalent to selecting that name and
+        clicking Ok.
+
+------------------------------------------------------------------------------
+
+NAME
+	Save -- Save the current document
+
+MENU
+	File:Save
+
+KEYBOARD
+	none
+
+MACRO
+	Save
+
+DESCRIPTION
+	Just saves the document in the active window with its current name.
+
+SEE ALSO
+	SaveAs
+
+------------------------------------------------------------------------------
+
+NAME
+	SaveAs -- Save the current document with different parameters
+
+MENU
+	File:SaveAs...
+
+KEYBOARD
+	none
+
+MACRO
+	Save "name" [,[format][,backup]]
+
+DESCRIPTION
+	Brings up dialog asking for new name, whether or not to make a 
+        backup, and what format to save in.
+
+        Format is one of the following:
+
+        	Native
+                Plain
+                DCA
+                Wang
+                Multi-Mate
+                WordStar
+                RTF
+                Word
+
+SEE ALSO
+	Save
+
+------------------------------------------------------------------------------
+
+NAME
+	Print -- Print the current document
+
+MENU
+	File:Print...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Brings up dialog asking for print range (all, selection, or from
+        page to page), number of copies, where to get paper, whether or
+        not to print draft quality, and whether or not to print annotations.
+
+------------------------------------------------------------------------------
+
+NAME
+	PrintMerge -- REVIEW
+
+MENU
+	File:PrintMerge...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	WorkOn -- Open one of the 7 most recently used documents
+
+MENU
+	File:WorkOn1-7
+
+KEYBOARD
+	none
+
+MACRO
+	Open MRUFile$(n)
+
+DESCRIPTION
+	A list of the 7 most recently opened documents is kept in WIN.INI.
+        This command provides a quick way of re-opening one of these files.
+
+SEE ALSO
+	Open
+
+------------------------------------------------------------------------------
+
+NAME
+	Undo -- Undo the last command
+
+MENU
+	Edit:Undo
+
+KEYBOARD
+	Shift-Esc
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Undoes the effect of the previous command.  This does not work
+        for all commands.  You can undo the last undo.
+
+        REVIEW: a list of un-undoable commands would be nice.
+
+------------------------------------------------------------------------------
+
+NAME
+	Copy -- REVIEW
+
+MENU
+	Edit:Copy
+
+KEYBOARD
+	Shift-F2
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+SEE ALSO
+	CopyToClipboard
+
+------------------------------------------------------------------------------
+
+NAME
+	Move -- REVIEW
+
+MENU
+	Edit:Move
+
+KEYBOARD
+	F2
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	Delete -- REVIEW
+
+MENU
+	Edit:Delete
+
+KEYBOARD
+	REVIEW
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	CopyToClipboard -- REVIEW
+
+MENU
+	Edit:CopyToClipboard
+
+KEYBOARD
+	REVIEW
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+SEE ALSO
+	Copy
+
+------------------------------------------------------------------------------
+
+NAME
+	PasteFromClipboard -- REVIEW
+
+MENU
+	Edit:PasteFromClipboard
+
+KEYBOARD
+	Ins
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+SEE ALSO
+	PasteLink
+
+------------------------------------------------------------------------------
+
+NAME
+	PasteLink -- REVIEW
+
+MENU
+	Edit:PasteLink
+
+KEYBOARD
+	REVIEW
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+SEE ALSO
+	PasteFromClipboard
+
+------------------------------------------------------------------------------
+
+NAME
+	Search -- Search for a string
+
+MENU
+	Edit:Search...
+
+KEYBOARD
+	F9
+
+MACRO
+	Find "string" [,[words][,[case][,direction]]]
+	Find("string" [,[words][,[case][,direction]]])
+
+DESCRIPTION
+	Brings up a dialog box asking for a search string, whether or not
+        to match whole words only, whether or not to match case, and what
+        direction to search in.
+
+SEE ALSO
+	Replace
+
+------------------------------------------------------------------------------
+
+NAME
+	Replace -- Replace string with another
+
+MENU
+	Edit:Replace...
+
+KEYBOARD
+	Shift-F9
+
+MACRO
+	Replace ["replace"],["with"][,[words][,[case][,[direction][,all]]]]
+	Replace(["replace"],["with"][,[words][,[case][,[direction][,all]]]])
+
+DESCRIPTION
+	Brings up a dialog box asking for a search string, a replacement
+        string, whether or not to match whole words only, and whether or
+        not to match case.  There are push buttons to start search, change
+        the current find, and to change all finds.
+
+SEE ALSO
+	Search
+
+------------------------------------------------------------------------------
+
+NAME
+	Goto -- REVIEW
+
+MENU
+	Edit:Goto...
+
+KEYBOARD
+	F10
+
+MACRO
+	Select "mark-name"
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+SEE ALSO
+	SetBookmark
+        GotoPrev
+
+------------------------------------------------------------------------------
+
+NAME
+	GotoPrev -- Goto the previous selection point
+
+MENU
+	none
+
+KEYBOARD
+	Shift-F10
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+SEE ALSO
+	Goto
+
+------------------------------------------------------------------------------
+
+NAME
+	Outline -- Enable/disable outline mode
+
+MENU
+	View:Outline
+
+KEYBOARD
+	none
+
+MACRO
+	Outline on_off
+	Outline()
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	PagePreview -- Enable/disable page preview mode
+
+MENU
+	View:PagePreview
+
+KEYBOARD
+	none
+
+MACRO
+	Preview on_off
+	Preview()
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	PlainCharacters -- Revert to a text editor
+
+MENU
+	View:PlainCharacters
+
+KEYBOARD
+	none
+
+MACRO
+	PlainChars on_off
+	PlainChars()
+
+DESCRIPTION
+	When this option is active, all characters are displayed in the
+	system font.
+
+------------------------------------------------------------------------------
+
+NAME
+	FieldInstructions -- Enable/disable display of field instructions
+
+MENU
+	View:FieldInstructions
+
+KEYBOARD
+	none
+
+MACRO
+	ShowInst on_off
+	ShowInst()
+
+DESCRIPTION
+	When field instructions display is on, what is displayed is what
+        the user actualy typed in.  Otherwise, the result of the instructions
+        is displayed.
+
+------------------------------------------------------------------------------
+
+NAME
+	ShowFootnotes -- Enable/disable display of footnotes
+
+MENU
+	View:Footnotes
+
+KEYBOARD
+	none
+
+MACRO
+	ShowFNotes on_off
+	ShowFNotes()
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	Ruler -- Icon bar for formatting paragraphs
+
+MENU
+	View:Ruler
+
+KEYBOARD
+	Ctrl-T (tab edit mode)
+
+MACRO
+	ShowRuler on_off
+	ShowRuler()
+
+DESCRIPTION
+	If this command is invoked from the menu, the ruler is either brought
+        up or taken down in the current window.
+
+        If it is invoked from the tab edit key, the ruler is enabled and the
+        user is put into tab edit mode.
+
+        REVIEW: how does one use the ruler?
+
+SEE ALSO
+	Ruler
+
+------------------------------------------------------------------------------
+
+NAME
+	LooksHelper -- Icon bar for formatting characters
+
+MENU
+	View:LooksHelper
+
+KEYBOARD
+	none
+
+MACRO
+	ShowLooks on_off
+	ShowLooks()
+
+DESCRIPTION
+	Brings up or takes down the looks helper.  There is only one looks
+        helper for all of the documents.  It reflects the state of the
+        current document.
+
+        REVIEW: how does one use the looks helper?
+
+------------------------------------------------------------------------------
+
+NAME
+	StatusArea -- Information line
+
+MENU
+	View:StatusArea
+
+KEYBOARD
+	none
+
+MACRO
+	ShowStatus on_off
+	ShowStatus()
+
+DESCRIPTION
+	Brings up or takes down the status area.  There is only one status
+        area for all of the documents.  It reflects the state of the current
+        document.
+
+        REVIEW: what is on the status line?
+
+------------------------------------------------------------------------------
+
+NAME
+	ViewPreferences -- Set up prefered way of looking at a document
+
+MENU
+	View:Preferences...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Brings up a dialog box with check boxes for enabling/disabling
+        display of tabs, spaces, paragraph marks, section marks, optional 
+        hyphens, horizontal scroll bars, vertical scroll bars, index
+        references, annotations, and the style area, and an edit control
+        for the width of the style area in inches.
+
+------------------------------------------------------------------------------
+
+NAME
+	InsertPicture -- REVIEW
+
+MENU
+	Insert:Picture...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	InsertTable -- REVIEW
+
+MENU
+	Insert:Table...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	InsertFile -- REVIEW
+
+MENU
+	Insert:File...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	InsertBreak -- REVIEW
+
+MENU
+	Insert:PageBreak...
+
+KEYBOARD
+	Ctrl-Enter (page break)
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	InsertGlossary -- Insert the contents of a glossary
+
+MENU
+	Insert:Glossary...
+
+KEYBOARD
+	F3
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	If this command is invoked from the keyboard, a prompt for the
+        desired glossary name appears, the user may type in the name of
+        the glossary, or press the key again to bring up the dialog box.
+
+        If this command is invoked from the menu, the dialog box comes
+        up asking for the name and location of the glossary.
+
+SEE ALSO
+	CreateGlossary
+
+------------------------------------------------------------------------------
+
+NAME
+	InsertHeader -- Insert a header or footer
+
+MENU
+	Insert:Header/Footer...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	InsertField -- Insert a field
+
+MENU
+	Insert:Field...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	SetBookmark -- Give the selection a name
+
+MENU
+	Insert:Mark...
+
+KEYBOARD
+	none
+
+MACRO
+	SetMark "name"
+
+DESCRIPTION
+	Brings up a dialog box asking for a name, then adds the current
+        selection along with that name to the list of bookmarks.  Any
+        existing bookmark with the given name will be deleted.
+
+SEE ALSO
+	Goto
+
+------------------------------------------------------------------------------
+
+NAME
+	InsertFootnote -- Insert a footnote reference
+
+MENU
+	Insert:Footnote...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Brings up a dialog box asking wheter to use an auto sequence number
+        or one the user types in, then inserts a footnote reference at the
+        current selection.
+
+------------------------------------------------------------------------------
+
+NAME
+	FormatCharacters -- Change character formatting
+
+MENU
+	Reformat:Character...
+
+KEYBOARD
+	Ctrl-B (toggle bold)
+        Ctrl-U (toggle underline)
+        Ctrl-W (toggle word-underline)
+        Ctrl-D (toggle double-underline)
+        Ctrl-A (toggle annotation)
+        Ctrl-I (toggle italics)
+        Ctrl-K (toggle small caps)
+        Ctrl-S (toggle strikethrough)
+        Ctrl-+ (toggle superscript)
+        Ctrl-- (toggle subscript)
+        Ctrl-* (toggle show all)
+        Ctrl-X (normal characters)
+
+MACRO
+	Chars "rtf-string"
+	Chars$()
+
+DESCRIPTION
+	If this command is invoked from the menu, a dialog box is brought
+        up with check boxes for bold, italic, underline, word underline,
+        double underline, strikethrough, small caps, and hidden (annotation),
+        combo boxes for font name and point size, and radio buttons for
+        superscript, subscript, and normal as well as an edit box for sub or
+        super scriptness in points.  There is also a TryOut button that will
+        apply the style currently defined by the dialog box.
+
+SEE ALSO
+	LooksHelper
+
+------------------------------------------------------------------------------
+
+NAME
+	FormatParagraphs -- Change paragraph formatting
+
+MENU
+	Reformat:Paragraph...
+
+KEYBOARD
+	Ctrl-C (center)
+        Ctrl-J (justify)
+        Ctrl-L (left align)
+        Ctrl-R (right align)
+        Ctrl-H (hanging indent)
+        Ctrl-G (un-hang) REVIEW
+        Ctrl-N (nest)
+        Ctrl-M (un-nest)
+        Ctrl-2 (double space)
+        Ctrl-1 (single space)
+        Ctrl-5 (one and a half space)
+        Ctrl-O (open space) REVIEW
+        Ctrl-E (close space) REVIEW
+
+MACRO
+	Para "rtf-string"
+	Para$()
+
+DESCRIPTION
+	If this command is invoked from the menu, a dialog box is brought up
+        with radio buttons for left align, right align, center, and justify,
+        edit boxes for left indent, right indent, first line left indent,
+        combo boxes for spacing before, after and inside the paragraphs, 
+        check boxes for keep with next, keep togeather, and page break, a
+        combo box for style, radio buttons for border type (REVIEW), and a
+        tunnel button to the tabs dialog box.  There is also a TryOut button
+        which applys the style currently defined by the dialog box to the
+        selection.
+
+SEE ALSO
+	Ruler
+
+------------------------------------------------------------------------------
+
+NAME
+	FormatSections -- Change section formatting
+
+MENU
+	Reformat:Section...
+
+KEYBOARD
+	none
+
+MACRO
+	Sect "rtf-string"
+	Sect$()
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	FormatDocument -- Change document formatting
+
+MENU
+	Reformat:Document...
+
+KEYBOARD
+	none
+
+MACRO
+	Doc "rtf-string"
+	Doc$()
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	SetTabs -- Add/remove/change tab settings
+
+MENU
+	Reformat:Tabs...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Brings up a dialog with which the user may set new tabs, remove
+        existing ones, and change the types of tabs.
+
+SEE ALSO
+	Ruler
+
+------------------------------------------------------------------------------
+
+NAME
+	ApplyStyle -- Apply a named style to the selection
+
+MENU
+	Reformat:ApplyStyle...
+
+KEYBOARD
+	Shift-F3
+
+MACRO
+	Style "name"
+
+DESCRIPTION
+	If this command is invoked from the keyboard, the user is prompted
+        for a style name.  The user may just enter the name, or press the
+        invoking key again to bring up the dialog box.
+
+        If the command is invoked from the menu, the dialog box is brought
+        up immediately.
+
+        REVIEW
+
+SEE ALSO
+	Styles
+        CreateStyle
+
+------------------------------------------------------------------------------
+
+NAME
+	Styles -- Named formatting information
+
+MENU
+	Reformat:ApplyStyle...
+        Utilities:CreateStyle...
+
+KEYBOARD
+	Shift-F3 (apply style)
+
+MACRO
+	Style "name"		(apply style)
+	Style$("name")		(get rtf-string of named style)
+	Style$()		(get name of style of selected paragraph)
+	New Style "name"	(create style with props of selection)
+	REVIEW
+
+DESCRIPTION
+	A style is a named set of character and paragraph properties.  Styles
+        may be defined as a delta from another style.  Styles may also define
+        a "next" style, such that if a style is applied to a paragraph, the
+        next paragraph entered following this one will have the "next" style.
+
+SEE ALSO
+	ApplyStyle
+        CreateStyle
+
+------------------------------------------------------------------------------
+
+NAME
+	SummaryInfo -- Change the document sumary information
+
+MENU
+	Reformat:SummaryInfo...
+
+KEYBOARD
+	none
+
+MACRO
+	DocInfo "rtf-string"
+	DocInfo$()
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	CheckSpelling -- On-line spelling checker
+
+MENU
+	Proof:Spelling...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	Hyphenation -- REVIEW
+
+MENU
+	Proof:Hyphenation...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	MarkRevisions -- Toggle revision marking on or off
+
+MENU
+	Proof:MarkRevisions
+
+KEYBOARD
+	none
+
+MACRO
+	ShowRevs on_off
+	ShowRevs()
+
+DESCRIPTION
+	When revision marking is on, all newly inserted text will have a
+        special property that causes revision bars to appear to the left
+        of the line the text is on.
+
+SEE ALSO
+	CompareVersions
+        RemoveRevisionMarks
+
+------------------------------------------------------------------------------
+
+NAME
+	RemoveRevisionMarks -- Remove the "revised" property
+
+MENU
+	Proof:RemoveRevisionMarks
+
+KEYBOARD
+	none
+
+MACRO
+	NoRevMarks
+
+DESCRIPTION
+	This command removes the revised property from all of the text in
+        the current document.
+
+SEE ALSO
+	MarkRevisions
+        CompareVersions
+
+------------------------------------------------------------------------------
+
+NAME
+	CompareVersions -- Compare the current document to one on disk
+
+MENU
+	Proof:CompareVersions...
+
+KEYBOARD
+	none
+
+MACRO
+	Compare "file_name"
+
+DESCRIPTION
+	Brings up a dialog box asking for a file name, then compares the
+        the current document to the one in the named file, marking all
+        different paragraphs with the "revised" property.
+
+SEE ALSO
+	MarkRevisions
+        RemoveRevisionMarks
+
+------------------------------------------------------------------------------
+
+NAME
+	ProofPreferences -- REVIEW
+
+MENU
+	Proof:Preferences...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	CreateStyle -- Define a new named style
+
+MENU
+	Utilities:CreateStyle...
+
+KEYBOARD
+	none
+
+MACRO
+	New Style "name" (gets props from selection)
+	New Style "name", "rtf-string"
+
+DESCRIPTION
+	REVIEW
+
+SEE ALSO
+	Styles
+        ApplyStyle
+
+------------------------------------------------------------------------------
+
+NAME
+	CreateGlossary -- Define a new glossary entry
+
+MENU
+	Utilities:CreateGlossary...
+
+KEYBOARD
+	none
+
+MACRO
+	New Glossary "name" (gets text from selection)
+	New Glossary "name", "string"
+
+DESCRIPTION
+	REVIEW
+
+SEE ALSO
+	InsertGlossary
+
+------------------------------------------------------------------------------
+
+NAME
+	Sort -- REVIEW
+
+MENU
+	Utilities:Sort...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	Math -- REVIEW
+
+MENU
+	Utilities:Math...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	Thesaurus -- On-line thesaurus
+
+MENU
+	Utilities:Thesaurus...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	RenumberParagraphs -- Number/renumber paragraphs
+
+MENU
+	Utilities:RenumberParagraphs...
+
+KEYBOARD
+	none
+
+MACRO
+	ReNum "start", "format", mode, all
+
+DESCRIPTION
+	Brings up a dialog box with radio buttons for all or already
+        numbered paragraphs, edit controls for starting number and
+        numbering format, and radio buttons for mode (1, 1.1, learn).
+
+------------------------------------------------------------------------------
+
+NAME
+	TableOfContents -- Generate a table of contents
+
+MENU
+	Utilities:TableOfContents...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	Index -- Generate an index
+
+MENU
+	Utilities:Index...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	RecordMacro -- Record users' actions in a macro
+
+MENU
+	Utilities:StartRecording...
+
+KEYBOARD
+	none
+
+MACRO
+	Record "name"
+	Record Stop
+	Record()
+
+DESCRIPTION
+	REVIEW
+
+SEE ALSO
+	PlayMacro
+
+------------------------------------------------------------------------------
+
+NAME
+	PlayMacro -- Execute a macro
+
+MENU
+	Utilities:PlayMacro...
+
+KEYBOARD
+	none
+
+MACRO
+	macro_name
+
+DESCRIPTION
+	REVIEW
+
+SEE ALSO
+	RecordMacro
+
+------------------------------------------------------------------------------
+
+NAME
+	Customize -- REVIEW
+
+MENU
+	Utilities:Customize...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	Directory -- Display an extended disk directory
+
+MENU
+	Utilities:Directory...
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	NewWindow -- Create another window to the current document
+
+MENU
+	Window:NewWindow
+
+KEYBOARD
+	none
+
+MACRO
+	New Window
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	SplitWindow -- Split the current window into two panes
+
+MENU
+	Window:SizePane
+
+KEYBOARD
+	none
+
+MACRO
+	Split Window window_percent
+
+DESCRIPTION
+	When this command is executed, the mouse and cursor keys control
+        the position of the window split.  Pressing Enter or the left mouse
+        button releases the split. Esc does the usual.
+
+SEE ALSO
+	SplitBar
+
+------------------------------------------------------------------------------
+
+NAME
+	Arrange -- Arrange all of the windows in an orderly manner
+
+MENU
+	Window:Arrange
+
+KEYBOARD
+	none
+
+MACRO
+	Arrange Window
+
+DESCRIPTION
+	Arranges all of the windows in an orderly manner. (EXPLAIN)
+
+------------------------------------------------------------------------------
+
+NAME
+	SizeWindow -- Change the size of a window
+
+MENU
+	Window:Size
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Allows the user to drag the sides of a window with the cursor keys
+        to change its size.  Pressing Enter sets the windows size.  Esc does
+        the usual.
+
+------------------------------------------------------------------------------
+
+NAME
+	MoveWindow -- Move a window
+
+MENU
+	Window:Move
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Allows the user to move a window around using the cursor keys.
+        Pressing Enter plops the window down. Esc does the usual.
+
+------------------------------------------------------------------------------
+
+NAME
+	ZoomWindow -- Expand/shrink a window
+
+MENU
+	Window:Zoom
+
+KEYBOARD
+	none
+
+MACRO
+	Zoom on_off
+	Zoom()
+
+DESCRIPTION
+	This command toggles a windows' zoomness.  When a window is zoomed,
+        it occupies all of the space available in the main mac-in-the-box
+        window.
+
+------------------------------------------------------------------------------
+
+NAME
+	CloseWindow -- Close a window
+
+MENU
+	Window:Close
+
+KEYBOARD
+	none
+
+MACRO
+	Close Window
+
+DESCRIPTION
+	Closes the current window.  If the window is the last window hooked
+        to its document, the document is closed (the user is asked about
+        saving changes if necessary).
+
+------------------------------------------------------------------------------
+
+NAME
+	SelectWindow -- Select a window to be the current one
+
+MENU
+	Window:Window1-n
+
+KEYBOARD
+	none
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Allows the user to easily select any of the currently open windows.
+
+------------------------------------------------------------------------------
+
+NAME
+	Help -- Give the user some help
+
+MENU
+	SYSTEM:About
+
+KEYBOARD
+	F1
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	Redo -- Repeat the last command
+
+MENU
+	none
+
+KEYBOARD
+	F4
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Redoes the last command entered by the user.
+
+------------------------------------------------------------------------------
+
+NAME
+	RedoSearch -- Redo the last search or replace command
+
+MENU
+	none
+
+KEYBOARD
+	Shift-F4
+
+MACRO
+	Find
+	Replace
+
+DESCRIPTION
+	Redoes the last search or replace command entered by the user.
+
+------------------------------------------------------------------------------
+
+NAME
+	Overtype -- Toggle overtype mode on/off
+
+MENU
+	none
+
+KEYBOARD
+	F5
+
+MACRO
+	Overtype on_off
+	Overtype()
+
+DESCRIPTION
+	When overtype command is on, characters typed in replace existing
+        ones (they are simply inserted at the end of paragraphs).  When
+        this mode is off, characters are inserted.
+
+------------------------------------------------------------------------------
+
+NAME
+	Extend -- REVIEW
+
+MENU
+	none
+
+KEYBOARD
+	F6
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	BlockExtend -- REVIEW
+
+MENU
+	none
+
+KEYBOARD
+	Shift-F6
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	Spike -- Put current selection "on the spike"
+
+MENU
+	none
+
+KEYBOARD
+	F7
+
+MACRO
+	Glossary "spike"
+
+DESCRIPTION
+	Move the current selection to a glossary called "Spike."  Note that
+        this deletes the selection from the document.
+
+------------------------------------------------------------------------------
+
+NAME
+	Unspike -- REVIEW
+
+MENU
+	REVIEW
+
+KEYBOARD
+	Shift-F7
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	REVIEW
+
+------------------------------------------------------------------------------
+
+NAME
+	NextField -- Move selection to the next field
+
+MENU
+	none
+
+KEYBOARD
+	F8
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Moves the selection to the next field.
+
+------------------------------------------------------------------------------
+
+NAME
+	PrevField -- Move the selsction to the previous field
+
+MENU
+	none
+
+KEYBOARD
+	Shift-F8
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Moves the selsction to the previous field.
+
+------------------------------------------------------------------------------
+
+NAME
+	ToggleCase -- Change letter case
+
+MENU
+	none
+
+KEYBOARD
+	Ctrl-Z
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Toggles the case of the selected characters between all caps,
+        all lower, and capitalized words.
+
+------------------------------------------------------------------------------
+
+NAME
+	DelForWord -- Delete a word to the right of the cursor
+
+MENU
+	none
+
+KEYBOARD
+	Ctrl-Del
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	If the selection is a range, the range is deleted, otherwise, one
+        word to the right of the cursor is deleted.
+
+------------------------------------------------------------------------------
+
+NAME
+	DelBackWord -- Delete a word to the left of the cursor
+
+MENU
+	none
+
+KEYBOARD
+	Ctrl-BackSpace
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	If the selection is a range, the range is deleted, otherwise, one
+        word to the left of the cursor is deleted.
+
+------------------------------------------------------------------------------
+
+NAME
+	DeleteForward -- Delete one character to the right of the cursor
+
+MENU
+	none
+
+KEYBOARD
+	Del
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	If the selection is a range, the range is deleted, otherwise, one
+        character to the right of the cursor is deleted.
+
+------------------------------------------------------------------------------
+
+NAME
+	DeleteBackward -- Delete one character to the left of the cursor
+
+MENU
+	none
+
+KEYBOARD
+	BackSpace
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	The character to the left of the selection is deleted.
+
+------------------------------------------------------------------------------
+
+NAME
+	OtherPane -- Move to the other window pane
+
+MENU
+	none
+
+KEYBOARD
+	Ctrl-Tab
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Moves the selection to the other pane of the curent window (if there
+        is one).
+
+------------------------------------------------------------------------------
+
+NAME
+	CursorKeys -- Movement and Selection
+
+MENU
+	none
+
+KEYBOARD
+	Left	      	(back character)
+        Right	      	(forward character)
+        Up	      	(back line)
+        Down	      	(forward line)
+        Ctrl-Left     	(back word)
+        Ctrl-Right    	(forward word)
+        Ctrl-Up  	(back paragraph)
+        Ctrl-Down  	(forward paragraph)
+        PgUp	    	(back pane full)
+        PgDown	    	(forward pane full)
+        Ctrl-PgUp   	(start of document)
+        Ctrl-PgDown 	(end of doc)
+        Home	    	(start of line)
+        End	    	(end of line)
+        Ctrl-Home   	(back sentance)
+        Ctrl-End    	(forward sentance)
+        
+
+MACRO
+	REVIEW
+
+DESCRIPTION
+	Normally, these keys revert the selection to a point and move it one
+        unit in the given direction.  If the shift key is held down, the
+        selection is not reverted to a point, but extended instead.
+
+SEE ALSO
+	Goto
+
+------------------------------------------------------------------------------
+
+NAME
+
+MENU
+
+KEYBOARD
+
+MACRO
+
+DESCRIPTION
+
+------------------------------------------------------------------------------

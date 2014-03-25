@@ -1,0 +1,31 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE newopen 
+        {
+        DIALOG dltNewOpen AT (16, 20, 166, 53) 
+        CAPTION "Microsoft Word"
+        CAB_NAME CABNEWOPEN 
+        HELP_ID IDDNewOpen 
+        TMC_INIT tmcNull 
+                {
+                TEXT SZ_FROM_CAB hszFileName AT (3, 14, 159, 9) CENTER
+                        EL_NAME CANNOTFIND
+                DUMMY_TEXT "Cannot find" AT (61, 4, 45, 9) 
+
+                PUSH_BUTTON "&Open..." AT (20, 29, 38, 14) TMC_IMPORT tmcNOOpen ACTION DISMISS 
+                        EL_NAME OPEN
+                PUSH_BUTTON "&New..." AT (64, 29, 38, 14) TMC_IMPORT tmcNONew ACTION DISMISS DEFAULT 
+                        EL_NAME NEW
+                CANCEL_BUTTON AT (108, 29, 38, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

@@ -1,0 +1,32 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE tabletxt 
+        {
+        DIALOG dltTableToText AT (52, 88, 133, 56) 
+        CAB_NAME CABTABLETOTEXT 
+        HELP_ID IDDTableToText 
+        TMC_INIT tmcParagraphs 
+        
+                {
+                OK_BUTTON AT (94, 6, 34, 14) 
+                CANCEL_BUTTON AT (94, 22, 34, 14) 
+                GROUP_BOX "Convert Table To" AT (4, 2, 87, 48) 
+                RADIO_GROUP 
+                        TMC tmcConvertTo ARG tblfmt EL_NAME `ConvertTo`
+                        {
+                        RADIO_BUTTON "&Paragraphs" AT (7, 13, 56, 10) TMC tmcParagraphs
+                        RADIO_BUTTON "&Tab Delimited" AT (7, 24, 71, 10) TMC tmcCommaDelim
+                        RADIO_BUTTON "&Comma Delimited" AT (7, 35, 71, 10) TMC tmcTabDelim
+                        }
+                }
+
+        }
+
+
+END_DESCRIPTION 

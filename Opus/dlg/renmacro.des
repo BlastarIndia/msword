@@ -1,0 +1,29 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE renmacro 
+        {
+        DIALOG dltRenMacro AT (88, 110, 133, 43) 
+        CAB_NAME CABRENMACRO 
+        HELP_ID IDDRenMacro 
+        DIALOG_PROC FDlgRenMacro 
+        TMC_INIT tmcNull 
+                {
+                EDIT AT (5, 18, 82, 12) TMC tmcName
+                        ACTION CHAR_VALIDATED ARG hszName 
+                        EL_NAME Name
+		TEXT "New Macro &Name:" AT (5, 6, 60, 9) TMC tmcRenPrompt
+
+                OK_BUTTON AT (92, 6, 34, 14) 
+                CANCEL_BUTTON AT (92, 22, 34, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

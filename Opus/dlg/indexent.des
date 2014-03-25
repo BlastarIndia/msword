@@ -1,0 +1,40 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE indexent 
+        {
+        DIALOG dltIndexEntry AT (60, 80, 168, 77) 
+        CAB_NAME CABINDEXENTRY 
+        HELP_ID IDDIndexEntry 
+        DIALOG_PROC FDlgIndexEntry 
+        TMC_INIT tmcIndexEntry 
+                {
+                EDIT AT (5, 15, 119, 12) TMC tmcIndexEntry ACTION ARG hstIndexEntry CHAR_VALIDATED
+                        EL_NAME Entry
+                DUMMY_TEXT "Index &Entry:" AT (5, 4, 52, 9) 
+
+                GROUP_BOX "Page Number" AT (5, 28, 120, 43) 
+
+                EDIT AT (38, 38, 82, 12) TMC tmcXeRange ARG hstXeRange 
+                        EL_NAME Range
+                DUMMY_TEXT "&Range:" AT (10, 39, 28, 9) 
+                LIST_BOX AT (42, 50, 78, 24) ACTION COMBO_ATOMIC DROP_DOWN_SIBLING 
+                        LIST_BOX_PROC  WLBPBookmark 
+
+                CHECK_BOX "&Bold" AT (10, 54, 28, 12) TMC tmcXeBold ARG fBold 
+                        EL_NAME Bold
+                CHECK_BOX "&Italic" AT (40, 54, 36, 12) TMC tmcXeItalic ARG fItalic 
+                        EL_NAME Italic
+                OK_BUTTON AT (129, 7, 34, 14) 
+                CANCEL_BUTTON AT (129, 23, 34, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

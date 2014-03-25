@@ -1,0 +1,58 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE renum 
+        {
+        DIALOG dltRenumParas AT (124, 16, 181, 89) 
+        CAB_NAME CABRENUMPARAS 
+        HELP_ID IDDRenumParas 
+        DIALOG_PROC FDlgRenumParas 
+        TMC_INIT tmcOK 
+                {
+                GROUP_BOX "Renumber Paragraphs" AT (4, 4, 135, 25)
+                RADIO_GROUP 
+                        TMC tmcRPAction ARG rpp 
+                        EL_NAME NumParas
+                        {
+                        RADIO_BUTTON "&All" AT (7, 14, 22, 12)
+                                TMC tmcRPAll ACTION 
+                        RADIO_BUTTON "&Numbered Only" AT (33, 14, 63, 12)
+                                TMC tmcRPNumbered ACTION 
+                        RADIO_BUTTON "&Remove" AT (97, 14, 37, 12)
+                                TMC tmcRPRemove ACTION 
+                        }
+                RADIO_GROUP TMC tmcRPMode
+                        ARG fManual 
+                        EL_NAME Type
+                        {
+                        RADIO_BUTTON "A&utomatic" AT (7, 31, 46, 10)
+                                TMC tmcRPAutomatic ACTION 
+                        RADIO_BUTTON "&Manual:" AT (7, 41, 37, 10)
+                                TMC tmcRPManual ACTION 
+                        }
+                GROUP_BOX "" AT (16, 50, 76, 34) 
+                EDIT AT (55, 56, 34, 12) TMC tmcRPStartAt ARG hszStartAt 
+                        EL_NAME StartAt
+                DUMMY_TEXT "&Start at:" AT (18, 58, 36, 9)
+                CHECK_BOX "Show all &levels" AT (19, 70, 71, 12)
+                        TMC tmcRPAllLevels ARG fShowAllLev
+                        EL_NAME ShowAllLevels
+                EDIT AT (98, 36, 42, 12) ACTION TMC tmcRPFormat
+                        CHAR_VALIDATED ARG hszFormat 
+                        EL_NAME Format
+                DUMMY_TEXT "&Format:" AT (69, 38, 29, 9)
+                LIST_BOX AT (102, 48, 48, 32) COMBO_ATOMIC
+                        LIST_BOX_PROC WListRenum 
+                OK_BUTTON AT (142, 6, 34, 14) 
+                CANCEL_BUTTON AT (142, 22, 34, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

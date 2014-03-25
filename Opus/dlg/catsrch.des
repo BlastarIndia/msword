@@ -1,0 +1,81 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE catsrch 
+        {
+        DIALOG dltCatSearch AT (12, 16, 223, 134) 
+        CAB_NAME CABCATSEARCH 
+        HELP_ID IDDCatSearch 
+        DIALOG_PROC FDlgCatSearch
+        TMC_INIT tmcCatSrhList 
+        
+                {
+                EDIT AT (5, 15, 141, 12) TMC tmcCatSrhList ARG hszCatSrhList 
+                        EL_NAME SearchList
+                DUMMY_TEXT "Search &List:" AT (5, 5, 48, 9) 
+
+                EDIT AT (42, 32, 104, 12) TMC tmcCatSrhTitle ARG hszCatSrhTitle 
+                        EL_NAME Title
+                DUMMY_TEXT "&Title:" AT (5, 34, 36, 9) 
+
+                EDIT AT (42, 46, 104, 12) TMC tmcCatSrhSubject ARG hszCatSrhSubject 
+                        EL_NAME Subject
+                DUMMY_TEXT "&Subject:" AT (5, 48, 36, 9) 
+
+                EDIT AT (42, 60, 104, 12) TMC tmcCatSrhAuthor ARG hszCatSrhAuthor 
+                        EL_NAME Author
+                DUMMY_TEXT "&Author:" AT (5, 62, 36, 9) 
+
+                EDIT AT (42, 74, 104, 12) TMC tmcCatSrhKeyword ARG hszCatSrhKeyword 
+                        EL_NAME Keywords
+                DUMMY_TEXT "&Keywords:" AT (5, 76, 36, 9) 
+
+                EDIT AT (42, 88, 104, 12) TMC tmcCatSrhRevisor ARG hszCatSrhRevisor 
+                        EL_NAME SavedBy
+                DUMMY_TEXT "Sa&ved By:" AT (5, 90, 36, 9) 
+
+                EDIT AT (42, 102, 104, 12) TMC tmcCatSrhText ARG hszCatSrhText 
+                        EL_NAME SearchText
+                DUMMY_TEXT "Te&xt:" AT (5, 104, 36, 9) 
+
+                GROUP_BOX "Date Created" AT (150, 40, 68, 40) 
+
+                EDIT AT (174, 52, 40, 12) TMC tmcCatSrhCreateFrom ARG hCatSrhDttmCreateFrom 
+                        PARSE_PROC WParseDttm SIZE 2 
+                        EL_NAME DateCreatedFrom
+                DUMMY_TEXT "&From:" AT (152, 54, 20, 9) 
+
+                EDIT AT (174, 66, 40, 12) TMC tmcCatSrhCreateTo ARG hCatSrhDttmCreateTo 
+                        PARSE_PROC WParseDttm SIZE 2 
+                        EL_NAME DateCreatedTo
+                DUMMY_TEXT "T&o:" AT (152, 68, 20, 9) 
+
+                GROUP_BOX "Date Saved" AT (150, 82, 68, 41) 
+
+                EDIT AT (174, 94, 40, 12) TMC tmcCatSrhReviseFrom ARG hCatSrhDttmReviseFrom 
+                        PARSE_PROC WParseDttm SIZE 2 
+                        EL_NAME DateSavedFrom
+                DUMMY_TEXT "Fro&m:" AT (152, 96, 20, 9) 
+
+                EDIT AT (174, 108, 40, 12) TMC tmcCatSrhReviseTo ARG hCatSrhDttmReviseTo 
+                        PARSE_PROC WParseDttm SIZE 2 
+                        EL_NAME DateSavedTo
+                DUMMY_TEXT "To&:" AT (152, 110, 20, 9) 
+                
+                CHECK_BOX "Match &Case" AT (5, 118, 55, 12) TMC tmcCatSrhMatchCase ARG fCatSrhMatchCase 
+                        EL_NAME MatchCase
+                CHECK_BOX "S&earch Again" AT (88, 118, 58, 12) TMC tmcCatSrhRedo ARG fCatSrhRedo 
+                        EL_NAME SearchAgain
+                OK_BUTTON AT (184, 5, 34, 14) 
+                CANCEL_BUTTON AT (184, 21, 34, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

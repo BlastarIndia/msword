@@ -1,0 +1,31 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE pastelnk 
+        {
+        DIALOG dltPasteLink AT (83, 32, 140, 46) 
+        CAB_NAME CABPASTELINK 
+        HELP_ID IDDPasteLink 
+        DIALOG_PROC FDlgPasteLink
+        TMC_INIT tmcOK 
+                {
+                CHECK_BOX "&Auto Update" AT (5, 4, 64, 12) ARG fHot 
+                        EL_NAME AutoUpdate
+
+                TEXT SZ_FROM_CAB hszLink AT (5, 35, 135, 9) 
+			TMC tmcLinkTo 
+                DUMMY_TEXT "Link To:" AT (5, 23, 54, 9) 
+
+                OK_BUTTON AT (101, 4, 34, 14) 
+                CANCEL_BUTTON AT (101, 20, 34, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

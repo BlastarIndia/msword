@@ -1,0 +1,48 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE printmrg 
+        {
+        DIALOG dltPrintMerge AT (84, 56, 132, 59) 
+        CAB_NAME CABPRINTMERGE 
+        HELP_ID IDDPrintMerge 
+        DIALOG_PROC FDlgPrintMerge 
+        TMC_INIT tmcPMPrint 
+        
+                {
+                GROUP_BOX "Merge Records" AT (5, 3, 64, 50) 
+                RADIO_GROUP 
+			/* NO_NINCH */
+                        ARG iMergeRec 
+			TMC tmcPMMergeRec
+                        EL_NAME MERGERECORDS
+                        {
+                        RADIO_BUTTON "&All" AT (8, 13, 30, 12) TMC tmcPMAll ACTION 
+                        RADIO_BUTTON "&From:" AT (8, 24, 30, 12) TMC tmcPMRange ACTION 
+                        }
+
+                EDIT AT (41, 23, 22, 12) TMC tmcPMFrom ARG iRecFrom ACTION CHAR_VALIDATED
+                        PARSE_PROC WParseOpt WPARAM `optPosNZInt` 
+                        EL_NAME From
+
+                EDIT AT (41, 37, 22, 12) TMC tmcPMTo ARG iRecTo ACTION CHAR_VALIDATED
+                        PARSE_PROC WParseOpt WPARAM `optPosNZInt` 
+                        EL_NAME To
+                DUMMY_TEXT "&To:" AT (25, 38, 12, 9) 
+
+                PUSH_BUTTON "&Print..." AT (73, 7, 54, 14) TMC tmcPMPrint DISMISS_CAB DEFAULT 
+                        EL_NAME PRINT
+                PUSH_BUTTON "&New Document" AT (73, 23, 54, 14) TMC tmcPMNewDoc DISMISS_CAB 
+                        EL_NAME NewDocument
+                CANCEL_BUTTON AT (73, 39, 54, 14)
+                }
+
+        }
+
+
+END_DESCRIPTION 

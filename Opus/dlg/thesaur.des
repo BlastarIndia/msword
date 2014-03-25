@@ -1,0 +1,39 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE thesaur 
+        {
+        DIALOG dltThesaurus AT (66, 31, 250, 153) 
+        CAPTION "Thesaurus" 
+        CAB_NAME CABTHESAURUS 
+        HELP_ID IDDThesaurus 
+        DIALOG_PROC FDlgThesaurus 
+        TMC_INIT tmcSynList 
+        BDR_SYS_MENU 
+                {
+                EDIT AT (42, 3, 102, 12) TMC tmcLookup ACTION ARG hszLookup CHAR_VALIDATED 
+                DUMMY_TEXT "&Look Up:" AT (5, 4, 36, 9) 
+                LIST_BOX AT (5, 27, 85, 120) TMC tmcSynList ACTION ARG uSynList 
+                        LIST_BOX_PROC WListBoxNull 
+                DUMMY_TEXT "S&ynonyms:" AT (5, 16, 50, 9) 
+                LIST_BOX AT (95, 99, 150, 48) TMC tmcDefList ACTION ARG uDefList 
+                        LIST_BOX_PROC WListBoxNull 
+                DUMMY_TEXT "&Definitions:" AT (95, 88, 50, 9) 
+                CANCEL_BUTTON AT (205, 5, 40, 14) 
+                PUSH_BUTTON "&Replace" AT (205, 25, 40, 14) TMC tmcReplace DISMISS_CAB ACTION DEFAULT 
+                PUSH_BUTTON "&Synonyms" AT (205, 42, 40, 14) TMC tmcSynonym ACTION 
+                PUSH_BUTTON "&Original" AT (205, 59, 40, 14) TMC tmcOriginal ACTION 
+        TEXT "XXX" AT (95, 16, 60, 8) TMC tmcPartOfSpeech
+                GROUP_BOX "" AT (95, 22, 105, 61) 
+        TEXT "XXX" AT (98, 29, 99, 48) MULTI_LINE TMC tmcDefinition
+                }
+
+        }
+
+
+END_DESCRIPTION 

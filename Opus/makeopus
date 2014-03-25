@@ -1,0 +1,1099 @@
+##############################################################################
+####                                                                      ####
+####    Microsoft Opus make file    *** P-Code Version ***                ####
+####                                                                      ####
+####    For use with the MS-DOS version of NMAKE.EXE                      ####
+####                                                                      ####
+##############################################################################
+
+
+OPUS        = .
+BUILD       = $(OPUS)
+ASM_DIR     = $(OPUS)\asm
+DEBUG       = $(OPUS)\debug
+DLG         = $(OPUS)\dlg
+INTERP      = $(OPUS)\interp
+LIB         = $(OPUS)\lib
+RESOURCE    = $(OPUS)\resource
+RES         = $(RESOURCE)
+ITLRES      = $(RESOURCE)
+CMD         = $(RESOURCE)
+SDM         = $(OPUS)\sdm
+WORDTECH    = $(OPUS)\wordtech
+!IFDEF MAKEOS2
+TOOLS       = $(OPUS)\tools\os2
+!ELSE
+TOOLS       = $(OPUS)\tools\dos
+!ENDIF
+
+NAM         = opus
+EXE_DIR     = $(OPUS)\program
+
+
+##############################################################################
+
+# special compile flags: user can specify these in .ini file for special uses
+
+# define WIN23 by default
+
+WIN23	=
+
+#additional flags to tools
+UF_CSL      =
+UF_ILINK    =
+UF_LINK     =
+!ifdef WIN23
+UF_WINMARK  = FONT
+!else
+UF_WINMARK  = 
+!endif /* WIN23 */
+UF_MASM     =
+
+!IF "$(VERSION)" == "nondbg"
+USER        =
+!ELSE
+USER        = - /v
+!ENDIF
+DATE        = /ObD, /CY
+
+
+##############################################################################
+
+# Macro definition switches (defined by MAKEOPUS).
+
+DFLAGS      =
+CHKERR      =
+VERSION     = dbg
+CHKMEM      = rem
+
+##############################################################################
+##############################################################################
+
+# The following are for trying to convert makeopus to OS/2
+
+!IFDEF MAKEOS2
+TO = call to
+LENGTH = newlen
+!ELSE
+TO = to
+LENGTH = length
+!ENDIF
+
+###############################################################################
+
+LINK = link5
+
+OPUSPROJNAM = OPUS
+
+SBMAX=100
+
+RC = rc
+#	Rc switches:
+#   -r	    generates a .res file
+#   -v n.n  use rc version n.n
+RCFLAGS = -r
+
+CC = csl
+# Flags for p-code compiler
+# (bl 9/20/88): -nb forces errors for native code gen bugs
+# im to obj switches
+
+IM2OBJ = im2obj
+!IFDEF COVER
+IMFLAGS = -c -p -T@13
+PFLAGS = -nb -p -Q -mW -DPCODE -s
+!ELSE
+IMFLAGS = -r -c -p -T@13
+PFLAGS = -nb -r -p -Q -mW -DPCODE
+!ENDIF
+PIFLAG = -Z.
+
+ASM = masm
+# Assembler switches:
+AFLAGS = $(UF_MASM) -Mx
+ATERM = ;
+
+!IFDEF WIN23
+PFLAGS      = $(PFLAGS) -DWIN23
+AFLAGS	= $(AFLAGS) -DWIN23
+!ENDIF
+
+
+DE = de
+DEFLAGS = -o .\ -g
+MEFLAGS = -l
+
+#	Linker switches:
+#	/m		    generates map files (don't use w/ new ILINK)
+#	/NOD		don't search for default lib files
+#	/INC		Incremental Link (# following is cSymMax)
+#	/PADD	    Data padding, per module
+#	/PADC	    Code padding, per module
+#   /SEGMENTS	total number os segments allowed
+
+LINK_FLAG = 
+LFLAGS = /m /NOD /NOE /ALIGN:32 /PADD:16 /PADC:256 /SEGMENTS:260
+LFLAGSNDB = /m /NOD /NOE /ALIGN:16 /SEGMENTS:245
+
+SED = sed
+#	Sed switches:
+SFLAGS = -n -f
+
+##############################################################################
+##############################################################################
+
+.SUFFIXES: .im .obj .lst .c .asm .dfa .des .sdm .hs .hg .hb .hc .hi .ico .bmp .cur .dib
+
+
+BUILD_OBJ = toolbox.obj \
+	pcodemap.obj
+
+	
+# Debugging/nondebug-only files
+
+DEBUG_OBJ = debug1.obj debugcmd.obj debuginf.obj debugfn.obj \
+	debugscc.obj debugstr.obj debug.obj debugdlg.obj \
+	debug2.obj debugfnt.obj rip.obj ripaux.obj loadfont.obj \
+	debuggdi.obj debugwin.obj debugdde.obj auxout.obj \
+        exectest.obj exptest.obj symtest.obj to.obj profctl.obj 
+
+HYBRID_OBJ = int3f.obj profctl.obj profwin.obj profwin2.obj
+                
+WORDTECH_OBJ = banter.obj block.obj clsplc.obj curskeys.obj        \
+	disp3.obj disptbl.obj disp2.obj 	       \
+	edit.obj editspec.obj editsub.obj error.obj fetch1.obj fetch2.obj \
+	openrare.obj footnote.obj formatsp.obj            \
+	hdd.obj hyph.obj ihdd.obj insert.obj           \
+	inssubs.obj layout.obj layout1.obj \
+	layoutap.obj outline.obj pagevw.obj prcsubs.obj    \
+	printsub.obj savefast.obj scroll.obj               \
+	select.obj selectsp.obj sttb.obj stysubs.obj               \
+	tablecmd.obj tableins.obj tablesub.obj                      \
+	undo.obj wwact.obj fetchtb.obj selecttb.obj
+
+WORDTDBG_OBJ = fetch.obj format.obj layout2.obj
+ 
+CASHMERE_OBJ = annot.obj catalog.obj clipbord.obj \
+	elcore.obj elinit.obj exp.obj main.obj sym.obj \
+	clipbrd2.obj cmd.obj cmd2.obj dlglook1.obj dlglook2.obj cmdwnd.obj cmd3.obj \
+	cmdcore.obj command2.obj command.obj compare.obj \
+	create.obj create2.obj curswin.obj \
+	dialog1.obj dialog2.obj dialog3.obj \
+	customiz.obj ddeclnt.obj ddesrvr.obj ddesub.obj disp1.obj \
+	dispspec.obj dispbrc.obj dlbenum.obj dlgdoc.obj dlghyph.obj \
+        dlgmisc.obj dlgopen.obj dlgtable.obj docman1.obj \
+        docman2.obj edmacro.obj eldde.obj elfile.obj \
+	elmisc.obj elsubs.obj eldlg.obj elmisc2.obj \
+	etcmd.obj ffcrypt.obj \
+	ffread.obj fieldclc.obj fieldcmd.obj fieldfmt.obj fieldcr.obj \
+	fieldpic.obj fieldprs.obj fieldsp.obj fieldspc.obj file2.obj \
+	filecvt.obj filewin.obj fltexp.obj glsy.obj fieldsc2.obj \
+	hddwin.obj help.obj iconbar1.obj iconbar2.obj \
+	iconbar3.obj idle.obj rcbmp1.obj rcbmp2.obj rcbmp3.obj rcbmp4.obj \
+	index1.obj index2.obj initwin.obj rcinit.obj init2.obj \
+	insfield.obj spelcore.obj menu.obj \
+	menuhelp.obj merge.obj \
+	open.obj outwin.obj pic.obj pic2.obj pictdrag.obj \
+	preview.obj prvw2.obj print.obj print1.obj print2.obj prompt.obj quit.obj \
+	raremsg.obj recorder.obj renum.obj replace.obj res.obj \
+	rtfin.obj rtfout.obj rtfsubs.obj rtfrare.obj rtftrans.obj \
+	rulerdrw.obj rulrib.obj save.obj savetext.obj \
+	screen2.obj search.obj \
+	sort.obj spell.obj splitter.obj srchfmt.obj statline.obj \
+	strtbl.obj style.obj stylesub.obj syschg.obj \
+	tabs.obj toc.obj token.obj util2.obj \
+	wproc.obj elsubs2.obj elsubs3.obj \
+	wwchange.obj mathapi.obj rsb.obj \
+	grtiff.obj grspec.obj grswath.obj grbit.obj \
+	formula.obj dlgrec.obj
+
+CASHMERE3_OBJ = rcbmp13.obj rcbmp23.obj rcbmp43.obj
+  
+ASM_OBJ = disp1n.obj disp1n2.obj disp3n.obj fetchn.obj fetchn2.obj \
+	fieldfmn.obj fieldcrn.obj file2n.obj filewinn.obj \
+	formatn.obj formatn2.obj formulan.obj movecmds.obj \
+	eldden.obj natinit.obj promptn.obj resn.obj resn2.obj \
+	searchn.obj wordgrep.obj wprocn.obj opuscmd.obj \
+	nattrans.obj inssubsn.obj expn.obj fetchn3.obj editn.obj \
+	layout2n.obj grbitx.obj grhc.obj disp2n.obj layout22.obj \
+	fieldspn.obj fetch2n.obj disptbln.obj clsplcn.obj \
+	fetchtbn.obj rtfinn.obj rtfsubsn.obj prln.obj disptbn2.obj \
+	sttbn.obj editn2.obj dialog1n.obj index2n.obj
+
+DES_LIST = insbreak.sdm apprun.sdm cust.sdm username.sdm docsum.sdm \
+	docstat.sdm viewpref.sdm index.sdm indexent.sdm revmark.sdm \
+	chgpr.sdm recorder.sdm pastelnk.sdm confirmr.sdm bookmark.sdm \
+	sect.sdm doc.sdm autosave.sdm para.sdm printmrg.sdm sort.sdm \
+	footnote.sdm print.sdm pict.sdm vrfcnvtr.sdm prompt.sdm \
+	edmacro.sdm renmacro.sdm runmacro.sdm showvars.sdm glsy.sdm \
+	goto.sdm newopen.sdm renum.sdm thesaur.sdm search.sdm \
+	replace.sdm  tabs.sdm char.sdm style.sdm edstyle.sdm \
+	renstyle.sdm asgn2key.sdm asgn2mnu.sdm about.sdm hyphen.sdm \
+	open.sdm new.sdm insfile.sdm filenam2.sdm toc.sdm spell.sdm \
+	spellmm.sdm catalog.sdm catprog.sdm catsrch.sdm saveas.sdm \
+	header.sdm mrgstyle.sdm cmpfile.sdm insfield.sdm \
+	password.sdm tablecmd.sdm tableins.sdm tablefmt.sdm tabletxt.sdm \
+        abspos.sdm ribbon.sdm ruler.sdm inspic.sdm inspgnum.sdm usrdlg.sdm
+!ifdef WIN23
+DES_LIST = $(DES_LIST) ribbon3.sdm ruler3.sdm
+!endif 
+
+DES_LIST_DBG = dbgfail.sdm dbgfile.sdm dbgfunc.sdm dbgmem.sdm dbgpref.sdm \
+	dbgrare.sdm dbgscrbl.sdm dbgtests.sdm dbgusec1.sdm dbgusec2.sdm \
+	dbgusec3.sdm dbgusec4.sdm
+
+SDM1_OBJ = sdminit.obj sdmcore.obj sdmcore2.obj sdmrare.obj sdmdir.obj sdmlistb.obj sdmcore3.obj \
+	sdmcore4.obj 
+!IF "$(VERSION)" == "hybrid"
+SDM2_OBJ = sdmcomp.obj sdmdir2.obj sdmnat.obj sdmnat2.obj wtimer.obj
+!ELSE
+SDM2_OBJ = sdmcomp.obj sdmdir2.obj sdmnat.obj sdmnat2.obj
+!ENDIF
+
+INTERP_OBJ = elcore.obj elinit.obj exectest.obj exp.obj exptest.obj
+INTERP1_OBJ = main.obj sym.obj symtest.obj to.obj
+
+INIT_RC = mopus.hi mword.hi \
+	mwhires.hc split.hc styname.hc \
+	mic.hc help.hc cross.hc vertout.hc \
+	horzout.hc column.hc prvwcrs.hc
+
+!IFDEF WIN23
+EBMP3_RC = escrptp3.hb erultgl3.hb erulmar3.hb eribbon3.hb \
+ 	ehdr3.hb eoutlin3.hb epageic3.hb eparali3.hb \
+	eirultg3.hb eiribbo3.hb eiparal3.hb eiscrpt3.hb 
+EBMP_RC = eotlpat.hb escrptpo.hg erultgls.hg erulmark.hg eribbon.hg \
+	ehdr.hb eoutline.hg epageico.hb eparalig.hg 
+VBMP3_RC = vscrptp3.hb vrultgl3.hb vrulmar3.hb vribbon3.hb \
+ 	vhdr3.hb voutlin3.hb vpageic3.hb vparali3.hb \
+	virultg3.hb viribbo3.hb viparal3.hb viscrpt3.hb 
+VBMP_RC = votlpat.hb vscrptpo.hg vrultgls.hg vrulmark.hg vribbon.hg \
+	vhdr.hb voutline.hg vpageico.hb vparalig.hg 
+8BMP3_RC = 8scrptp3.hb 8rultgl3.hb 8rulmar3.hb 8ribbon3.hb \
+ 	8hdr3.hb 8outlin3.hb 8pageic3.hb 8parali3.hb \
+	8irultg3.hb 8iribbo3.hb 8iparal3.hb 8iscrpt3.hb 
+8BMP_RC = 8otlpat.hb 8scrptpo.hg 8rultgls.hg 8rulmark.hg 8ribbon.hg \
+	8hdr.hb 8outline.hg 8pageico.hb 8paralig.hg 
+CBMP_RC = cotlpat.hb cscrptpo.hg crultgls.hg crulmark.hg cribbon.hg \
+	chdr.hb coutline.hg cpageico.hb cparalig.hg \
+	sotlpat.hb sscrptpo.hg srultgls.hg srulmark.hg sribbon.hg \
+	shdr.hb soutline.hg spageico.hb sparalig.hg
+COMMONBMP3_RC = showvis.hb otlpat3.hb 
+COMMONBMP_RC = showvis.hb
+BMP_RC = $(EBMP_RC) $(EBMP3_RC)\
+	 $(VBMP_RC) $(VBMP3_RC)\
+	 $(8BMP_RC) $(8BMP3_RC)\
+	 $(CBMP_RC) \
+	 $(COMMONBMP3_RC)
+!ELSE
+BMP_RC = showvis.hb \
+	eotlpat.hb escrptpo.hg erultgls.hg erulmark.hg eribbon.hg \
+	ehdr.hb eoutline.hg epageico.hb eparalig.hg \
+	cotlpat.hb cscrptpo.hg crultgls.hg crulmark.hg cribbon.hg \
+	chdr.hb coutline.hg cpageico.hb cparalig.hg \
+	votlpat.hb vscrptpo.hg vrultgls.hg vrulmark.hg vribbon.hg \
+	vhdr.hb voutline.hg vpageico.hb vparalig.hg \
+	8otlpat.hb 8scrptpo.hg 8rultgls.hg 8rulmark.hg 8ribbon.hg \
+	8hdr.hb 8outline.hg 8pageico.hb 8paralig.hg \
+	sotlpat.hb sscrptpo.hg srultgls.hg srulmark.hg sribbon.hg \
+	shdr.hb soutline.hg spageico.hb sparalig.hg
+!ENDIF
+
+
+#	PCODE libraries:
+#		winter.lib	-- Non-debugging version of interpreter
+#               sbmgr.lib       -- Non-debugging version of sb mgr
+#               
+#		dwinter.lib	-- Debugging version of interpreter
+#               dsbmgr.lib      -- Debugging version of sb mgr
+#
+#		appload.lib	-- app loader
+#
+#		dlmem.w86	-- Local MEMory manager (debugging, Windows)
+#		sdm.lib		-- Standard Dialog Manager
+#		el.lib		-- Standard Extension Language
+#
+#		fswinter.lib	-- larger but faster nondebugging version
+# Add (d)math.lib to dwinterlib, winterlib, not opuslib
+DWINTERLIB = dwinter.w86 dsbmgr.w86 dlmem.w86 sdm.lib dcrmgr.w86 \
+	dmath.w86 debug.w86 dappload.w86
+DSWINTERLIB = dswinter.w86 dsbmgr.w86 lmem.w86 sdm.lib dcrmgr.w86 \
+	dmath.w86 debug.w86 dappload.w86
+WINTERLIB = winter.w86 sbmgr.w86 lmem.w86 sdm.lib crmgr.w86 \
+	math.w86 appload.w86
+OPUSLIB = init.w86 mlibw.lib mlibc.w86 mwlibc.lib libh.lib
+
+
+##############################################################################
+##############################################################################
+
+
+# Here we build the world
+
+$(EXE_DIR)\$(NAM).exe: $(OPUS)\makeopus \
+!IFNDEF MAKEOS2
+!IFDEF MMEM
+	    mmem_on \
+!ENDIF
+!ENDIF
+	    chk_mem \
+	    $(DES_LIST) \
+!IF "$(VERSION)" == "dbg"
+	    $(DES_LIST_DBG) \
+!ENDIF
+	    elxdefs.h \
+	    opuscmd.obj menuhelp.h verdate.h $(NAM).res \
+	    $(BUILD_OBJ) \
+	    $(INIT_RC) $(BMP_RC) \
+!IF "$(VERSION)" == "dbg"
+	    $(DEBUG_OBJ) \
+	    $(WORDTDBG_OBJ) \
+!ENDIF
+!IF "$(VERSION)" == "hybrid"
+	    $(HYBRID_OBJ) \
+!ENDIF
+	    $(WORDTECH_OBJ) \
+!IF 0
+	    $(INTERP_OBJ) $(INTERP1_OBJ) \
+!ENDIF
+	    $(CASHMERE_OBJ) $(ASM_OBJ) $(INIT_OBJ) \
+!ifdef WIN23
+	    $(CASHMERE3_OBJ) \
+!endif /* WIN23 */
+	    sdm.lib \
+!IFNDEF MAKEOS2
+!IFDEF MMEM
+	    mmem_off \
+!ENDIF
+!ENDIF
+		opus.lnk \
+!IF "$(VERSION)" == "dbg"
+		$(OPUS)\opus.def
+!ELSE
+!IF "$(VERSION)" == "hybrid"
+                hybrid.def
+!ELSE
+		opusndb.def
+!ENDIF
+!ENDIF
+	if exist error.snt goto done
+!IF "$(LINK_MODE)" == "INC_LINK"
+	echoerr *** Incremental linking...
+	$(CHKMEM)
+	ilink $(UF_ILINK) -a -i $(EXE_DIR)\$(NAM)
+	if errorlevel 1 goto fulllink
+	goto done
+!ENDIF
+	:fulllink
+	echoerr *** Performing full link...
+	if exist $(EXE_DIR)\opusfull.map del $(EXE_DIR)\opusfull.map
+	$(CHKMEM)
+	$(LINK) $(LINK_FLAG) $(UF_LINK) @opus.lnk
+	if errorlevel 1 goto error
+	echoerr *** Resources...
+	$(RC) /l $(NAM).res $(EXE_DIR)\$(NAM).exe
+	if errorlevel 1 goto error
+!IF "$(VERSION)" != "dbg"
+!IFNDEF NOAPPLOADER
+	echoerr *** Installling Apploader
+	munge -win0 $(EXE_DIR)\$(NAM).exe $(EXE_DIR)\winmung.exe
+	copy $(EXE_DIR)\winmung.exe $(EXE_DIR)\$(NAM).exe
+	del $(EXE_DIR)\winmung.exe
+!ENDIF
+!ENDIF
+	rem exestub $(EXE_DIR)\$(NAM).exe $(OPUS)\tools\appstub.exe
+        winmark memory $(UF_WINMARK) $(EXE_DIR)\$(NAM).exe
+!IF "$(VERSION)" == "hybrid"
+	mapsym $(EXE_DIR)\$(NAM)
+!ENDIF
+
+mmem_on:
+    mmem on
+
+mmem_off:
+    mmem off
+
+chk_mem:
+    $(CHKMEM)
+
+!IF "$(VERSION)" == "dbg"
+toolbox.sdm: $(RESOURCE)\toolbox.txt
+	echoerr *** Building TOOLBOX
+	copy $(RESOURCE)\toolbox.txt toolbox.sdm
+!ELSE
+toolbox.sdm: $(RESOURCE)\toolbox.txt $(RESOURCE)\dbg.txt $(RESOURCE)\hybrid.txt
+	echoerr *** Building non-debug TOOLBOX
+	fgrep -v -f $(RESOURCE)\dbg.txt $(RESOURCE)\toolbox.txt > toolbox.sdm
+!IF "$(VERSION)" == "nondbg"
+	copy toolbox.sdm ~MAK0000.TMP
+	fgrep -v -f $(RESOURCE)\hybrid.txt ~MAK0000.TMP > toolbox.sdm
+        rm ~MAK0000.TMP
+!ENDIF
+!ENDIF
+
+!IF "$(VERSION)" == "dbg"
+elxdefs.h: $(DES_LIST) $(DES_LIST_DBG) $(DLG)\elx.txt $(DLG)\elxdbg.txt \
+		$(DLG)\syncelx.dbg $(DLG)\syncelx.txt $(TOOLS)\mergeelx.exe
+	copy $(DLG)\elx.txt+$(DLG)\elxdbg.txt ~FOO.TMP
+#	copy $(DLG)\syncelx.txt+$(DLG)\syncelx.dbg ~FOO2.TMP
+	echoerr *** Building debug elxdefs.h
+	mergeelx $(MEFLAGS) -s $(DLG)\syncelx.txt -f ~FOO.TMP
+	$(CHKERR)
+	del ~FOO.TMP
+#	del ~FOO2.TMP
+!ELSE
+elxdefs.h: $(DES_LIST) $(DLG)\elx.txt $(DLG)\syncelx.txt $(TOOLS)\mergeelx.exe
+	echoerr *** Building non-debug elxdefs.h
+	mergeelx $(MEFLAGS) -t -s $(DLG)\syncelx.txt -f $(DLG)\elx.txt
+	$(CHKERR)
+!ENDIF
+
+
+!IF "$(VERSION)" == "dbg"
+dlgcheck.h: $(DES_LIST) $(DES_LIST_DBG) $(DLG)\elx.txt $(DLG)\elxdbg.txt $(TOOLS)\mkdlg.exe
+	echoerr *** Building dialog parsing tables ***
+	$(TO) $(DLG)
+	copy $(DLG)\elx.txt+$(DLG)\elxdbg.txt ~FOO.TMP
+	mkdlg @~FOO.TMP $(BUILD)\dlgcheck.h
+	$(CHKERR)
+	del ~FOO.TMP
+!IF "$(OPUS)" != "$(BUILD)"
+	cd $(OPUS)
+!ENDIF
+	$(TO) $(BUILD)
+!ELSE
+dlgcheck.h: $(DES_LIST) $(DLG)\elx.txt
+	$(TO) $(DLG)
+	mkdlg @$(DLG)\elx.txt $(BUILD)\dlgcheck.h
+	$(CHKERR)
+!IF "$(OPUS)" != "$(BUILD)"
+	cd $(OPUS)
+!ENDIF
+	$(TO) $(BUILD)
+!ENDIF
+
+
+#	Here we build opus.res
+
+$(NAM).res: opuscmd.obj $(RES)\misc.rc $(RES)\*.cur $(RES)\*.ico
+	echoerr *** Starting Resource Compile ***
+	$(TO) $(RES)
+!IF "$(VERSION)" == "dbg"
+	echo #define DEBUG > defs.rc
+!ELSE
+	echo. > defs.rc
+!ENDIF
+	copy defs.rc+misc.rc $(NAM).rc
+	$(CHKERR)
+	rem - this may not work if you don't have a lot of envorinment space
+	rem set INCT=%INCLUDE%
+	rem set INCLUDE=
+	$(RC) $(RCFLAGS) $(NAM).rc
+	$(CHKERR)
+	rem set INCLUDE=%INCT%
+	rem set INCT=
+	copy $(NAM).res $(BUILD)
+	$(CHKERR)
+	rm $(NAM).res $(NAM).rc defs.rc
+!IF "$(OPUS)" != "$(BUILD)"
+	cd $(OPUS)
+!ENDIF
+	$(TO) $(BUILD)
+
+# this version's date and builder
+verdate.h: $(RES)\verdate.sed $(OPUS)\slmver.h $(RES)\vertmpl.txt
+	echoerr *** Building version stamp
+	echotmpl $(RES)\vertmpl.txt $(OPUS)\slmver.h > verdate.h
+	echotime $(DATE) $(USER) | $(SED) -f $(RES)\verdate.sed >> verdate.h
+
+
+#	Here we build the command table
+
+# Note: ibcm.rel is part of the project, and is by nature a non-debug
+# version - we never use the ibcm.h generated for a debug version.
+# ibcm.rel must only be checked in by someone who knows what they're
+# doing.  It must be identical, throughout the cycle of a release, to
+# the ibcm.h we gave to UserEd for the previous rel.
+
+opuscmd.obj: $(CMD)\opuscmd.cmd $(CMD)\keys.cmd \
+        $(CMD)\menus.cmd $(CMD)\ibcm.rel
+	echoerr *** Building command table
+        $(TO) $(CMD)
+	cp ibcm.rel ibcm.h
+	mkcmd -T@13 -s$(DLG)\ -b$(BUILD)\ $(DFLAGS) opuscmd keys menus
+	$(CHKERR)
+	cp opuscmd.h menuhelp.txt ibcm.h rgbcm.h opusmenu.h opuscmd.asm opuscmd2.h $(BUILD)
+	$(CHKERR)
+	rm opuscmd.h menuhelp.txt ibcm.h rgbcm.h opusmenu.h opuscmd.asm opuscmd2.h
+	$(CHKERR)
+!IF "$(OPUS)" != "$(BUILD)"
+        cd $(OPUS)
+!ENDIF
+        $(TO) $(BUILD)
+	echoerr *** Assembling opuscmd.asm
+	$(ASM) $(AFLAGS) $(DFLAGS) opuscmd.asm $(ATERM)
+	$(CHKERR)
+
+
+#
+# Figure out key word phrases for menu help string compression.
+#
+# slice breaks the strings into words and phrases
+# keysupp is a file of supplemental keywords that slice will not produce.
+#	Any strings can be added to keysupp -- makekeys will just ignore
+#	those strings that won't help the compression.
+# makekeys takes the words, phrases, and initial strings and tries to get
+#	the optimum list of keywords
+# stringpp takes the strings and keywords and produces a compressed version
+#	(in menuhelp.txt) which can be included as a datastructre in menuhelp.c
+#
+menuhelp.h: opuscmd.obj $(CMD)\keysupp
+	echoerr *** Building menuhelp.h
+	$(SED) -n -f $(CMD)\strings.sed menuhelp.txt > ~~tmp1.txt
+	$(CHKERR)
+	slice < ~~tmp1.txt > ~~tmp2.txt
+	$(CHKERR)
+	cat ~~tmp2.txt $(CMD)\keysupp | sort -u > ~~tmp3.txt
+	$(CHKERR)
+	makekeys ~~tmp1.txt ~~tmp3.txt 5 > ~~tmp4.txt
+	$(CHKERR)
+	$(LENGTH) < ~~tmp4.txt |sort -n -r |$(SED) -e s/......// > ~~tmp5.txt
+	$(CHKERR)
+	stringpp menuhelp.txt ~~tmp5.txt ~~tmp6
+	$(CHKERR)
+	cp ~~tmp6.c menuhelp.h
+	$(CHKERR)
+	del ~~tmp*.*
+
+
+# makepmap is a batch file generated by makeopus that calls pmap.bat if
+# -p flag specified to makeopus, otherwise it is empty and has no effect
+# pmap.bat generates profiling version of pcodemap.txt
+
+pcodemap.obj: $(RESOURCE)\pmap.txt $(RESOURCE)\pmapdbg.txt
+!IF "$(VERSION)" == "dbg"
+	echoerr *** Building PCODEMAP
+	copy $(RESOURCE)\pmap.txt pcodemap.txt
+!ifdef WIN23
+	echo rcbmp13 >> pcodemap.txt
+	echo rcbmp23 >> pcodemap.txt
+	echo rcbmp43 >> pcodemap.txt
+!endif 
+	rem command /c makepmap
+	$(IM2OBJ) -p -T@13 -m:$(SBMAX)
+	$(CHKERR)
+!ELSE
+	echoerr *** Building non-debug PCODEMAP
+	egrep -v -f $(RESOURCE)\pmapdbg.txt $(RESOURCE)\pmap.txt > tmp
+	fgrep -v debug tmp >pcodemap.txt
+	rm tmp
+!IF "$(VERSION)" == "hybrid"
+        echo profwin>> pcodemap.txt
+	echo profwin2>> pcodemap.txt
+!ENDIF
+!ifdef WIN23
+	echo rcbmp13 >> pcodemap.txt
+	echo rcbmp23 >> pcodemap.txt
+	echo rcbmp43 >> pcodemap.txt
+!endif 
+	$(IM2OBJ) -T@13 -m:$(SBMAX)
+	$(CHKERR)
+!ENDIF
+
+# The following grep weirdness is due to the inability of link5 to
+# handle far procedures - basically we put all the far stuff in front of
+# the near stuff. (Courtesy Scott Randell)
+
+toolbox.obj: toolbox.sdm
+	maketool -t toolbox.sdm toolbox.h ~MAK0001.TMP
+	$(CHKERR)
+	grep :FAR ~MAK0001.TMP >toolbox.asm
+	grep -v :FAR ~MAK0001.TMP >>toolbox.asm
+	$(ASM) $(AFLAGS) toolbox.asm $(ATERM)
+	$(CHKERR)
+	rm toolbox.asm ~MAK0001.TMP
+	$(CHKERR)
+
+
+# Rules for building specific .c files (due to dependencies)
+
+#prl.c is #included into fetch1.c
+fetch1.obj: $(WORDTECH)\fetch1.c $(WORDTECH)\prl.c
+	echoerr *** Compiling $(WORDTECH)\fetch1.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(WORDTECH)\fetch1.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) fetch1
+	$(CHKERR)
+
+elsubs.obj: $(OPUS)\elsubs.c $(OPUS)\elxprocs.c elxdefs.h
+	echoerr *** Compiling $(OPUS)\elsubs.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\elsubs.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) elsubs
+	$(CHKERR)
+
+
+elsubs3.obj: $(OPUS)\elsubs3.c dlgcheck.h
+	echoerr *** Compiling $(OPUS)\elsubs3.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\elsubs3.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) elsubs3
+	$(CHKERR)
+
+
+# Following are make rules for modules that need to be recompiled
+# when opuscmd.cmd changes. Dependency occurs because these modules
+# rely on constant bcms.
+
+cmd.obj: $(OPUS)\cmd.c $(CMD)\opuscmd.cmd
+	echoerr *** Compiling $(OPUS)\cmd.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\cmd.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) cmd
+	$(CHKERR)
+
+curskeys.obj: $(WORDTECH)\curskeys.c $(CMD)\opuscmd.cmd
+	echoerr *** Compiling $(WORDTECH)\curskeys.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(WORDTECH)\curskeys.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) curskeys 
+	$(CHKERR)
+
+wproc.obj: $(OPUS)\wproc.c $(CMD)\opuscmd.cmd $(OPUS)\core.h
+	echoerr *** Compiling $(OPUS)\wproc.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\wproc.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) wproc
+	$(CHKERR)
+
+raremsg.obj: $(OPUS)\raremsg.c $(CMD)\opuscmd.cmd
+	echoerr *** Compiling $(OPUS)\raremsg.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\raremsg.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) raremsg
+	$(CHKERR)
+
+preview.obj: $(OPUS)\preview.c $(CMD)\opuscmd.cmd
+	echoerr *** Compiling $(OPUS)\preview.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\preview.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) preview
+	$(CHKERR)
+
+menu.obj: $(OPUS)\menu.c $(CMD)\opuscmd.cmd $(CMD)\menus.cmd
+	echoerr *** Compiling $(OPUS)\menu.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\menu.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) menu
+	$(CHKERR)
+
+cmd2.obj: $(OPUS)\cmd2.c $(CMD)\opuscmd.cmd
+	echoerr *** Compiling $(OPUS)\cmd2.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\cmd2.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) cmd2
+	$(CHKERR)
+
+cmdwnd.obj: $(OPUS)\cmdwnd.c $(CMD)\opuscmd.cmd
+	echoerr *** Compiling $(OPUS)\cmdwnd.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\cmdwnd.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) cmdwnd
+	$(CHKERR)
+
+command.obj: $(OPUS)\command.c $(CMD)\opuscmd.cmd
+	echoerr *** Compiling $(OPUS)\command.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\command.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) command
+	$(CHKERR)
+
+iconbar3.obj: $(OPUS)\iconbar3.c $(CMD)\opuscmd.cmd
+	echoerr *** Compiling $(OPUS)\iconbar3.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\iconbar3.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) iconbar3
+	$(CHKERR)
+
+rcinit.obj: $(OPUS)\rcinit.c $(INIT_RC)
+	echoerr *** Compiling $(OPUS)\rcinit.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\rcinit.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) rcinit
+	$(CHKERR)
+
+!ifdef WIN23
+rcbmp1.obj: $(OPUS)\rcbmp1.c $(EBMP_RC) $(COMMONBMP_RC)
+!else
+rcbmp1.obj: $(OPUS)\rcbmp1.c $(BMP_RC) 
+!endif /* WIN23 */
+	echoerr *** Compiling $(OPUS)\rcbmp1.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\rcbmp1.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) rcbmp1
+	$(CHKERR)
+
+!ifdef WIN23
+rcbmp13.obj: $(OPUS)\rcbmp13.c $(EBMP3_RC) $(COMMONBMP3_RC)
+	echoerr *** Compiling $(OPUS)\rcbmp13.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\rcbmp13.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) rcbmp13
+	$(CHKERR)
+!endif /* WIN23 */
+
+!ifdef WIN23
+rcbmp2.obj: $(OPUS)\rcbmp2.c $(VBMP_RC) $(COMMONBMP_RC)
+!else
+rcbmp2.obj: $(OPUS)\rcbmp2.c $(BMP_RC) 
+!endif /* WIN23 */
+	echoerr *** Compiling $(OPUS)\rcbmp2.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\rcbmp2.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) rcbmp2
+	$(CHKERR)
+
+!ifdef WIN23
+rcbmp23.obj: $(OPUS)\rcbmp23.c $(VBMP3_RC) $(COMMONBMP3_RC)
+	echoerr *** Compiling $(OPUS)\rcbmp23.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\rcbmp23.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) rcbmp23
+	$(CHKERR)
+!endif /* WIN23 */
+
+!ifdef WIN23
+rcbmp3.obj: $(OPUS)\rcbmp3.c $(CBMP_RC) $(COMMONBMP_RC)
+!else
+rcbmp3.obj: $(OPUS)\rcbmp3.c $(BMP_RC)
+!endif /* WIN23 */
+	echoerr *** Compiling $(OPUS)\rcbmp3.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\rcbmp3.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) rcbmp3
+	$(CHKERR)
+
+!ifdef WIN23
+rcbmp4.obj: $(OPUS)\rcbmp4.c $(8BMP_RC) $(COMMONBMP_RC)
+!else
+rcbmp4.obj: $(OPUS)\rcbmp4.c $(BMP_RC)
+!endif /* WIN23 */
+	echoerr *** Compiling $(OPUS)\rcbmp4.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\rcbmp4.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) rcbmp4
+	$(CHKERR)
+
+!ifdef WIN23
+#	rcbmp43 is too big to compile under DOS and can't be split easily.
+#	I've therefore check the fast and debug objs into resource, and
+#	I copy them to the build directory here
+!IF "$(VERSION)" == "nondbg"
+rcbmp43.obj: $(RESOURCE)\rcbmp43.fst
+	copy $(RESOURCE)\rcbmp43.fst $(BUILD)\rcbmp43.obj
+!ELSE
+!IF "$(VERSION)" == "hybrid"
+rcbmp43.obj: $(RESOURCE)\rcbmp43.hyb
+	copy $(RESOURCE)\rcbmp43.hyb $(BUILD)\rcbmp43.obj
+!ELSE
+rcbmp43.obj: $(RESOURCE)\rcbmp43.dbg
+	copy $(RESOURCE)\rcbmp43.dbg $(BUILD)\rcbmp43.obj
+!ENDIF
+!ENDIF
+!endif /* WIN23 */
+
+iconbar2.obj: $(OPUS)\iconbar2.c $(CMD)\opuscmd.cmd
+	echoerr *** Compiling $(OPUS)\iconbar2.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\iconbar2.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) iconbar2
+	$(CHKERR)
+
+# menuhelp.obj depends on keywords being up-to-date as it contains the
+# compressed strings.
+#
+menuhelp.obj: $(OPUS)\menuhelp.c menuhelp.h
+	echoerr *** Compiling $(OPUS)\menuhelp.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\menuhelp.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) menuhelp
+	$(CHKERR)
+
+#plc.c is #included into util.c
+util.obj: $(WORDTECH)\util.c $(WORDTECH)\plc.c
+	echoerr *** Compiling $(WORDTECH)\util.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(WORDTECH)\util.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) util
+	$(CHKERR)
+
+# depends on opuscmd2.h
+initwin.obj: $(OPUS)\initwin.c opuscmd.obj
+	echoerr *** Compiling $(OPUS)\initwin.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\initwin.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) initwin
+	$(CHKERR)
+
+idle.obj: $(OPUS)\idle.c opuscmd.obj
+	echoerr *** Compiling $(OPUS)\idle.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\idle.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) idle
+	$(CHKERR)
+
+# following dependencies are to keep a user's version number correct without
+# their having to do a massmake.
+
+init2.obj: $(OPUS)\init2.c verdate.h 
+	echoerr *** Compiling $(OPUS)\init2.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $(OPUS)\init2.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) init2
+	$(CHKERR)
+
+# these files were split; dependencies to make base file compile
+
+rtfin.obj: $(OPUS)\rtfin.c $(OPUS)\rtfin2.c
+	echoerr *** Compiling  $(OPUS)\rtfin.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL)  $(OPUS)\rtfin.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) rtfin
+	$(CHKERR)
+
+rtfout.obj: $(OPUS)\rtfout.c $(OPUS)\rtfout2.c
+	echoerr *** Compiling  $(OPUS)\rtfout.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL)  $(OPUS)\rtfout.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) rtfout
+	$(CHKERR)
+
+pic.obj: $(OPUS)\pic.c $(OPUS)\pic3.c
+	echoerr *** Compiling  $(OPUS)\pic.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL)  $(OPUS)\pic.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) pic
+	$(CHKERR)
+
+fieldpic.obj: $(OPUS)\fieldpic.c $(OPUS)\inter.c
+	echoerr *** Compiling  $(OPUS)\fieldpic.c
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL)  $(OPUS)\fieldpic.c
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) fieldpic
+	$(CHKERR)
+
+
+
+wordgrep.obj: $(ASM_DIR)\wordgrep.asm
+	echoerr *** Assembling $(ASM_DIR)\wordgrep.asm
+	$(ASM) $(AFLAGS) -Dpcode -DOPUS $(ASM_DIR)\wordgrep.asm $(ATERM)
+	$(CHKERR)
+
+sdm.snt: $(SDM)\$(VERSION)\sdmcomp.obj $(SDM)\$(VERSION)\sdmdir2.obj $(SDM)\$(VERSION)\sdmnat.obj $(SDM)\$(VERSION)\sdmnat2.obj $(SDM)\$(VERSION)\wtimer.obj
+	cp $(SDM)\$(VERSION)\*.obj .
+	touch sdm.snt
+
+sdm.lib: the.tbx $(SDM1_OBJ) sdm.snt
+	echoerr "Creating sdm library..."
+	echo $(LIB)\nullib > sdm.lmk
+	echo +$(SDM1_OBJ),nul,tmp >> sdm.lmk
+ 	lib @sdm.lmk
+	echo tmp.lib > sdm.lmk
+	echo +$(SDM2_OBJ),nul,sdm >> sdm.lmk
+	lib @sdm.lmk
+	$(CHKERR)
+
+
+# Create a local version of the toolbox.
+
+the.tbx: toolbox.sdm
+	echoerr "Making toolbox..."
+	maketool -m toolbox.sdm nul nul nul > the.tbx
+	$(CHKERR)
+
+opus.lnk: $(OPUS)\makeopus \
+!IF "$(VERSION)" == "dbg"
+	$(OPUS)\mlnk.sed
+!ifdef WIN23
+ 	echo $(CASHMERE3_OBJ) + > opus.lnk
+	$(SED) $(SFLAGS) $(OPUS)\mlnk.sed < $(OPUS)\makeopus >> opus.lnk
+!else
+	$(SED) $(SFLAGS) $(OPUS)\mlnk.sed < $(OPUS)\makeopus > opus.lnk
+!endif /* WIN23 */
+	echo $(EXE_DIR)\$(NAM).exe >> opus.lnk
+	echo $(EXE_DIR)\$(NAM) $(LFLAGS) >> opus.lnk
+	echo $(DWINTERLIB) + >> opus.lnk
+	echo $(OPUSLIB) >> opus.lnk
+	echo $(OPUS)\opus.def >> opus.lnk
+!ENDIF
+!IF "$(VERSION)" != "dbg"
+	$(OPUS)\mlnkndb.sed
+	echo $(HYBRID_OBJ) + > opus.lnk
+!IF "$(VERSION)" == "nondbg"
+	rm opus.lnk
+!ENDIF
+!ifdef WIN23
+ 	echo $(CASHMERE3_OBJ) + >> opus.lnk
+!endif /* WIN23 */
+	$(SED) $(SFLAGS) $(OPUS)\mlnkndb.sed < $(OPUS)\makeopus >> opus.lnk
+	echo $(EXE_DIR)\$(NAM).exe >> opus.lnk
+	echo $(EXE_DIR)\$(NAM) $(LFLAGSNDB) >> opus.lnk
+!IF "$(VERSION)" == "nondbg"
+	echo $(WINTERLIB) + >> opus.lnk
+!ENDIF
+!IF "$(VERSION)" == "hybrid"
+	echo $(DSWINTERLIB) + >> opus.lnk
+!ENDIF
+	echo $(OPUSLIB) >> opus.lnk
+	echo opusndb.def >> opus.lnk
+!ENDIF
+
+
+##############################################################################
+##############################################################################
+
+#	This is how you transform (compile) the various file types
+
+
+# Target for compiling multiple files, then incremental linking
+# e.g. make "ILF = edit.c dispspec.c" milink
+# FEATURE NOT IMPLEMENTED YET
+#
+#milink: $(ILF:.c=.obj)
+#	ilink $(OPUSPROJNAM) $(ILF:.c=)
+#	$(CHKERR)
+
+
+{$(DLG)}.des.sdm:
+	echoerr *** Compiling $<
+	$(DE) $(DEFLAGS) $<
+	$(CHKERR)
+
+{$(INTERP)}.c.obj:
+	echoerr *** Compiling $<
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) -DNOMINMAX $(PIFLAGS) $(UF_CSL) $<
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) $(<B)
+	$(CHKERR)
+
+{$(DEBUG)}.c.obj:
+	echoerr *** Compiling $<
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $<
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) $(<B)
+	$(CHKERR)
+
+{$(WORDTECH)}.c.obj:
+	echoerr *** Compiling $<
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $<
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) $(<B)
+	$(CHKERR)
+
+{$(OPUS)}.c.obj:
+	echoerr *** Compiling $<
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) $<
+	$(CHKERR)
+	$(IM2OBJ) $(IMFLAGS) $(<B)
+	$(CHKERR)
+
+{$(RES)}.bmp.hb:
+	echoerr *** Processing $<
+	bitapp $< $(<B).hb
+
+!IFDEF WIN23
+{$(RES)}.dib.hb:
+	echoerr *** Processing $<
+	dibapp $< $(<B).hb
+!ENDIF
+
+{$(ITLRES)}.bmp.hg:
+	echoerr *** Processing $<
+	bitapp /g $< $(<B).hg
+
+{$(RES)}.bmp.hg:
+	echoerr *** Processing $<
+	bitapp /g $< $(<B).hg
+
+{$(RES)}.ico.hi:
+	echoerr *** Processing $<
+	bitapp $< $(<B).hi
+
+{$(RES)}.cur.hc:
+	echoerr *** Processing $<
+	bitapp $< $(<B).hc
+
+{$(ASM_DIR)}.asm.obj:
+	echoerr *** Assembling $<
+	$(ASM) $(AFLAGS) $(DFLAGS) $< $(ATERM)
+	$(CHKERR)
+
+.asm.obj:
+	echoerr *** Assembling $<
+	$(ASM) $(AFLAGS) $(DFLAGS) $< $(ATERM)
+	$(CHKERR)
+
+.asm.lst:
+	echoerr *** Assembling $<
+	$(ASM) -l $(AFLAGS) $(DFLAGS) $< $(ATERM)
+	$(CHKERR)
+
+.dfa.obj:
+	echoerr *** Assembling $<
+	$(ASM) $(AFLAGS) $(DFLAGS) $<
+	$(CHKERR)
+
+{$(SDM)\$(VERSION)}.im.obj:
+        cp $(SDM)\$(VERSION)\$(<B).* .
+	$(IM2OBJ) -c -T@13 -M pcodemap.txt -t the.tbx $(<B)
+	$(CHKERR)
+
+
+# following are used to make special versions, not as part of standard make
+
+{$(DEBUG)}.c.px:
+	echoerr *** Compiling $<
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) -s $<
+	if errorlevel 1 goto done
+	cp $< %tmp%
+	pximage -Q -mW %tmp%\$(<B).im > $(<B).px
+	rm %tmp%\$(<B).c %tmp%\$(<B).im %tmp%\$(<B).ps %tmp%\$(<B).sy
+
+{$(OPUS)}.c.px:
+	echoerr *** Compiling $<
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) -s $<
+	if errorlevel 1 goto done
+	cp $< %tmp%
+	pximage -Q -mW %tmp%\$(<B).im > $(<B).px
+	rm %tmp%\$(<B).c %tmp%\$(<B).im %tmp%\$(<B).ps %tmp%\$(<B).sy
+
+{$(WORDTECH)}.c.px:
+	echoerr *** Compiling $<
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) -s $<
+	if errorlevel 1 goto done
+	cp $< %tmp%
+	pximage -Q -mW %tmp%\$(<B).im > $(<B).px
+	rm %tmp%\$(<B).c %tmp%\$(<B).im %tmp%\$(<B).ps %tmp%\$(<B).sy
+
+{$(DEBUG)}.c.db:
+	echoerr *** Compiling $<
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) -Si $<
+
+{$(OPUS)}.c.db:
+	echoerr *** Compiling $<
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) -Si $<
+
+{$(WORDTECH)}.c.db:
+	echoerr *** Compiling $<
+	$(CC) $(PFLAGS) $(PCF) $(DFLAGS) $(PIFLAG) $(UF_CSL) -Si $<
+
+
+opusndb.def: $(OPUS)\opus.def
+	fgrep -v Debug $(OPUS)\opus.def > ~opusdef.tmp
+        $(SED) -e "/^NAME/s/opus/msword/" ~opusdef.tmp > opusndb.def
+        rm ~opusdef.tmp
+
+hybrid.def: $(OPUS)\opus.def
+	fgrep -v Debug $(OPUS)\opus.def > opusndb.def
+
+# end of makefile

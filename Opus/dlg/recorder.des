@@ -1,0 +1,41 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE recorder 
+	{
+	DIALOG dltRecorder AT (48, 16, 165, 98) 
+	CAB_NAME CABRECORDER 
+	HELP_ID IDDRecorder 
+	DIALOG_PROC FDlgRecorder 
+	TMC_INIT tmcNull 
+		{
+		EDIT AT (5, 15, 85, 12) TMC tmcName ACTION ARG pszName CHAR_VALIDATED 
+			EL_NAME Name
+		DUMMY_TEXT "Record Macro &Name:" AT (5, 5, 76, 9) 
+
+		GROUP_BOX "Context" AT (5, 29, 85, 39) 
+		RADIO_GROUP 
+			TMC tmcContext ARG iContext 
+			EL_NAME Context
+			{
+			RADIO_BUTTON "&Global" AT (10, 39, 71, 12) 
+			RADIO_BUTTON "&Template" AT (10, 52, 69, 12) TMC tmcDocType 
+			}
+
+		EDIT AT (5, 80, 155, 12) TMC_IMPORT tmcDesc ARG pszDesc 
+			EL_NAME `Description`
+		DUMMY_TEXT "&Description:" AT (5, 70, 48, 9) 
+
+		OK_BUTTON AT (121, 5, 40, 14) 
+		CANCEL_BUTTON AT (121, 21, 40, 14) 
+		}
+
+	}
+
+
+END_DESCRIPTION 

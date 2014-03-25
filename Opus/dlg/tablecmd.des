@@ -1,0 +1,49 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE tablecmd 
+        {
+        DIALOG dltEditTable AT (56, 88, 132, 95) 
+        CAB_NAME CABEDITTABLE 
+        HELP_ID IDDEditTable 
+        DIALOG_PROC FDlgEditTable 
+        TMC_INIT tmcNull 
+        SUB_DIALOG sabHack = fEl
+                {
+                RADIO_GROUP 
+                        TMC tmcCmdType ARG cmdtype EL_NAME `Modify`
+                        {
+                        RADIO_BUTTON "&Row" AT (5, 16, 23, 10) TMC tmcRow ACTION
+                        RADIO_BUTTON "&Column" AT (5, 27, 34, 10) TMC tmcColumn ACTION
+                        RADIO_BUTTON "&Selection:" AT (5, 42, 50, 10) TMC tmcSelection ACTION
+                        }
+                DUMMY_TEXT "Edit Table" AT (5, 5, 41, 9) 
+                GROUP_BOX "Shift Cells" AT (5, 53, 67, 35) TMC tmcShiftText
+                RADIO_GROUP 
+                        TMC tmcShiftDirection ARG fShiftVert EL_NAME `ShiftCells`
+                        {
+                        RADIO_BUTTON "&Horizontally" AT (8, 63, 59, 10) TMC tmcShiftHorz 
+                        RADIO_BUTTON "&Vertically" AT (8, 74, 51, 10) TMC tmcShiftVert 
+                        }
+                PUSH_BUTTON "&Insert" AT (77, 6, 50, 14) TMC tmcTblInsert ACTION DISMISS_CAB DEFAULT EL_NAME `Insert`
+                PUSH_BUTTON "&Delete" AT (77, 22, 50, 14) TMC tmcTblDelete ACTION DISMISS_CAB EL_NAME `Delete`
+                PUSH_BUTTON "&Merge Cells" AT (77, 38, 50, 14) TMC tmcMergeCells ACTION DISMISS_CAB EL_NAME `MergeCells`
+		IF fEl
+			PUSH_BUTTON "" AT (77, 38, 50, 14)
+				TMC tmcSplitCells 
+				ACTION 
+				DISMISS_CAB 
+				EL_NAME `SplitCells`
+		ENDIF
+                CANCEL_BUTTON AT (77, 54, 50, 14)
+                }
+
+        }
+
+
+END_DESCRIPTION 

@@ -1,0 +1,22 @@
+DDECLNT.C:			if (!FPostDdeDcl (ddli.dcl, WM_DDE_UNADVISE, 0, ddli.atomItem))
+DDECLNT.C:				if (!dms.fAck || (fMustFree = !FPostDdeDcl (dcl, 
+DDECLNT.C:				if (fMustFree = !FPostDdeDcl (dcl, WM_DDE_ACK, dasNACK, wHigh))
+DDECLNT.C:						if (FPostDdeDcl (dcl, WM_DDE_UNADVISE,
+DDECLNT.C:					if (FPostDdeDcl (dcl, WM_DDE_REQUEST, ddli.cf, wHigh))
+DDECLNT.C:	if (!FPostDdeDcl (dcl, WM_DDE_REQUEST, ddli.cf, atomItem))
+DDECLNT.C:	if (!FPostDdeDcl (ddli.dcl, WM_DDE_ADVISE, hData, ddli.atomItem))
+DDESRVR.C:			if (!FPostDdeDcl (dcl, WM_DDE_ACK, das, wHigh))
+DDESRVR.C:			if (!FPostDdeDcl (dcl, WM_DDE_ACK, das, wHigh))
+DDESRVR.C:				if (!FPostDdeDcl (dcl, WM_DDE_ACK, dasNACK, wHigh))
+DDESRVR.C:			if (!FPostDdeDcl (dcl, WM_DDE_ACK, das, wHigh))
+DDESRVR.C:			if (!FPostDdeDcl (dcl, WM_DDE_ACK, das, wHigh))
+DDESRVR.C:	if (!FPostDdeDcl (dcl, WM_DDE_DATA, hData, atomItem))
+DDESUB.C:			FPostDdeDcl (dcl, WM_DDE_TERMINATE, 0, 0);
+DDESUB.C:		FPostDdeDcl (dcl, WM_DDE_TERMINATE, 0, 0);
+DDESUB.C:/*  %%Function:FPostDdeDcl %%Owner:peterj  */
+DDESUB.C:FPostDdeDcl (dcl, message, wLow, wHigh)
+ELDDE.C:	if (!FPostDdeDcl (dcl, WM_DDE_EXECUTE, 0, hExec)
+ELDDE.C:	if (!FPostDdeDcl (dcl, WM_DDE_POKE, hData, atomItem)
+ELDDE.C:	if (!FPostDdeDcl (dcl, WM_DDE_REQUEST, CF_TEXT, atomItem)
+ELDDE.C:				if (!dms.fAck || (fMustFree = !FPostDdeDcl (dcl, 
+ELDDE.C:				if (fMustFree = !FPostDdeDcl (dcl, WM_DDE_ACK, dasNACK, wHigh))

@@ -1,0 +1,76 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE asgn2key 
+	{
+	DIALOG dltChangeKeys AT (8, 8, 190, 169) 
+	CAB_NAME CABCHANGEKEYS
+	HELP_ID IDDChangeKeys 
+	DIALOG_PROC FDlgChangeKeys 
+	TMC_INIT tmcNull
+		{
+		LIST_BOX AT (4, 13, 85, 82) 
+			ACTION 
+			SORTED
+			RETURN_STRING
+			TMC tmcMacroList 
+			ARG hszMacroList
+                        LIST_BOX_PROC WListMacros
+			WPARAM `IDDChangeKeys`
+			EL_NAME Name
+
+		DUMMY_TEXT "Assign Macro &Name:" AT (4, 1, 72, 9) 
+
+		LIST_BOX AT (4, 107, 85, 26) TMC tmcKeyList ACTION 
+			ARG uKeyList LIST_BOX_PROC WListBoxNull 
+			EL_NAME KeyCode
+		DUMMY_TEXT "Current &Keys:" AT (4, 95, 53, 9) 
+
+		GROUP_BOX "Context" AT (93, 8, 48, 39) 
+		RADIO_GROUP 
+			TMC tmcContextKey
+			ARG iContext 
+			EL_NAME Context
+			{
+			RADIO_BUTTON "&Global" AT (96, 19, 34, 12) 
+				TMC tmcGlobalKey ACTION 
+			RADIO_BUTTON "&Template" AT (96, 31, 43, 12) 
+				TMC tmcTemplateKey ACTION 
+			}
+
+		PUSH_BUTTON "&Reset All" AT (93, 60, 48, 14)
+			TMC tmcReset ACTION 
+			EL_NAME ResetAll
+
+		OK_BUTTON AT (145, 12, 40, 14) 
+		CANCEL_BUTTON AT (145, 28, 40, 14)
+
+		GROUP_BOX "Key" AT (94, 102, 91, 29) 
+		TEXT "Press Function Key or Ctrl+Key combination:" 
+			AT (97, 82, 86, 20) MULTI_LINE 
+
+		TEXT "" AT (96, 112, 88, 9) TMC tmcKey 
+
+		TEXT "" AT (96, 121, 88, 9) TMC tmcCurrent 
+
+		PUSH_BUTTON "&Assign" AT (145, 44, 40, 14) 
+			TMC tmcAssignKey ACTION 
+			EL_NAME Assign
+
+		PUSH_BUTTON "&Unassign" AT (145, 60, 40, 14) 
+			TMC tmcUnassignKey ACTION 
+			EL_NAME UnAssign
+
+		GROUP_BOX "Description" AT (4, 133, 181, 30) 
+		TEXT "" AT (6, 143, 177, 19) TMC tmcDescKey MULTI_LINE 
+		}
+
+	}
+
+
+END_DESCRIPTION 

@@ -1,0 +1,58 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE tabs 
+        {
+        DIALOG dltTabs AT (4, 48, 203, 89) 
+        CAB_NAME CABTABS 
+        HELP_ID IDDTabs 
+        DIALOG_PROC FDlgTabs 
+        TMC_INIT tmcNull 
+                {
+                EDIT AT (5, 14, 38, 12) TMC tmcTabsPos ARG hszTabsPos ACTION CHAR_VALIDATED
+                        EL_NAME Position
+                DUMMY_TEXT "&Tab Position:" AT (4, 4, 58, 9) 
+                LIST_BOX AT (9, 26, 46, 40) ACTION COMBO_ATOMIC 
+                        LIST_BOX_PROC WListTabs
+
+                GROUP_BOX "Alignment" AT (62, 10, 44, 57) 
+                RADIO_GROUP 
+                        ARG iAlignment TMC tmcAlignment
+                        EL_NAME Align
+                        {
+                        RADIO_BUTTON "&Left" AT (66, 22, 28, 10) TMC tmcTabsLeft ACTION
+                        RADIO_BUTTON "&Center" AT (66, 32, 36, 10) TMC tmcTabsCenter ACTION
+                        RADIO_BUTTON "&Right" AT (66, 42, 32, 10) TMC tmcTabsRight ACTION
+                        RADIO_BUTTON "&Decimal" AT (66, 52, 38, 10) TMC tmcTabsDecimal ACTION
+                        }
+                GROUP_BOX "Leader" AT (110, 10, 41, 57) 
+                RADIO_GROUP 
+                        ARG iLeader TMC tmcLeader
+                        EL_NAME Leader
+                        {
+                        RADIO_BUTTON "&1 None" AT (115, 22, 35, 10) TMC tmcTabsNoFill ACTION
+                        RADIO_BUTTON "&2 ..." AT (115, 32, 31, 10) TMC tmcTabsDot ACTION
+                        RADIO_BUTTON "&3 ---" AT (115, 42, 32, 10) TMC tmcTabsMinus ACTION
+                        RADIO_BUTTON "&4 ___" AT (115, 52, 35, 10) TMC tmcTabsUScore ACTION
+                        }
+                DUMMY_TEXT "To be cleared:" AT (5, 69, 57, 9) 
+                TEXT "" AT (65, 69, 88, 18) MULTI_LINE TMC tmcTabsClList 
+                OK_BUTTON AT (157, 6, 40, 14) 
+                CANCEL_BUTTON AT (157, 22, 40, 14) 
+                PUSH_BUTTON "&Set" AT (157, 38, 40, 14) TMC tmcTabsSet ACTION 
+                        EL_NAME Set
+                PUSH_BUTTON "Cl&ear" AT (157, 54, 40, 14) TMC tmcTabsClear ACTION
+                        EL_NAME Clear
+                PUSH_BUTTON "Clear &All" AT (156, 70, 42, 14) TMC tmcTabsReset ACTION
+                        EL_NAME ClearAll
+                }
+
+        }
+
+
+END_DESCRIPTION 

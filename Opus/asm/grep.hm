@@ -1,0 +1,120 @@
+STANDARD_OUT		equ	1
+STANDARD_ERROR		equ	2
+SCROLL_PAGE		equ	7
+PAGE_UP_CODE		equ	73
+ESCAPE_CODE		equ	1
+SET_CURSOR		equ	2
+READ_CHAR_ATTR		equ	8
+
+; FLAGS IN BIT_FLAGS:
+
+;DASH_V_FLAG	equ	8000h
+;DASH_N_FLAG	equ	4000h
+;DASH_C_FLAG	equ	2000h
+;DASH_L_FLAG	equ	1000h
+;DASH_F_FLAG	equ	0800h
+;DASH_H_FLAG	equ	0400h
+DASH_Y_FLAG	equ	0200h
+;DASH_E_FLAG	equ	0100h
+;DASH_S_FLAG	equ	0040h
+
+;ONLY_ONE_FILE_FLAG			equ	0010h
+BOL_SET_FLAG				equ	0008h
+;WEVE_ALREADY_PRINTED_THE_FILE_NAME_FLAG	equ	0004h
+GET_MORE_OF_FILE_FLAG			equ	0002h
+DONE_WITH_THIS_BITMAP_FLAG		equ	0001h
+;STD_INPUT_FLAG				equ	0001h
+
+; FLAGS IN BIT_FLAGS_2:
+
+DASH_B_FLAG	equ	4000h
+DASH_M_FLAG	equ	2000h
+DASH_D_FLAG	equ	1000h
+;DASH_W_FLAG	equ	0800h
+;DASH_X_FLAG	equ	0400h
+;DASH_A_FLAG	equ	0200h
+;DASH_P_FLAG	equ	0100h
+;PUBLICS_FLAG	equ	1
+
+zero		equ	0
+lf		equ	10
+cr		equ	13
+controlz	equ	1ah
+OR_SYMBOL	equ	zero+'!'
+DTA_SIZE	equ	3	;3 paragraghs
+
+PATH_AND_FILE_NAME_BUFFER_SIZE	equ	6	;paragraghs
+
+
+BitmapHeader	struc
+next_bitmap				dw	0
+bitmap_flags				dw	0
+anchor_string_offset			dw	0
+position_in_expression_of_anchor_string	dw	0
+anchor_string_length_minus_one		dw	0
+index_of_string_this_bitmap_belongs_to	dw	0
+BitmapHeader	ends
+
+BITMAP_HEADER_LENGTH	equ 	12
+
+
+
+TemplateHeader	struc
+the_literal_char				db	0
+literal_char_indicator				db	0
+asterisk_location				db	0
+last_template_in_this_bitmap			db	0
+TemplateHeader	ends
+
+TEMPLATE_SIZE	equ	32
+TS		equ	TEMPLATE_SIZE
+TFB		equ	type TemplateHeader
+				;The number of bytes of template info preceding
+
+
+; The anchor string is written where the next template
+; would have been if there was another.
+
+LAST_TEMPLATE		equ	088h
+LIT_CHAR_INDICATOR	equ	0FFh
+min_buf_size		equ	200	;in paragraghs  (decimal) about 3.2k
+max_buf_seg_size	equ	0f800h
+max_entries		equ	30
+MAX_X_VALUE		equ	30h
+
+
+BOL_FLAG			equ	80h
+POSITION_NOT_MEANINGFUL_FLAG	equ	40h
+ANCHOR_FLAG			equ	20h
+EXPRESSION_FLAG			equ	10h
+BRACKET_FLAG			equ	08h
+NOT_FLAG			equ	04h
+
+
+comment @
+
+flag usage:  during template building dh keeps several flags which are stored
+at the beginning of the bitmap by GREP.ASM after returning from BUILD_BITMAP.
+they are:
+80h  BOL flag (tells the search routine that "^" begins the expression)
+40h  position not meaningful flag (indicates use of *,?, or + in the exprssn)
+20h  anchor flag (tells if there is an anchor string available)
+10h  expression flag (not set if expression is all literals -- single chars)
+08h  [ flag (only has meaning inside BUILD_BITMAP)
+04h  not-flag (only has meaning inside BUILD_BITMAP)
+02h  unused
+01h  unused
+
+In GREP.ASM flags are kept in BIT_FLAGS[bp] and BIT_FLAGS_2[bp].
+The command line flags in BIT_FLAGS[bp] are:
+
+0200h  y  case insensitive
+The -y flag is used only in template building.
+
+Internal flags of GREP.ASM in BIT_FLAGS[bp] are:
+
+02h  Get-more-of-file flag.
+01h  done with this bitmap, can skip it from now on...
+The others are unused.
+
+@

@@ -1,0 +1,164 @@
+
+local_variables	macro
+local_space = 0
+		endm
+
+local_word	macro	var_name
+local_space = local_space - 2
+var_name = local_space
+		endm
+
+local_byte	macro	var_name
+local_space = local_space - 1
+var_name = local_space
+		endm
+
+routine_arguments	macro
+next_arg = 4
+	endm
+
+word_arg	macro	xxx
+xxx = next_arg
+next_arg = next_arg + 2
+	endm
+
+entry	macro	routine
+ifndef	routine
+	extrn	routine		:near
+endif
+	dw	routine
+	endm
+
+
+pbyte	macro	aname,num
+	;public	aname
+ifnb	<num>
+aname	db	num dup(?)
+else
+aname	db	0
+endif
+	endm
+
+pword	macro	aname,num
+	;public	aname
+ifnb	<num>
+ifdef PCODE
+aname	label	word
+	rept	num
+		dw 0
+	endm
+else
+aname	dw	num dup(?)
+endif
+else
+aname	dw	0
+endif
+	endm
+
+pdword	macro	aname,num
+	;public	aname
+ifnb	<num>
+ifdef PCODE
+aname	label	dword
+	rept	num
+		dd	0
+	endm
+else
+aname	dd	num dup(?)
+endif
+else
+aname	dd	0
+endif
+	endm
+
+pthis	macro	aname
+	;public	aname
+aname	equ	this byte
+	endm
+
+pushem	macro	r1,r2,r3,r4,r5,r6,r7,r8,r9,rA,rB,rC,rD,rE,rF,r10,r11,r12
+	irp	x,<r1,r2,r3,r4,r5,r6,r7,r8,r9,rA,rB,rC,rD,rE,rF,r10,r11,r12>
+	ifnb	<x>
+	push	x
+	endif
+	endm
+	endm
+
+popem	macro	r1,r2,r3,r4,r5,r6,r7,r8,r9,rA,rB,rC,rD,rE,rF,r10,r11,r12
+	irp	x,<r12,r11,r10,rF,rE,rD,rC,rB,rA,r9,r8,r7,r6,r5,r4,r3,r2,r1>
+	ifnb	<x>
+	pop	x
+	endif
+	endm
+	endm
+
+smov	macro	x,y
+	push	y
+	pop	x
+	endm
+
+;-----------------------------------------------------------------------;
+; reorganize			MACRO					;
+; 									;
+; Leaves the far ptr invariant, but makes 0Fh < offset < 20h.		;
+; 									;
+; Arguments:								;
+; 	Two regs: Segment and Offset to reorganize			;
+; Returns:								;
+; 	Reorganized regs						;
+; Alters:								;
+; 	AX,CX								;
+; Calls:								;
+; 	nothing								;
+; History:								;
+; 									;
+;  Wed Mar 19, 1986 04:22:15p	-by-	Wesley O. Rupel	  [wor]		;
+; Wrote it!								;
+;-----------------------------------------------------------------------;
+
+reorganize	macro	segreg,baby_reg
+	mov	ax,000Fh
+	and	ax,baby_reg		;AX now has the lower 4 bits of baby
+	mov	cl,4
+	shr	baby_reg,cl
+	dec	baby_reg
+	add	ax,10h
+	mov	cx,segreg
+	add	cx,baby_reg
+	mov	segreg,cx
+	mov	baby_reg,ax
+	endm
+
+;-----------------------------------------------------------------------;
+; reorganize0			MACRO					;
+; 									;
+; Leaves the far ptr invariant, but makes 0 =< offset < 10h.		;
+; 									;
+; Arguments:								;
+; 	Two regs: Segment and Offset to reorganize			;
+; Returns:								;
+; 	Reorganized regs						;
+; Alters:								;
+; 	AX,CX								;
+; Calls:								;
+; 	nothing								;
+; History:								;
+; 									;
+;  Wed Mar 19, 1986 04:22:15p	-by-	Wesley O. Rupel	  [wor]		;
+; Wrote it!								;
+;-----------------------------------------------------------------------;
+
+reorganize0	macro	segreg,baby_reg
+	mov	ax,000Fh
+	and	ax,baby_reg		;AX now has the lower 4 bits of baby
+	mov	cl,4
+	shr	baby_reg,cl
+	mov	cx,segreg
+	add	cx,baby_reg
+	mov	segreg,cx
+	mov	baby_reg,ax
+	endm
+
+
+wHigh	equ	2+word ptr	;; upper word (or segment) of a long
+wLow	equ	word ptr	;; lower word (or offset) of a long

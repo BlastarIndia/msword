@@ -1,0 +1,52 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE tableins 
+        {
+        DIALOG dltInsertTable AT (56, 72, 169, 112) 
+        CAB_NAME CABINSERTTABLE
+        HELP_ID IDDInsertTable
+        DIALOG_PROC FDlgInsertTable
+        TMC_INIT tmcColumns
+        
+                {
+                EDIT AT (89, 15, 30, 12) ARG cColumns ACTION CHAR_VALIDATED 
+			EL_NAME `NumColumns`
+                        PARSE_PROC WParseOpt WPARAM `optPosNZInt`
+                        TMC tmcColumns
+                DUMMY_TEXT "Number of &Columns:" AT (4, 17, 73, 9)
+
+                EDIT AT (89, 30, 30, 12) ARG cRows ACTION CHAR_VALIDATED 
+                        PARSE_PROC WParseOpt WPARAM `optPosNZInt`
+                        TMC tmcRows EL_NAME `NumRows`
+                DUMMY_TEXT "Number of &Rows:" AT (4, 31, 61, 9)
+
+                EDIT AT (89, 44, 30, 12) ARG dxaWidth ACTION CHAR_VALIDATED 
+                        PARSE_PROC WParseOpt WPARAM `optAutoAnyUnit` 
+                        TMC tmcInitColWidth EL_NAME `InitialColWidth`
+                DUMMY_TEXT "Initial Col &Width:" AT (4, 46, 85, 9) 
+
+                GROUP_BOX "Convert From" AT (4, 58, 115, 48) 
+                DUMMY_TEXT "Insert Table" AT (4, 3, 49, 9) 
+                RADIO_GROUP 
+                        TMC tmcConvertFrom ARG tblfmt EL_NAME `ConvertFrom`
+                        {
+                        RADIO_BUTTON "&Paragraphs" AT (7, 69, 56, 10) TMC tmcFormatPara ACTION
+                        RADIO_BUTTON "&Tab Delimited" AT (7, 80, 71, 10) TMC tmcFormatTabs ACTION
+                        RADIO_BUTTON "C&omma Delimited" AT (7, 91, 74, 10) TMC tmcFormatComma ACTION
+                        }
+                OK_BUTTON AT (124, 10, 40, 14)
+                CANCEL_BUTTON AT (124, 27, 40, 14) 
+                PUSH_BUTTON "&Format..." AT (124, 43, 42, 14) TMC tmcTunnelFormat
+                        DISMISS_CAB
+                }
+
+        }
+
+
+END_DESCRIPTION 

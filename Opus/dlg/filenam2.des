@@ -1,0 +1,28 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE filenam2 
+	{
+	DIALOG dltFileNam2 AT (7, 22, 135, 42) 
+	CAB_NAME CABFILENAM2 
+	HELP_ID IDDFilenam2 
+	DIALOG_PROC FDlgPMNew
+	TMC_INIT tmcFNNam2 
+		{
+		EDIT AT (4, 18, 81, 12) TMC tmcFNNam2
+			ACTION CHAR_VALIDATED ARG hszFile 			EL_NAME NewFileName
+		DUMMY_TEXT "New File &Name:" AT (4, 6, 56, 9) 
+
+		OK_BUTTON AT (91, 4, 40, 14) 
+		CANCEL_BUTTON AT (91, 22, 40, 14) 
+		}
+
+	}
+
+
+END_DESCRIPTION 

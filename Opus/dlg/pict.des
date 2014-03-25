@@ -1,0 +1,59 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE PICT 
+        {
+        DIALOG dltFormatPic AT (24, 16, 199, 93) 
+        CAB_NAME CABFORMATPIC 
+        HELP_ID IDDFormatPic 
+        DIALOG_PROC FDlgFormatPic 
+        TMC_INIT tmcScaleMy 
+        
+                {
+                LIST_BOX AT (4, 14, 51, 40) TMC tmcPicBrcl ARG iPicBrcl 
+                        EL_NAME `Border` DROP_DOWN_SIBLING NO_SCROLL_BAR 
+                        LIST_BOX_PROC Look1WListEntbl WPARAM `iEntblBrcl` 
+                DUMMY_TEXT "Picture B&order:" AT (4, 2, 61, 9) 
+                GROUP_BOX "Scaling" AT (4, 28, 71, 48) 
+                EDIT AT (40, 43, 24, 12) TMC tmcScaleMy ACTION ARG wScaleMy 
+                        EL_NAME `ScaleY` CHAR_VALIDATED 
+                        PARSE_PROC WParseOpt WPARAM `optPosNZInt` 
+                DUMMY_TEXT "&Height:" AT (8, 44, 29, 9) 
+                DUMMY_TEXT "%" AT (66, 45, 8, 9) 
+                EDIT AT (40, 58, 24, 12) TMC tmcScaleMx ACTION ARG wScaleMx 
+                        EL_NAME `ScaleX` CHAR_VALIDATED 
+                        PARSE_PROC WParseOpt WPARAM `optPosNZInt` 
+                DUMMY_TEXT "&Width:" AT (8, 60, 26, 9) 
+                DUMMY_TEXT "%" AT (66, 59, 8, 9) 
+                GROUP_BOX "Crop From" AT (78, 6, 76, 70) 
+                EDIT AT (111, 18, 38, 12) TMC tmcCropTop ACTION ARG wCropTop 
+                        EL_NAME `CropTop` CHAR_VALIDATED 
+                        PARSE_PROC WParseOpt WPARAM `optAnyUnit` 
+                DUMMY_TEXT "&Top:" AT (81, 18, 16, 9) 
+                EDIT AT (111, 33, 38, 12) TMC tmcCropLeft ACTION ARG wCropLeft 
+                        EL_NAME `CropLeft` CHAR_VALIDATED 
+                        PARSE_PROC WParseOpt WPARAM `optAnyUnit` 
+                DUMMY_TEXT "&Left:" AT (81, 35, 20, 9) 
+                EDIT AT (111, 47, 38, 12) TMC tmcCropBottom ACTION ARG wCropBottom 
+                        EL_NAME `CropBottom` CHAR_VALIDATED 
+                        PARSE_PROC WParseOpt WPARAM `optAnyUnit` 
+                DUMMY_TEXT "&Bottom:" AT (81, 48, 29, 9) 
+                EDIT AT (111, 61, 38, 12) TMC tmcCropRight ACTION ARG wCropRight 
+                        EL_NAME `CropRight` CHAR_VALIDATED 
+                        PARSE_PROC WParseOpt WPARAM `optAnyUnit` 
+                DUMMY_TEXT "&Right:" AT (81, 63, 25, 9) 
+                TEXT SZ_FROM_CAB hszOrigSize AT (60, 79, 133, 9) 
+                DUMMY_TEXT "Original Size: " AT (4, 79, 56, 9) 
+                OK_BUTTON AT (159, 9, 34, 14) 
+                CANCEL_BUTTON AT (159, 26, 34, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

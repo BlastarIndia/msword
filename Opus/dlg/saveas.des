@@ -1,0 +1,79 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE saveas 
+        {
+        DIALOG dltSaveAs AT (14, 18, 150, 102) 
+        CAB_NAME CABSAVE
+        HELP_ID IDDSaveAs 
+        DIALOG_PROC FDlgSaveAs 
+        TMC_INIT tmcSavFile 
+	SUB_DIALOG sabSAOptions = fOptions AT (0, 0, 150, 157)
+            {
+            EDIT AT (4, 13, 81, 12) 
+			    TMC tmcSavFile 
+			    ACTION 
+			    CHAR_VALIDATED 
+			    ARG hszFile 
+                EL_NAME Name
+            DUMMY_TEXT "Save File &Name:" AT (4, 2, 60, 9) 
+
+            OK_BUTTON AT (97, 6, 47, 14) 
+            CANCEL_BUTTON AT (97, 25, 47, 14) 
+
+            PUSH_BUTTON "&Options >>" AT (97, 42, 47, 14) 
+		        TMC tmcSavOptions 
+			    ACTION 
+
+            TEXT "&Directories:" AT (4, 38, 73, 9) 
+			    TMC tmcSavDirText
+            LIST_BOX AT (4, 50, 89, 48) 
+			    ACTION 
+			    SORTED
+                LIST_BOX_PROC WListSave 
+			    TMC tmcSavDirList 
+			    ARG iDirList 
+
+            TEXT "" AT (4, 27, 90, 9) TMC tmcSavDir NO_ACCEL 
+
+		IF fOptions
+			TEXT "&File Format:" AT (4, 105, 50, 9) 
+				TMC tmcSavDfmtPrompt 
+
+			LIST_BOX AT (55, 103, 91, 40) 
+				ACTION 
+				DROP_DOWN_SIBLING 
+				LIST_BOX_PROC WListDff WPARAM `iEntblDffSave`
+				TMC tmcSavIfmt
+				ARG iFmt
+				EL_NAME Format
+
+			CHECK_BOX "Fast &Save" AT (4, 116, 46, 12) 
+				TMC tmcSavQuick 
+				ACTION 
+				ARG fQuicksave 
+				EL_NAME FastSave
+				
+			CHECK_BOX "Create &Backup" AT (4, 128, 62, 12) 
+				TMC tmcSavBackup 
+				ACTION 
+				ARG fBackup 
+				EL_NAME CreateBackup
+
+			CHECK_BOX "&Lock for Annotations" AT (4, 140, 92, 12) 
+				TMC tmcSavLockAnnot 
+				ACTION 
+				ARG fLockAnnot 
+				EL_NAME LockAnnot
+		ENDIF
+                }
+
+        }
+
+
+END_DESCRIPTION 

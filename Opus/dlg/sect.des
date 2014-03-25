@@ -1,0 +1,80 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE sect 
+        {
+        DIALOG dltSection AT (144, 16, 157, 183) 
+        CAB_NAME CABSECTION 
+        HELP_ID IDDSection 
+        DIALOG_PROC FDlgSection 
+        TMC_INIT tmcSecColNum 
+                {
+                OK_BUTTON AT (117, 6, 34, 14) 
+                CANCEL_BUTTON AT (117, 23, 34, 14) 
+                GROUP_BOX "Columns" AT (4, 16, 72, 51) 
+                DUMMY_TEXT "Section" AT (4, 6, 30, 9) 
+                
+                EDIT AT (42, 26, 30, 12) TMC tmcSecColNum ARG cColumns 
+                        PARSE_PROC WParseCol WPARAM `optPosNZInt`
+                        EL_NAME Columns
+                DUMMY_TEXT "&Number:" AT (8, 28, 28, 9) 
+                
+                EDIT AT (42, 40, 30, 12) TMC tmcSecColSpacing ARG dxaColumns 
+                        PARSE_PROC WParseOpt WPARAM `optPosUnit` 
+                        EL_NAME ColumnSpacing
+                DUMMY_TEXT "&Spacing:" AT (8, 42, 32, 9) 
+
+                CHECK_BOX "&Line Between" AT (8, 53, 58, 12) TMC tmcSecColLBetween ARG fColLBetween
+                        EL_NAME ColLine
+
+                LIST_BOX AT (81, 54, 69, 40) TMC tmcSecStart ACTION ARG bkc
+                        DROP_DOWN_SIBLING NO_SCROLL_BAR 
+                        LIST_BOX_PROC Look2WListEntbl WPARAM `iEntblSecStart` 
+                        EL_NAME SectionStart
+                DUMMY_TEXT "S&ection Start:" AT (81, 44, 57, 9)
+
+                CHECK_BOX "Include &Footnotes" AT (8, 70, 78, 12) TMC tmcSecFtn ARG fIncFtn
+                        EL_NAME Footnotes
+                GROUP_BOX "Line Numbers" AT (4, 83, 146, 66) 
+                CHECK_BOX "L&ine Numbering" AT (8, 93, 66, 12) TMC tmcSecLineNum ACTION ARG fLnn
+                        EL_NAME LineNum
+                EDIT AT (54, 107, 30, 12) TMC tmcSecLNStartAt ARG lnnMin 
+                        PARSE_PROC WParseCol WPARAM `optPosNZInt`
+                        EL_NAME StartingNum
+                DUMMY_TEXT "Start &At #:" AT (8, 109, 44, 9)
+                EDIT AT (54, 120, 30, 12) TMC tmcSecLNFrom ARG dxaLnn 
+                        PARSE_PROC WParseOpt  WPARAM `optAutoPosUnit`
+                        EL_NAME FromText
+                DUMMY_TEXT "From Te&xt:" AT (8, 122, 40, 9)
+                EDIT AT (54, 133, 30, 12) TMC tmcSecLNCountBy ARG nLnnMod 
+                        PARSE_PROC WParseCol WPARAM `optPosNZInt`
+                        EL_NAME COUNTBY
+                DUMMY_TEXT "Count &By:" AT (8, 135, 36, 9) 
+                RADIO_GROUP 
+                        TMC tmcSecLNGroup ARG lnc 
+                        EL_NAME NumMode
+                        {
+                        RADIO_BUTTON "Per &Page" AT (92, 109, 42, 12) TMC tmcSecLNPerPage 
+                        RADIO_BUTTON "Per Secti&on" AT (92, 121, 54, 12) TMC tmcSecLNPerSec 
+                        RADIO_BUTTON "Contin&ue" AT (92, 133, 42, 12) TMC tmcSecLNContinue 
+                        }
+                GROUP_BOX "Vertical Alignment" AT (4, 150, 118, 26) TMC tmcSecVAlignGroup 
+                RADIO_GROUP 
+                        TMC tmcSecVAlignRadGroup ARG vjc 
+                        EL_NAME VertAlign
+                        {
+                        RADIO_BUTTON "&Top" AT (9, 161, 24, 12) TMC tmcSecVAlignTop 
+                        RADIO_BUTTON "&Center" AT (38, 161, 34, 12) TMC tmcSecVAlignCenter 
+                        RADIO_BUTTON "&Justify" AT (79, 161, 38, 12) TMC tmcSecVAlignJustify 
+                        }
+                }
+
+        }
+
+
+END_DESCRIPTION 

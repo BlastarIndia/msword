@@ -1,0 +1,39 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE style 
+        {
+        DIALOG dltApplyStyle AT (32, 16, 150, 102) 
+        CAB_NAME CABAPPLYSTYLE 
+        HELP_ID IDDApplyStyle 
+        DIALOG_PROC FDlgApplyStyle 
+        TMC_INIT tmcASStyle 
+	SUB_DIALOG sabFSCreate = fInMacro
+                {
+                EDIT AT (4, 13, 85, 12) ACTION CHAR_VALIDATED TMC tmcASStyle ARG hszASStyle
+			EL_NAME Name
+                DUMMY_TEXT "&Style Name:" AT (4, 3, 44, 9) 
+                LIST_BOX AT (8, 25, 92, 48) ACTION COMBO_ATOMIC 
+                        LIST_BOX_PROC WListStyles
+
+                OK_BUTTON AT (104, 6, 40, 14) 
+                CANCEL_BUTTON AT (104, 23, 40, 14) 
+                PUSH_BUTTON "&Define..." AT (103, 39, 42, 14) TMC tmcASDefine DISMISS_CAB 
+                TEXT "" AT (4, 75, 141, 24) MULTI_LINE TMC tmcASBanter 
+
+		IF fInMacro
+			CHECK_BOX "" AT (0, 0, 1, 1)
+				EL_NAME `Create`
+				ARG fCreate
+		ENDIF
+                }
+
+        }
+
+
+END_DESCRIPTION 

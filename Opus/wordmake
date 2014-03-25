@@ -1,0 +1,34 @@
+#########################################################################
+#	makefile for the hand code files				#
+#########################################################################
+
+IM.INC=	hcmacros.inc pcode.inc word.inc macros.inc
+ALL.IM = cache.im fetch.im opts.im wordgrep.im
+ALL.OBJ = cache.obj fetch.obj opts.obj wordgrep.obj
+
+# This line to be used for debugging versions.
+EXM = -Dpcode  -DNativeMeas
+# This line to be used for non-debugging versions.
+#EXM = -Dpcode
+EXO =
+PX =
+
+MASM = masm
+PXIMAGE = pximage
+OBJ2IM = obj2im
+
+MASMFLAGS = -mx $(EXM)
+OBJ2IMFL = -m $(EXO)
+PXFLAGS = -Q -m8 $(PX)
+
+.SUFFIXES:	.asm .im .sy .obj .p
+
+.asm.obj:	; $(MASM) $(MASMFLAGS) $*;
+
+.obj.im:	; $(OBJ2IM) $(OBJ2IMFL) $*
+
+.im.p:		; $(PXIMAGE) $(PXFLAGS) $*.im >$*.p
+
+ALL:	$(ALL.IM)
+
+$(ALL.OBJ):	$(IM.INC)

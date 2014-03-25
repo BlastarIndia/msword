@@ -1,0 +1,65 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE DOCSTAT 
+        {
+        DIALOG dltDocStat AT (32, 32, 232, 146) 
+        CAB_NAME CABDOCSTAT 
+        HELP_ID IDDDocStat 
+        DIALOG_PROC FDlgDocStat 
+        TMC_INIT tmcOK 
+                {
+                TEXT SZ_FROM_CAB hszFName AT (48, 4, 130, 9) TMC tmcSTFName 
+                DUMMY_TEXT "File Name:" AT (4, 4, 40, 9) 
+
+                TEXT SZ_FROM_CAB hszDir AT (48, 14, 130, 9) TMC tmcSTDir 
+                DUMMY_TEXT "Directory:" AT (4, 14, 40, 9) 
+
+                TEXT SZ_FROM_CAB hszDOT AT (48, 24, 130, 9) TMC tmcSTDOT 
+                DUMMY_TEXT "Template:" AT (4, 24, 36, 9) 
+
+                TEXT SZ_FROM_CAB hszTitle AT (48, 34, 130, 9) TMC tmcSTTitle 
+                DUMMY_TEXT "Title:" AT (4, 34, 24, 9) 
+
+                TEXT SZ_FROM_CAB hszCDate AT (84, 44, 94, 9) TMC tmcSTCDate 
+                DUMMY_TEXT "Created:" AT (4, 44, 32, 9) 
+
+                TEXT SZ_FROM_CAB hszRDate AT (84, 54, 94, 9) TMC tmcSTRDate 
+                DUMMY_TEXT "Last saved:" AT (4, 54, 44, 9) 
+
+                TEXT SZ_FROM_CAB hszLRevBy AT (84, 64, 94, 9) TMC tmcSTLRevBy 
+                DUMMY_TEXT "Last saved by:" AT (4, 64, 64, 9) 
+
+                TEXT SZ_FROM_CAB hszRevNum AT (84, 74, 94, 9) TMC tmcSTRevNum 
+                DUMMY_TEXT "Revision number:" AT (4, 74, 64, 9) 
+
+                TEXT SZ_FROM_CAB hszEdMin AT (84, 84, 94, 9) TMC tmcSTEdMin 
+                DUMMY_TEXT "Total editing time:" AT (4, 84, 76, 9) 
+
+                TEXT SZ_FROM_CAB hszLPDate AT (84, 94, 94, 9) TMC tmcSTLPDate
+                DUMMY_TEXT "Last printed:" AT (4, 94, 52, 9) 
+
+                DUMMY_TEXT "As of last update:" AT (4, 104, 76, 9) 
+
+                TEXT SZ_FROM_CAB hszCPg AT (72, 114, 106, 9) TMC tmcSTCPg 
+                DUMMY_TEXT "# of pages:" AT (4, 114, 44, 9) 
+
+                TEXT SZ_FROM_CAB hszCWords AT (72, 124, 106, 9) TMC tmcSTCWords
+                DUMMY_TEXT "# of words:" AT (4, 124, 44, 9) 
+
+                TEXT SZ_FROM_CAB hszCch AT (72, 134, 106, 9) TMC tmcSTCch 
+                DUMMY_TEXT "# of characters:" AT (4, 134, 64, 9) 
+
+                OK_BUTTON AT (194, 6, 34, 14) 
+                PUSH_BUTTON "&Update" AT (194, 24, 34, 14) TMC tmcSTUpdate ACTION
+                }
+
+        }
+
+
+END_DESCRIPTION 

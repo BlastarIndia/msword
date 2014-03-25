@@ -1,0 +1,26 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE vrfcnvtr 
+        {
+        DIALOG dltVerifyConvtr AT (39, 35, 154, 95) 
+        CAB_NAME CABEXCR 
+        HELP_ID IDDVerifyConvtr 
+                {
+                LIST_BOX AT (4, 15, 104, 72) LIST_BOX_PROC WListDff
+                    WPARAM `iEntblDffOpen` ARG iFmt
+                    EL_NAME Format
+                DUMMY_TEXT "Convert &File From:" AT (4, 4, 85, 9) 
+                OK_BUTTON AT (114, 7, 35, 14) 
+                CANCEL_BUTTON AT (114, 24, 35, 14) 
+                }
+
+        }
+
+
+END_DESCRIPTION 

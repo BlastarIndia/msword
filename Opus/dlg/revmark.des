@@ -1,0 +1,69 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE revmark 
+        {
+        DIALOG dltRevMarking AT (16, 16, 207, 98) 
+        CAPTION "Mark Revisions" 
+        CAB_NAME CABREVMARKING 
+        HELP_ID IDDRevMarking 
+        DIALOG_PROC FDlgRevMarking 
+        TMC_INIT tmcNull 
+        BDR_SYS_MENU 
+                {
+                CHECK_BOX "&Mark Revisions" AT (5, 2, 67, 12) ARG fRevMarking 
+                        EL_NAME `MarkRevisions` 
+
+                GROUP_BOX "Revision Bars" AT (5, 16, 65, 57) 
+                RADIO_GROUP 
+                        ARG iRMBar 
+                        EL_NAME `RevisionBar` 
+                        {
+                        RADIO_BUTTON "&None" AT (8, 25, 60, 12) 
+                        RADIO_BUTTON "&Left" AT (8, 36, 60, 12) 
+                        RADIO_BUTTON "&Right" AT (8, 48, 60, 12) 
+                        RADIO_BUTTON "&Outside" AT (8, 60, 60, 12) 
+                        }
+
+                GROUP_BOX "Mark New Text With" AT (76, 0, 88, 73) 
+                RADIO_GROUP 
+                        ARG iRMProps 
+                        EL_NAME `NewText` 
+                        {
+                        RADIO_BUTTON "No&thing" AT (81, 11, 70, 12) 
+                        RADIO_BUTTON "&Bold" AT (81, 23, 70, 12) 
+                        RADIO_BUTTON "&Italic" AT (81, 35, 70, 12) 
+                        RADIO_BUTTON "&Underline" AT (81, 47, 70, 12) 
+                        RADIO_BUTTON "&Double Underline" AT (81, 59, 80, 12) 
+                        }
+
+                OK_BUTTON AT (169, 4, 34, 14) 
+                CANCEL_BUTTON AT (169, 21, 34, 14) 
+
+                GROUP_BOX "" AT (0, 74, 207, 4)
+
+                PUSH_BUTTON "&Search" AT (5, 81, 48, 14) 
+                        TMC tmcRMSearch 
+                        ACTION 
+                        EL_NAME `Search` 
+
+                PUSH_BUTTON "&Accept Revisions" AT (58, 81, 72, 14) 
+                        TMC tmcRMRemove 
+                        ACTION
+                        EL_NAME `AcceptRevisions` 
+
+                PUSH_BUTTON "Undo Re&visions" AT (135, 81, 64, 14) 
+                        TMC tmcRMUndo 
+                        ACTION
+                        EL_NAME `UndoRevisions` 
+                }
+
+        }
+
+
+END_DESCRIPTION 

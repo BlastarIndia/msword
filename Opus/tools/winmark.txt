@@ -1,0 +1,126 @@
+Adapting current Windows applications to run under Windows 3.0
+--------------------------------------------------------------
+
+Windows 3.0 is compatible with your existing Windows applications,
+providing that they are well behaved and follow the rules laid down in the
+Windows Software Development Kit and Style Guide.  However, many current
+applications contain subtle bugs or perform other acts which will cause the
+system to fail if run in the protect mode environment provided by Windows
+3.0.  For this reason, if you try to run an older application, marked as a
+Windows 2.x application, under protect mode Windows 3.0, you will get a
+dialog box warning of possible danger.  Once your application has been
+proven safe by following the instructions below, the warning can be
+disabled.
+
+When the Windows 3.0 Software Development Kit becomes available, you will
+be able to rebuild your application to take full advantage of the new
+features of Windows 3.0.  These applications will be assumed to be safe in
+protect mode. However, until then it is important to upgrade your existing
+applications so they will at least be able to coexist with the new version
+of Windows, and in turn take advantage of several features it will offer to
+existing applications.
+
+These features are
+    (1) larger amounts of memory available by running in protect mode, and
+    (2) the improved appearance provided by the new proportional system font.
+
+These two features are separate, but the former is most critical: if your
+application cannot run in protect mode, it will not be able to operate at
+the same time as other 3.0 applications, and it will not achieve the better
+performance that protect mode Windows provides.
+
+RUNNING IN PROTECT MODE
+
+Your first step should be to use the tools in the Windows 3.0 ISV Pre-
+Release to find and correct all the code in your application which is not
+consistent with the restrictions of protect mode.  Remember, testing is
+extremely important because simple errors, harmless (or usually harmless)
+in real mode are often fatal in protect mode.  In addition, these errors
+can be concealed in infrequently executed code, so thorough testing is
+recommended.
+
+Before continuing you should backup your unaltered executable.
+
+Once you have fully tested your application running in protect mode, you
+may alter it using the Marking Utility provided in conjunction with this
+document.  After that, Windows 3.0 will recognize that it is well-behaved,
+and allow it to run in protect mode without issuing warnings.  NOTE that
+every exe file, including dynamic link libraries used by your application,
+should be tested and each should be marked individually.  Details on using
+the MARK utility are given below.
+
+USING THE PROPORTIONAL SYSTEM FONT
+
+Applications built for Windows 3.0 will use a proportional system font.
+This gives them a much crisper, more professional appearance.  However, it
+may play havoc with screens and dialog boxes designed with a fixed-pitch
+font in mind.  Therefore, most current applications will be shown with afixed-pitch system font in their client area and dialog boxes, although
+their menus will be displayed with the new font.  This makes them look
+almost exactly as they did running under Windows 2.x.
+
+You should run your application under Windows 3.0 using the proportional
+system font, and see how it looks.  To configure Windows to use the new
+font, install Windows 3.0 release 1.14 which was distributed with the first
+pre-release, and replace the file FONTS.FON with either EGA.FON or VGA.FON,
+depending on your display.  Both of these files are provided in conjunction
+with this document.  You do not need to mark your application to use the
+proportional font with this pre-release version, although you will with
+later versions.
+
+Some current applications will look fine with the proportional font.
+Others can be adjusted so that they will look good.  This can often be
+accomplished simply by playing with resources in the dialog editor.  The
+most important points are to align text using tabs characters instead of
+spaces, and to leave sufficient space between dialog box items to
+accommodate a growth in their text strings.  Capital letters will be wider
+in a proportional font, so be careful when using words in all uppercase.
+Even if you intend to continue using the fixed pitch font, make sure that
+your menus align their accelerators using tabs instead of spaces, since
+menus will be shown in proportional font for all applications.
+
+Once your application is safe for protect mode, you may want to make these
+font adjustments and mark the application so that it will be shown with the
+proportional system font, just like applications built especially for
+Windows 3.0.  If you choose to do this, instructions for using the marking
+utility are given below.
+
+USING THE WINDOWS EXECUTABLE MARKER UTILITY (MARK.EXE)
+
+Once you have built and tested your application, you may mark it as safe in
+protect mode, and optionally as able to use the proportional system font,
+with the MARK.EXE utility.
+
+You should backup your executable in its unaltered state before beginning,
+in case you need access to the unaltered version.
+
+The utility is a DOS application run from the command line, which takes one
+or more keywords and the name of the program to mark.  The command can take
+on of the following forms:
+
+  MARK filename               which displays the state of the program,
+                              telling you whether it is already marked for
+                              protect mode or the proportional system font
+
+  MARK MEMORY filename        which marks the program as safe to run in
+                              protect mode
+
+  MARK MEMORY FONT filename   which marks the program as safe to run in
+                              protect mode, and as able to use the
+                              proportional system font
+
+Typical output from the utility would look like this:
+
+    C:\> mark myprog.exe
+    Microsoft (R) Windows Executable Marker  Version 1.0
+    Copyright (C) Microsoft Corp 1989.  All rights reserved.
+
+    Clean use of memory:       No
+    Proportional system font:  No
+
+    C:\> mark memory font myprog.exe
+
+    Microsoft (R) Windows Executable Marker  Version 1.0
+    Copyright (C) Microsoft Corp 1989.  All rights reserved.
+
+    Clean use of memory:       No   --> Yes
+    Proportional system font:  No   --> Yes

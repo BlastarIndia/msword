@@ -1,0 +1,103 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	PIXEL48 
+	NO_OVERLAP 
+	CS_COMPILED 
+	}
+
+MODULE dbgpref 
+	{
+	DIALOG dltDebugPrefs AT (35, 22, 244, 140) 
+	CAB_NAME CABDBGPREF
+	HELP_ID IDDDebugPrefs 
+	TMC_INIT tmcNull 
+		{
+		OK_BUTTON AT (144, 2, 44, 12) 
+		CANCEL_BUTTON AT (194, 2, 44, 12) 
+		DUMMY_TEXT "Debug Preferences" AT (3, 2, 94, 9) 
+
+		CHECK_BOX "fCommSz"		AT (5, 18, 60, 9) ARG pos0 
+			EL_NAME FCOMMSZ
+		CHECK_BOX "fMoreComm"		AT (5, 27, 60, 9) ARG pos1 
+			EL_NAME FMORECOMM
+		CHECK_BOX "fRipToDbgScreen"   	AT (5, 36, 60, 9) ARG pos2 
+			EL_NAME FRIPTODBGSCREEN
+		CHECK_BOX "fRetryDef"	        AT (5, 45, 60, 9) ARG pos3 
+			EL_NAME FRETRYDEF
+
+		CHECK_BOX "fReports"		AT (5, 58, 60, 9) ARG pos4
+			EL_NAME FREPORTS
+		CHECK_BOX "fRipOnError"		AT (5, 67, 60, 9) ARG pos5
+                        EL_NAME FRIPONERROR
+		CHECK_BOX "fFailInMcr"	        AT (5, 76, 60, 9) ARG pos6
+                        EL_NAME FFAILINMCR
+		CHECK_BOX "fReportHeap"		AT (5, 85, 60, 9) ARG pos7 
+                        EL_NAME FREPORTHEAP
+
+		CHECK_BOX "fFixedMem"	    	AT (5, 98, 60, 9) ARG pos8 
+			EL_NAME FFIXEDMEM
+		CHECK_BOX "fOutsideCmd"		AT (5, 107, 60, 9) ARG pos9 
+			EL_NAME FOUTSIDECMD
+		CHECK_BOX "fHeapAct"		AT (5, 116, 60, 9) ARG pos10 
+			EL_NAME FHEAPACT
+		CHECK_BOX "fWinAct"	        AT (5, 125, 60, 9) ARG pos11 
+			EL_NAME FWINACT
+
+		CHECK_BOX "fTraceGDI"		AT (75, 18, 60, 9) ARG pos12
+			EL_NAME FTRACEGDI
+		CHECK_BOX "fNoCoreLoad" 	AT (75, 27, 60, 9) ARG pos13
+			EL_NAME FNOCORELOAD
+		CHECK_BOX "fNoInfoRTF"		AT (75, 36, 60, 9) ARG pos14 
+			EL_NAME FNOINFORTF
+		CHECK_BOX "fFail8087"		AT (75, 45, 60, 9) ARG pos15 
+			EL_NAME FFAIL8087
+
+		CHECK_BOX "fCommDde1"		AT (75, 58, 60, 9) ARG pos16
+			EL_NAME FCOMMDDE1
+		CHECK_BOX "fCommDde2"	        AT (75, 67, 60, 9) ARG pos17
+			EL_NAME FCOMMDDE2
+		CHECK_BOX "fNoEmm"		AT (75, 76, 60, 9) ARG pos18 
+			EL_NAME FNOEMM
+		CHECK_BOX "fBreakOnFail"	AT (75, 85, 60, 9) ARG pos19 
+                        EL_NAME FBREAKONFAIL
+
+		CHECK_BOX "fNoFillBlock"        AT (75, 98, 60, 9) ARG pos20 
+                        EL_NAME FNOFILLBLOCK
+		CHECK_BOX "fCallSetFlm" 	AT (75, 107, 60, 9) ARG pos21
+                        EL_NAME FCALLSETFLM
+		CHECK_BOX "fCommPrint"	        AT (75, 116, 60, 9) ARG pos22 
+                        EL_NAME FCOMMPRINT
+		CHECK_BOX "fCoverActive"	AT (75, 125, 60, 9) ARG pos23 
+                        EL_NAME FCOVERACTIVE
+
+		CHECK_BOX "fShowDirty"		AT (145, 18, 60, 9) ARG pos24 
+                        EL_NAME FSHOWDIRTY
+		CHECK_BOX "fCompressOften"	AT (145, 27, 60, 9) ARG pos25 
+			EL_NAME FCOMPRESSOFTEN
+		CHECK_BOX "fTrackGdiHandles"	AT (145, 36, 60, 9) ARG pos26
+			EL_NAME FTRACKGDIHANDLES
+		CHECK_BOX "fUseTextOut"		AT (145, 45, 60, 9) ARG pos27 
+			EL_NAME FUSETEXTOUT
+
+		CHECK_BOX "fShowLbs"		AT (145, 58, 60, 9) ARG pos28 
+			EL_NAME FSHOWLBS
+		CHECK_BOX "fSmallFileCache"	AT (145, 67, 60, 9) ARG pos29
+			EL_NAME FSMALLFILECACHE
+		CHECK_BOX "fNoRtfConv"		AT (145, 76, 60, 9) ARG pos30 
+			EL_NAME FNORTFCONV
+		CHECK_BOX "fAllGraphicsBands"	AT (145, 85, 60, 9) ARG pos31 
+			EL_NAME FALLGRAPHICSBANDS
+		CHECK_BOX "fExtTextOutNull"		AT (145, 98, 60, 9) ARG pos32 
+			EL_NAME FEXTTEXTOUTNULL
+		CHECK_BOX "fDumpMessages"	AT (145, 107, 60, 9) ARG pos33
+			EL_NAME FDUMPMESSAGES
+		CHECK_BOX "fVerboseHeapInfo"	AT (145, 116, 60, 9) ARG pos34
+			EL_NAME FVERBOSEHEAPINFO
+		CHECK_BOX "fElTests"    	AT (145, 125, 60, 9) ARG pos35 
+		}
+
+	}
+
+
+END_DESCRIPTION 

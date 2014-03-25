@@ -1,0 +1,41 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE INSPGNUM 
+        {
+        DIALOG dltInsPgNum AT ( 23, 35, 161, 63) 
+        CAB_NAME CABINSPGNUM 
+        HELP_ID IDDInsPgNum 
+        DIALOG_PROC FDlgInsPgNum 
+        TMC_INIT tmcNull 
+                {
+                OK_BUTTON AT ( 121, 5, 34, 14) 
+                CANCEL_BUTTON AT ( 121, 22, 34, 14) 
+                RADIO_GROUP 
+                        TMC tmcIPNType
+                        ARG iType 
+                        EL_NAME `Type`
+                        {
+                        RADIO_BUTTON "&Top    (Header)" AT (9, 14, 104, 12) TMC tmcIPNTop 
+                        RADIO_BUTTON "&Bottom (Footer)" AT (9, 25, 83, 12) TMC tmcIPNBottom 
+                        }
+                GROUP_BOX "Page Number Position" AT (4, 1, 114, 55) 
+                RADIO_GROUP 
+                        TMC tmcIPNPos
+                        ARG iPos 
+                        EL_NAME `Position`
+                        {
+                        RADIO_BUTTON "&Left" AT (9, 39, 26, 12) TMC tmcIPNLeft 
+                        RADIO_BUTTON "&Center" AT (41, 39, 35, 12) TMC tmcIPNCenter 
+                        RADIO_BUTTON "&Right" AT (80, 39, 31, 12) TMC tmcIPNRight 
+                        }
+                }
+        }
+
+
+END_DESCRIPTION 

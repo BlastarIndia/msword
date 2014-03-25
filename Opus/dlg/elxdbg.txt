@@ -1,0 +1,12 @@
+dbgfail.elx
+dbgfile.elx
+dbgfunc.elx
+dbgmem.elx
+dbgpref.elx
+dbgrare.elx
+dbgscrbl.elx
+dbgtests.elx
+dbgusec1.elx
+dbgusec2.elx
+dbgusec3.elx
+dbgusec4.elx

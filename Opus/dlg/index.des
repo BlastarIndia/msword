@@ -1,0 +1,47 @@
+DESCRIPTION 
+GLOBAL_INFO 
+        {
+        PIXEL48 
+        NO_OVERLAP 
+        CS_COMPILED 
+        }
+
+MODULE index 
+        {
+        DIALOG dltIndex AT (100, 85, 131, 74) 
+        CAB_NAME CABINDEX 
+        HELP_ID IDDIndex 
+        TMC_INIT tmcNestedIndex
+	SUB_DIALOG sabElOnly = fElOnly
+                {
+                OK_BUTTON AT (92, 5, 34, 14) 
+                CANCEL_BUTTON AT (92, 22, 34, 14) 
+                GROUP_BOX "Insert" AT (4, 1, 81, 38) 
+                RADIO_GROUP 
+                        ARG iIndexType 
+                        EL_NAME Type
+                        {
+                        RADIO_BUTTON "&Normal Index" AT (7, 11, 63, 12) TMC tmcNestedIndex 
+                        RADIO_BUTTON "&Run-in Index" AT (7, 23, 59, 12) TMC tmcRunInIndex 
+                        }
+                GROUP_BOX "Heading Separator" AT (4, 41, 121, 27) 
+                RADIO_GROUP 
+                        ARG iHeading 
+                        EL_NAME HeadingSeparator
+                        {
+                        RADIO_BUTTON "N&one" AT (7, 52, 27, 12) TMC tmcIndexNone 
+                        RADIO_BUTTON "&Blank Line" AT (36, 52, 50, 12) TMC tmcIndexBlank 
+                        RADIO_BUTTON "&Letter" AT (88, 52, 34, 12) TMC tmcIndexLetter 
+                        }
+
+		IF fElOnly
+			CHECK_BOX "" AT (0, 0, 1, 1) 
+				ARG fReplace
+				EL_NAME `Replace`
+		ENDIF
+                }
+
+        }
+
+
+END_DESCRIPTION 
